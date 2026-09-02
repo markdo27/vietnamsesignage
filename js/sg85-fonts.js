@@ -197,7 +197,7 @@
     el.style.lineHeight = (t.lh || 1.1).toString();
     el.style.letterSpacing = ((t.track || 0) * size).toFixed(2) + 'px';
     el.style.textTransform = t.caps ? 'uppercase' : 'none';
-    el.style.fontStyle = t.slant ? 'oblique ' + Math.abs(t.slant) + 'deg' : 'normal';
+    el.style.fontStyle = 'normal';   /* never synthesise oblique: it skews the letterform */
     el.style.fontVariationSettings = 'normal';
     el.style.transform = t.sx ? 'scaleX(' + t.sx + ')' : '';
     el.dataset.sgFace = id;

@@ -13,7 +13,7 @@ in the order the browser resolves them:
 | 1 | **Catalog** | 37 signage-relevant UTM faces, each with its Western origin, the sign lines it suits, and a metric-tuned open substitute. `js/utm-fonts.js` |
 | 2 | **Genuine pickup** | `@font-face` rules built from `local()` **only**. If this machine already has real UTM fonts installed, they are used automatically. Nothing is downloaded; nothing is redistributed. |
 | 3 | **Drop-in** | You can load your own UTM files — drag-drop onto the type panel, the file picker, or a `fonts/manifest.json`. They live in that browser's IndexedDB and never leave the machine. |
-| 4 | **Substitute** | Otherwise a tuned open face stands in, with weight, width axis, tracking, slant and cap height pushed toward the UTM face. |
+| 4 | **Substitute** | Otherwise a tuned open face stands in, with weight, width axis, tracking and cap height pushed toward the UTM face. |
 
 Every stack ends in **Be Vietnam Pro**. CSS falls back *per glyph*, so even if a
 substitute is missing a character the diacritic still renders in a face that has

@@ -202,7 +202,7 @@ models the system without shipping the files:
 
 - **37 signage-relevant UTM faces** are catalogued across nine groups (nén, sans đậm, hình học, chân dày, có chân, chữ khắc, viết tay, thư pháp, chữ vuông), each declaring which sign lines it suits.
 - **Genuine UTM files are used when present.** `@font-face` rules are built from `local()` only, so a machine with the real fonts installed gets the real fonts. Nothing is downloaded and nothing is redistributed.
-- **Otherwise a tuned open substitute stands in** — weight, variable width axis, tracking, slant and cap height all pushed toward the UTM face. All 24 substitutes were checked against the full 134-character Vietnamese repertoire; every stack ends in Be Vietnam Pro so per-glyph fallback can never drop a diacritic.
+- **Otherwise a tuned open substitute stands in** — weight, variable width axis, tracking and cap height all pushed toward the UTM face. All 24 substitutes were checked against the full 134-character Vietnamese repertoire; every stack ends in Be Vietnam Pro so per-glyph fallback can never drop a diacritic.
 - **The pack is in `fonts/`**, loaded through `fonts/manifest.json`, so the drawer reports 32 of 37 faces running genuine UTM. You can still drop further files onto the font drawer at runtime; those stay in that browser only.
 - **Text is sized by cap height, not font size** — measured live off whichever font actually resolved. That is how sign painters work, and it means swapping a face never moves the layout, so the ratios measured off the reference photos (1.00 / 0.93 / 0.70 / 0.58 for the Mười Em hotel sign) render literally.
 
@@ -214,7 +214,9 @@ See **`docs/utm-font-system.md`** for the full mapping.
 - Each line of information gets its own saturated color rather than relying on size alone for hierarchy: category, name, tagline, and price/contact each read differently.
 - Hard-edged drop shadows and colored outlines only — no soft blur, no gradients (except karaoke signage, where a rainbow/chrome gradient name is authentically part of the vernacular, not an AI tell).
 - There's no single "biggest = business name" rule. What gets the largest text depends on what's actually selling that business — service type for a barbershop, price for a budget motel, brand name for a beer garden. Each category declares its own `hero` line and cap-height ratios.
-- Shops are dealt from a shuffled deck and palettes never repeat their colour family back-to-back, so a wall reads like a street rather than a swatch library. Every sign is hung a degree or so off square.
+- Shops are dealt from a shuffled deck and palettes never repeat their colour family back-to-back, so a wall reads like a street rather than a swatch library.
+- Nothing is set at an angle. Signs hang square and lines sit upright: no board rotation, and no synthetic oblique, which skews an upright letterform rather than italicising it. A face is slanted only if it was drawn that way.
+- Faces are ranked by how often Vietnamese sign shops actually reach for them, and dealt 6:3:1 by rank, so a wall is carried by the everyday faces rather than the specimen book. Text faces — Georgia, Nyala, Times — are barred from display lines entirely; they are book faces and fall apart at sign size.
 
 ## Roadmap
 

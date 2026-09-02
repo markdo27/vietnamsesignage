@@ -312,7 +312,7 @@ var THEMES = {
   sg85: {
     label: 'SÀI GÒN 1985', short: '1985', other: 'nay',
     system: 'SG85', palettes: VINTAGE, gut: 11, mat: true,
-    justify: true, extrude: true, track: 0.16,
+    justify: true, extrude: true, track: 0.16, leading: 0.97, gapSpend: 0.16,
     brand: 'Sàigòn 1985', tagline: 'BỘ PHÔNG CHỮ BIỂN HIỆU SÀI GÒN XƯA',
     note: function (report, system) {
       return report.genuine + '/' + report.total + ' mặt chữ Sài Gòn 1985 đã nạp. ' +
@@ -324,6 +324,7 @@ var THEMES = {
     label: 'PHỐ HÔM NAY', short: 'NAY', other: 'sg85',
     system: 'UTM', palettes: MODERN, gut: 7, mat: false,
     justify: true, track: 0.22, rotate: true, outline: true, dropShadow: true,
+    leading: 0.84, gapSpend: 0.03,
     brand: 'PHỐ BẢNG HIỆU', tagline: 'KÉO MÉP ĐỂ ĐỔI CỠ · BẤM VÀO CHỮ ĐỂ SỬA',
     note: function (report) {
       return report.genuine + '/' + report.total + ' mặt chữ UTM thật có sẵn trên máy này. ' +
@@ -363,7 +364,7 @@ function dealShop() {
 }
 
 function makeSign(key) {
-  var sign = { tilt: rnd(-1.5, 1.5) };
+  var sign = {};
   dressShop(sign, key || dealShop());
   return sign;
 }
@@ -426,6 +427,21 @@ function moodFor(sign) {
 
 /* Type shuffle: keep each line in a face that suits its role, but let the shop
    name swing between block caps and script the way real shops do. */
+/* A street runs on a handful of faces. The catalogue ranks each one by how
+   often Vietnamese sign shops actually reach for it — 1 everyday, 2 common,
+   3 specialist or too fine to hold up at sign size — and a shuffle deals
+   accordingly, so the wall does not read like a specimen book. Face sets with
+   no ranking (the 1985 pack, every face of which was traced off a sign) are
+   dealt evenly. */
+function pickFace(pool) {
+  var bag = [];
+  pool.forEach(function (face) {
+    var n = face.rank === 1 ? 6 : face.rank === 2 ? 3 : 1;
+    while (n--) bag.push(face);
+  });
+  return pick(bag.length ? bag : pool);
+}
+
 function dressType(sign) {
   var script = Math.random() < 0.32;
   LINES.forEach(function (key) {
@@ -437,10 +453,9 @@ function dressType(sign) {
       });
       if (wanted.length) pool = wanted;
     }
-    if (pool.length) sign.faces[key] = pick(pool).id;
+    if (pool.length) sign.faces[key] = pickFace(pool).id;
   });
   sign.tweak = {};
-  sign.tilt = rnd(-1.1, 1.1);
 }
 
 /* ===========================================================================
@@ -618,7 +633,12 @@ function wallBox() {
    on its side to fit, so the generator has to hand out cells that a horizontal
    line actually fits in: it only accepts a split when BOTH halves stay inside
    the aspect band below, and it takes the widest choice available. */
-var MAX_ASPECT = 2.3, MIN_ASPECT = 0.62;
+/* A row split halves the width, so both halves clear MIN only when the parent
+   is at least 2*MIN wide-ish; a column split halves the height, so it needs the
+   parent under MAX/2. Those two windows MUST overlap, or a cell that lands
+   between them can never be split at all and sits there hogging the wall while
+   everything around it subdivides. 0.6 and 2.7 overlap across 1.20-1.35. */
+var MAX_ASPECT = 2.7, MIN_ASPECT = 0.6;
 
 function aspectOK(w, h) {
   var a = w / h;
@@ -656,7 +676,12 @@ function buildLayout(target) {
     for (var i = 0; i < Math.min(4, cells.length) && !done; i++) {
       var options = splitOptions(cells[i]);
       if (!options.length) continue;
-      var choice = pick(options);
+      /* favour the more even cuts, or one lopsided split early on leaves a cell
+         four times its neighbours for the rest of the build */
+      options.sort(function (a, b) {
+        return Math.abs(a.ratio - 0.5) - Math.abs(b.ratio - 0.5);
+      });
+      var choice = pick(options.slice(0, Math.min(4, options.length)));
       splitLeaf(cells[i].node, choice.dir, choice.ratio);
       done = true;
     }
@@ -925,6 +950,9 @@ function applyLine(el, sign, key, capPx) {
   var tweak = sign.tweak[key] || {};
   var tune = Object.assign({}, type.face(sign.faces[key]).tune, tweak);
   var size = type.applyFace(el, sign.faces[key], Math.max(4, capPx), tweak);
+  /* The era sets how close the lines stack. Scale whatever line-height the face
+     declares rather than overriding it, so each face keeps its own rhythm. */
+  el.style.lineHeight = ((parseFloat(el.style.lineHeight) || 1.1) * (theme().leading || 1)).toFixed(3);
   el.dataset.sx = tune.sx || 1;
   return size;
 }
@@ -994,7 +1022,7 @@ function prepare(plan) {
   node.bodyEl.style.height = plan.boxH + 'px';
   node.bodyEl.style.left = (w / 2) + 'px';
   node.bodyEl.style.top = ((h - footerH) / 2) + 'px';
-  node.bodyEl.style.transform = 'translate(-50%,-50%) rotate(' + sign.tilt + 'deg)';
+  node.bodyEl.style.transform = 'translate(-50%,-50%)';
 
   keys.forEach(function (key) { applyLine(node.lineEls[key], sign, key, PROBE * (sign.scale[key] || 0.5)); });
   if (footerH) applyLine(node.lineEls.footer, sign, 'footer', PROBE * 0.5);
@@ -1049,7 +1077,6 @@ function trackMax() { return theme().track || TRACK_MAX; }
 function justify(plan) {
   var node = plan.node, sign = node.sign, keys = plan.keys;
   var extrude = !!theme().extrude;
-  var rad = Math.abs(sign.tilt) * Math.PI / 180, cos = Math.cos(rad), sin = Math.sin(rad);
   var hero = plan.heroKey, heroLine = plan.line[hero];
 
   var measureW = plan.boxW * 0.99;
@@ -1074,12 +1101,12 @@ function justify(plan) {
     var L = plan.line[key];
     size[key] = key === hero ? fill[hero]
                              : Math.min(fill[key], fill[hero] * L.size / heroLine.size);
-    blockH += size[key] * (L.lh + 0.08);    /* .line carries .04em margins */
+    blockH += size[key] * L.lh;
   });
 
   /* 3. Fit the stack to the board's height — never upward, which would push the
         lines past the measure they were just sized to. */
-  var roomH = (plan.boxH - measureW * sin) / cos * (extrude ? 0.94 : 0.98);
+  var roomH = plan.boxH * (extrude ? 0.94 : 0.98);
   var factor = Math.min(1, roomH / Math.max(1, blockH));
 
   /* 4. Whatever width that lost, tracking makes up — within the range a painter
@@ -1098,7 +1125,7 @@ function justify(plan) {
       s *= shrink; track *= shrink;
     }
     out[key] = { size: s, track: track };
-    blockH += s * (L.lh + 0.08);
+    blockH += s * L.lh;
   });
 
   keys.forEach(function (key) {
@@ -1157,18 +1184,15 @@ function settle(plan) {
   if (theme().justify) {
     justify(plan);
     var lead = plan.keys.length > 1
-      ? Math.min(plan.slack * 0.45 / (plan.keys.length - 1), plan.line[plan.heroKey].size * 0.22)
+      ? Math.min(plan.slack * 0.35 / (plan.keys.length - 1),
+                 plan.line[plan.heroKey].size * (theme().gapSpend || 0))
       : 0;
     node.stackEl.style.gap = lead.toFixed(2) + 'px';
     if (plan.footerH) fitFooter(plan);
     return;
   }
 
-  /* the block is tilted, so it needs the bounding box of the rotated block */
-  var rad = Math.abs(sign.tilt) * Math.PI / 180, cos = Math.cos(rad), sin = Math.sin(rad);
-  var needW = plan.mw * cos + plan.mh * sin;
-  var needH = plan.mw * sin + plan.mh * cos;
-  var factor = Math.min(plan.boxW / needW, plan.boxH / needH) * 0.98;
+  var factor = Math.min(plan.boxW / plan.mw, plan.boxH / plan.mh) * 0.98;
   plan.keys.forEach(function (key) {
     applyLine(node.lineEls[key], sign, key, PROBE * (sign.scale[key] || 0.5) * factor);
     setTracking(node.lineEls[key], parseFloat(node.lineEls[key].style.letterSpacing) || 0);

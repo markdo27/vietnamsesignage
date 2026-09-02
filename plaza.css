@@ -126,7 +126,7 @@ body.dragging .sign { pointer-events: none; }
   pointer-events: auto;
 }
 .line {
-  margin: .04em 0;
+  margin: 0;
   padding: 0 .02em;
   outline: 0;
   white-space: nowrap;

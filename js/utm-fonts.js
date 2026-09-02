@@ -15,7 +15,7 @@
      3. DROP-IN   — the user can load their own UTM files (drag-drop, picker, or
                     fonts/manifest.json). Stored per-browser in IndexedDB.
      4. SUBSTITUTE— otherwise a tuned open face stands in: weight, width axis,
-                    tracking, slant and cap-height are pushed toward the UTM face.
+                    tracking and cap-height are pushed toward the UTM face.
      5. METRICS   — cap heights are measured at runtime, so sign text is sized by
                     CAP HEIGHT (how sign painters actually work), not by em size.
                     Swapping faces keeps the board layout stable.
@@ -47,7 +47,7 @@
        wdth   variable width axis (Archivo / Saira only)
        track  letter-spacing, em
        lh     line-height multiple of cap height
-       slant  synthetic oblique, deg
+       rank   how often sign shops reach for it: 1 everyday, 2 common, 3 rare
        sx     horizontal scale (squeeze toward the UTM proportion)
        caps   force uppercase
        cap    cap-height hint, only used before runtime measurement lands
@@ -57,195 +57,195 @@
     { id:'bebas', utm:'UTM Bebas', origin:'Bebas Neue', group:'condensed',
       roles:['cat','name','tagline'], note:'Dòng loại hình kinh điển — KHÁCH SẠN, BIA TƯƠI, CƠM TẤM.',
       local:['UTM Bebas','UTMBebas','UTM Bebas KT'],
-      sub:"'Anton'", tune:{ w:400, track:0.015, lh:1.06, caps:true } },
+      rank:1, sub:"'Anton'", tune:{ w:400, track:0.015, lh:1.06, caps:true } },
 
     { id:'bebaskai', utm:'UTM BebasKai', origin:'Bebas Neue (bản nhẹ)', group:'condensed',
       roles:['cat','tagline','footer'], note:'Bebas thân mảnh hơn, hay dùng cho dòng dịch vụ.',
       local:['UTM BebasKai','UTMBebasKai'],
-      sub:"'Oswald'", tune:{ w:600, track:0.03, lh:1.1, caps:true } },
+      rank:2, sub:"'Oswald'", tune:{ w:600, track:0.03, lh:1.1, caps:true } },
 
     { id:'impact', utm:'UTM Impact', origin:'Impact', group:'condensed',
       roles:['name','cat'], note:'Khối chữ dày, đập vào mắt — tên quán cỡ lớn.',
       local:['UTM Impact','UTMImpact'],
-      sub:"'Anton'", tune:{ w:400, track:-0.005, lh:1.02, sx:0.97, caps:true } },
+      rank:1, sub:"'Anton'", tune:{ w:400, track:-0.005, lh:1.02, sx:0.97, caps:true } },
 
     { id:'helvetins', utm:'UTM HelvetIns', origin:'Helvetica Inserat', group:'condensed',
       roles:['name','cat'], note:'Siêu nén, siêu đậm. Chữ to nhất trên tấm bạt.',
       local:['UTM HelvetIns','UTMHelvetIns','UTM Helvetins'],
-      sub:"'Archivo'", tune:{ w:900, wdth:62, track:-0.012, lh:1.0, caps:true } },
+      rank:1, sub:"'Archivo'", tune:{ w:900, wdth:62, track:-0.012, lh:1.0, caps:true } },
 
     { id:'swiss721', utm:'UTM Swiss 721 Black Condensed', origin:'Swiss 721 BT', group:'condensed',
       roles:['cat','name','tagline'], note:'Đặc và hẹp — dòng giá, dòng khuyến mãi.',
       local:['UTM Swiss721 BlackCondensed','UTMSwiss721BlackCondensed','UTM Swiss 721 Black Condensed'],
-      sub:"'Archivo'", tune:{ w:900, wdth:75, track:0, lh:1.04, caps:true } },
+      rank:1, sub:"'Archivo'", tune:{ w:900, wdth:75, track:0, lh:1.04, caps:true } },
 
     { id:'ericsson', utm:'UTM Ericsson', origin:'Ericsson Capital', group:'condensed',
       roles:['tagline','footer','cat'], note:'Nén vừa, đọc tốt ở dòng phụ.',
       local:['UTM Ericsson','UTMEricsson'],
-      sub:"'Saira Condensed'", tune:{ w:700, track:0.02, lh:1.12, caps:true } },
+      rank:2, sub:"'Saira Condensed'", tune:{ w:700, track:0.02, lh:1.12, caps:true } },
 
     /* ---------- HEAVY GROTESQUE ---------- */
     { id:'helvetica', utm:'UTM Helvetica Bold', origin:'Helvetica', group:'grotesque',
       roles:['name','cat','footer'], note:'Chữ "an toàn" của mọi tiệm in.',
       local:['UTM Helvetica','UTMHelvetica','UTM HelveticaBold','UTM Helvetica Bold'],
-      sub:"'Archivo'", tune:{ w:800, wdth:100, track:-0.01, lh:1.12 } },
+      rank:1, sub:"'Archivo'", tune:{ w:800, wdth:100, track:-0.01, lh:1.12 } },
 
     { id:'americansans', utm:'UTM AmericanSans', origin:'Franklin Gothic họ', group:'grotesque',
       roles:['cat','name'], note:'Đậm, chân phương, kiểu bảng hiệu nhà nước.',
       local:['UTM AmericanSans','UTMAmericanSans','UTM American Sans'],
-      sub:"'Chivo'", tune:{ w:900, track:0.005, lh:1.1, caps:true } },
+      rank:2, sub:"'Chivo'", tune:{ w:900, track:0.005, lh:1.1, caps:true } },
 
     { id:'facebook', utm:'UTM Facebook', origin:'Klavika', group:'grotesque',
       roles:['name','tagline'], note:'Vuông vức hiện đại — tiệm điện thoại, net, spa.',
       local:['UTM Facebook','UTMFacebook'],
-      sub:"'Chivo'", tune:{ w:700, track:0.01, lh:1.14 } },
+      rank:2, sub:"'Chivo'", tune:{ w:700, track:0.01, lh:1.14 } },
 
     { id:'dax', utm:'UTM Dax', origin:'Dax', group:'grotesque',
       roles:['tagline','footer'], note:'Hẹp, hiện đại, dùng cho dòng mô tả dịch vụ.',
       local:['UTM Dax','UTMDax','UTM Daxline'],
-      sub:VN_SAFETY, tune:{ w:700, track:0.01, lh:1.16 } },
+      rank:3, sub:VN_SAFETY, tune:{ w:700, track:0.01, lh:1.16 } },
 
     /* ---------- GEOMETRIC ---------- */
     { id:'avo', utm:'UTM Avo', origin:'ITC Avant Garde Gothic', group:'geometric',
       roles:['name','cat'], note:'Tròn, hình học — salon, nail, spa, cà phê.',
       local:['UTM Avo','UTMAvo','UTM AvoBold','UTM Avo Bold'],
-      sub:VN_SAFETY, tune:{ w:900, track:0.02, lh:1.1, caps:true } },
+      rank:1, sub:VN_SAFETY, tune:{ w:900, track:0.02, lh:1.1, caps:true } },
 
     { id:'centur', utm:'UTM Centur', origin:'Century Gothic', group:'geometric',
       roles:['tagline','footer','name'], note:'Thanh, thoáng — tiệm làm đẹp, phòng khám.',
       local:['UTM Centur','UTMCentur'],
-      sub:VN_SAFETY, tune:{ w:700, track:0.045, lh:1.2 } },
+      rank:2, sub:VN_SAFETY, tune:{ w:700, track:0.045, lh:1.2 } },
 
     { id:'caviar', utm:'UTM Caviar', origin:'Caviar Dreams', group:'geometric',
       roles:['tagline','footer'], note:'Nhẹ và giãn — dòng phụ sang trọng.',
       local:['UTM Caviar','UTMCaviar'],
-      sub:VN_SAFETY, tune:{ w:400, track:0.09, lh:1.25, caps:true } },
+      rank:3, sub:VN_SAFETY, tune:{ w:400, track:0.09, lh:1.25, caps:true } },
 
     { id:'kabel', utm:'UTM Kabel', origin:'Kabel', group:'geometric',
       roles:['cat','name'], note:'Hình học kiểu cũ, hơi art-deco.',
       local:['UTM Kabel','UTMKabel','UTM KabelKT'],
-      sub:"'Kanit'", tune:{ w:600, track:0.03, lh:1.12, caps:true } },
+      rank:2, sub:"'Kanit'", tune:{ w:600, track:0.03, lh:1.12, caps:true } },
 
     /* ---------- SLAB / FAT FACE ---------- */
     { id:'colossalis', utm:'UTM Colossalis', origin:'Colossalis', group:'slab',
       roles:['name','cat'], note:'Chân dày nặng — cầm đồ, vật liệu xây dựng, gara.',
       local:['UTM Colossalis','UTMColossalis'],
-      sub:"'Alfa Slab One'", tune:{ w:400, track:0.005, lh:1.1, caps:true } },
+      rank:1, sub:"'Alfa Slab One'", tune:{ w:400, track:0.005, lh:1.1, caps:true } },
 
     { id:'cooper', utm:'UTM Cooper Black', origin:'Cooper Black', group:'slab',
       roles:['name'], note:'Béo, tròn, vui — quán ăn, trà sữa, bánh mì.',
       local:['UTM Cooper Black','UTMCooperBlack','UTM CooperBlack'],
-      sub:"'Bevan'", tune:{ w:400, track:0.005, lh:1.12 } },
+      rank:1, sub:"'Bevan'", tune:{ w:400, track:0.005, lh:1.12 } },
 
     /* ---------- SERIF ---------- */
     { id:'alexander', utm:'UTM Alexander', origin:'display serif', group:'serif',
       roles:['name'], note:'Serif trang trí, tương phản mạnh — tiệm vàng, nhà hàng.',
       local:['UTM Alexander','UTMAlexander'],
-      sub:"'Yeseva One'", tune:{ w:400, track:0.005, lh:1.14 } },
+      rank:2, sub:"'Yeseva One'", tune:{ w:400, track:0.005, lh:1.14 } },
 
     { id:'banque', utm:'UTM Banque', origin:'serif ngân hàng', group:'serif',
       roles:['name','cat'], note:'Đứng đắn, "có uy tín" — cầm đồ, phòng công chứng.',
       local:['UTM Banque','UTMBanque'],
-      sub:"'Playfair Display'", tune:{ w:900, track:0.01, lh:1.14, caps:true } },
+      rank:2, sub:"'Playfair Display'", tune:{ w:900, track:0.01, lh:1.14, caps:true } },
 
     { id:'georgia', utm:'UTM Georgia', origin:'Georgia', group:'serif',
-      roles:['tagline','footer','name'], note:'Serif đọc tốt cho dòng chữ nhỏ.',
+      roles:['footer'], note:'Serif đọc tốt cho dòng chữ nhỏ.',
       local:['UTM Georgia','UTMGeorgia'],
-      sub:"'Bitter'", tune:{ w:700, track:0.005, lh:1.2 } },
+      rank:3, sub:"'Bitter'", tune:{ w:700, track:0.005, lh:1.2 } },
 
     { id:'nyala', utm:'UTM Nyala', origin:'Nyala', group:'serif',
-      roles:['tagline','name'], note:'Serif mềm, hơi calligraphic.',
+      roles:['tagline'], note:'Serif mềm, hơi calligraphic.',
       local:['UTM Nyala','UTMNyala'],
-      sub:"'Bitter'", tune:{ w:600, track:0.01, lh:1.2 } },
+      rank:3, sub:"'Bitter'", tune:{ w:600, track:0.01, lh:1.2 } },
 
     { id:'times', utm:'UTM Times', origin:'Times New Roman', group:'serif',
-      roles:['footer','tagline'], note:'Mặc định của Word — và của rất nhiều bảng hiệu thật.',
+      roles:['footer'], note:'Mặc định của Word — và của rất nhiều bảng hiệu thật.',
       local:['UTM Times','UTMTimes'],
-      sub:"'EB Garamond'", tune:{ w:700, track:0.005, lh:1.22 } },
+      rank:3, sub:"'EB Garamond'", tune:{ w:700, track:0.005, lh:1.22 } },
 
     /* ---------- INSCRIBED CAPS ---------- */
     { id:'trajan', utm:'UTM Trajan', origin:'Trajan Pro', group:'inscribed',
       roles:['cat','name'], note:'Chữ khắc La Mã — nhà thuốc, phòng khám, luật sư.',
       local:['UTM Trajan','UTMTrajan','UTM TrajanPro'],
-      sub:"'EB Garamond'", tune:{ w:600, track:0.09, lh:1.2, caps:true } },
+      rank:2, sub:"'EB Garamond'", tune:{ w:600, track:0.09, lh:1.2, caps:true } },
 
     { id:'charlemagne', utm:'UTM Charlemagne', origin:'Charlemagne', group:'inscribed',
       roles:['cat','name'], note:'Trang trọng, cổ điển — đình chùa, tiệm vàng.',
       local:['UTM Charlemagne','UTMCharlemagne'],
-      sub:"'EB Garamond'", tune:{ w:700, track:0.1, lh:1.2, caps:true } },
+      rank:3, sub:"'EB Garamond'", tune:{ w:700, track:0.1, lh:1.2, caps:true } },
 
     { id:'copperplate', utm:'UTM Copperplate', origin:'Copperplate Gothic', group:'inscribed',
       roles:['cat','footer'], note:'Chân nhỏ li ti, giãn rộng — bảng tên công ty.',
       local:['UTM Copperplate','UTMCopperplate'],
-      sub:"'Chivo'", tune:{ w:700, track:0.14, lh:1.22, caps:true } },
+      rank:2, sub:"'Chivo'", tune:{ w:700, track:0.14, lh:1.22, caps:true } },
 
     { id:'penumbra', utm:'UTM Penumbra', origin:'Penumbra', group:'inscribed',
       roles:['cat','tagline'], note:'Nửa sans nửa khắc đá — nghiêm túc mà nhẹ.',
       local:['UTM Penumbra','UTMPenumbra'],
-      sub:"'EB Garamond'", tune:{ w:500, track:0.11, lh:1.22, caps:true } },
+      rank:3, sub:"'EB Garamond'", tune:{ w:500, track:0.11, lh:1.22, caps:true } },
 
     /* ---------- SCRIPT ---------- */
     { id:'edwardian', utm:'UTM Edwardian', origin:'Edwardian Script', group:'script',
       roles:['name'], note:'Bay bướm mảnh mai — tên tiệm áo cưới, salon.',
       local:['UTM Edwardian','UTMEdwardian','UTM EdwardianScript'],
-      sub:"'Italianno'", tune:{ w:400, track:0.01, lh:1.3 } },
+      rank:2, sub:"'Italianno'", tune:{ w:400, track:0.01, lh:1.3 } },
 
     { id:'wedding', utm:'UTM Wedding', origin:'script đám cưới', group:'script',
       roles:['name'], note:'Chữ thiệp cưới — studio, áo cưới, nhà hàng tiệc.',
       local:['UTM Wedding','UTMWedding'],
-      sub:"'Great Vibes'", tune:{ w:400, track:0.005, lh:1.32 } },
+      rank:3, sub:"'Great Vibes'", tune:{ w:400, track:0.005, lh:1.32 } },
 
     { id:'silkscript', utm:'UTM Silk Script', origin:'script mảnh', group:'script',
       roles:['name'], note:'Nét chỉ mềm — spa, nail, mỹ phẩm.',
       local:['UTM Silk Script','UTMSilkScript','UTM SilkScript'],
-      sub:"'Allura'", tune:{ w:400, track:0.005, lh:1.3 } },
+      rank:2, sub:"'Allura'", tune:{ w:400, track:0.005, lh:1.3 } },
 
     { id:'fleur', utm:'UTM Fleur', origin:'script hoa văn', group:'script',
       roles:['name'], note:'Nhiều hoa văn — dùng dè, chỉ cho tên riêng.',
       local:['UTM Fleur','UTMFleur'],
-      sub:"'Mea Culpa'", tune:{ w:400, track:0.01, lh:1.34 } },
+      rank:3, sub:"'Mea Culpa'", tune:{ w:400, track:0.01, lh:1.34 } },
 
     { id:'aurora', utm:'UTM Aurora', origin:'script cổ điển', group:'script',
       roles:['name'], note:'Nghiêng đều, dễ đọc — tên chủ tiệm.',
       local:['UTM Aurora','UTMAurora'],
-      sub:"'Pinyon Script'", tune:{ w:400, track:0.01, lh:1.3 } },
+      rank:3, sub:"'Pinyon Script'", tune:{ w:400, track:0.01, lh:1.3 } },
 
     { id:'flamenco', utm:'UTM Flamenco', origin:'brush script', group:'script',
       roles:['name','tagline'], note:'Nét cọ nhanh — quán nhậu, hải sản.',
       local:['UTM Flamenco','UTMFlamenco'],
-      sub:"'Alex Brush'", tune:{ w:400, track:0.01, lh:1.28 } },
+      rank:2, sub:"'Alex Brush'", tune:{ w:400, track:0.01, lh:1.28 } },
 
     { id:'sharnay', utm:'UTM Sharnay', origin:'script hiện đại', group:'script',
       roles:['name','tagline'], note:'Đậm và nghiêng — dễ đọc từ xa hơn script mảnh.',
       local:['UTM Sharnay','UTMSharnay'],
-      sub:"'Dancing Script'", tune:{ w:700, track:0.005, lh:1.24 } },
+      rank:3, sub:"'Dancing Script'", tune:{ w:700, track:0.005, lh:1.24 } },
 
     { id:'cabaret', utm:'UTM Cabaret', origin:'script retro', group:'script',
       roles:['name'], note:'Kiểu bảng hiệu Sài Gòn xưa, nét đều dày.',
       local:['UTM Cabaret','UTMCabaret'],
-      sub:"'Lobster'", tune:{ w:400, track:0.005, lh:1.16 } },
+      rank:3, sub:"'Lobster'", tune:{ w:400, track:0.005, lh:1.16 } },
 
     /* ---------- VIETNAMESE BRUSH / THƯ PHÁP ---------- */
     { id:'thuphap-thienan', utm:'UTM ThuPhap Thien An', origin:'thư pháp Việt', group:'brush',
       roles:['name'], note:'Thư pháp Việt — quán chay, trà, đồ gỗ, tranh.',
       local:['UTM ThuPhap Thien An','UTMThuPhapThienAn','UTM Thu Phap Thien An'],
-      sub:"'Charmonman'", tune:{ w:700, track:0.005, lh:1.3 } },
+      rank:2, sub:"'Charmonman'", tune:{ w:700, track:0.005, lh:1.3 } },
 
     { id:'thuphap-nhunguyet', utm:'UTM ThuPhap Nhu Nguyet', origin:'thư pháp Việt', group:'brush',
       roles:['name','tagline'], note:'Thư pháp nét mảnh, bay hơn Thiên Ân.',
       local:['UTM ThuPhap Nhu Nguyet','UTMThuPhapNhuNguyet'],
-      sub:"'Ephesis'", tune:{ w:400, track:0.01, lh:1.32 } },
+      rank:3, sub:"'Ephesis'", tune:{ w:400, track:0.01, lh:1.32 } },
 
     /* ---------- TECHNO ---------- */
     { id:'neosans', utm:'UTM Neo Sans', origin:'Neo Sans', group:'tech',
       roles:['name','cat'], note:'Bo góc vuông — tiệm sửa xe, điện thoại, karaoke.',
       local:['UTM Neo Sans','UTMNeoSans','UTM NeoSans'],
-      sub:"'Tektur'", tune:{ w:600, track:0.02, lh:1.12, caps:true } },
+      rank:2, sub:"'Tektur'", tune:{ w:600, track:0.02, lh:1.12, caps:true } },
 
     { id:'bitsumishi', utm:'UTM Bitsumishi', origin:'Bitsumishi', group:'tech',
       roles:['name','cat'], note:'Vuông, nghiêng, "tốc độ" — gara, độ xe, game.',
       local:['UTM Bitsumishi','UTMBitsumishi','UTM BitsumishiPro'],
-      sub:"'Tektur'", tune:{ w:700, track:0.01, lh:1.1, slant:-8, caps:true } }
+      rank:3, sub:"'Tektur'", tune:{ w:700, track:0.01, lh:1.1, caps:true } }
   ];
 
   var BY_ID = {};
@@ -263,7 +263,7 @@
      ====================================================================== */
   var RECIPES = {
     'khach-san': { hero:'cat',  faces:{ cat:'bebas',      name:'helvetins',   tagline:'swiss721', footer:'helvetica'   },
-                   scale:{ cat:1.00, name:0.93, tagline:0.70, footer:0.58 }, tweak:{ name:{ slant:-11 } } },
+                   scale:{ cat:1.00, name:0.93, tagline:0.70, footer:0.58 } },
     'nha-tro':   { hero:'cat',  faces:{ cat:'bebas',      name:'helvetica',   tagline:'swiss721', footer:'swiss721'    },
                    scale:{ cat:1.00, name:0.90, tagline:0.60, footer:0.66 } },
     'quan-com':  { hero:'cat',  faces:{ cat:'bebas',      name:'bebas',       tagline:'bebaskai', footer:'ericsson'    },
@@ -403,7 +403,7 @@
     el.style.lineHeight = (t.lh || 1.1).toString();
     el.style.letterSpacing = ((t.track || 0) * size).toFixed(2) + 'px';
     el.style.textTransform = t.caps ? 'uppercase' : 'none';
-    el.style.fontStyle = t.slant ? 'oblique ' + Math.abs(t.slant) + 'deg' : 'normal';
+    el.style.fontStyle = 'normal';   /* never synthesise oblique: it skews the letterform */
     el.style.fontVariationSettings = t.wdth ? "'wdth' " + t.wdth : 'normal';
     el.style.transform = t.sx ? 'scaleX(' + t.sx + ')' : '';
     el.dataset.utmFace = id;
