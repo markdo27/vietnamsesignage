@@ -58,34 +58,125 @@
       <!-- the app itself -->
       <div class="dock-group" role="group" aria-label="Công cụ">
         <button type="button" data-act="fonts" aria-label="Mở bảng chọn font" aria-pressed="false" aria-controls="drawer" title="Hệ font (F)"><i>🔤</i><span>FONT</span></button>
+        <button type="button" data-act="adjust" aria-label="Căn chỉnh chữ" aria-pressed="false" aria-controls="drawer" title="Căn chỉnh chữ: tracking, kerning, spacing (J)"><i>🎛</i><span>CHỈNH CHỮ</span></button>
         <button type="button" data-act="hide" aria-label="Ẩn bảng điều khiển" title="Ẩn bảng điều khiển (H)"><i>👁</i><span>ẨN</span></button>
       </div>
     </div>
   </div>
   <button type="button" class="peek" id="peek">▲ HIỆN BẢNG ĐIỀU KHIỂN</button>
 
-  <aside class="drawer" id="drawer" hidden aria-label="Hệ font UTM">
+  <aside class="drawer" id="drawer" hidden aria-label="Bảng điều khiển chữ">
     <button type="button" class="drawer-close" id="drawerClose" aria-label="Đóng">✕</button>
-    <div>
-      <p class="eyebrow">FONT DIRECTORY</p>
-      <h2>HỆ FONT UTM</h2>
+    <nav class="drawer-tabs" role="tablist" aria-label="Chế độ bảng điều khiển">
+      <button type="button" class="drawer-tab is-active" id="tabFonts" role="tab" aria-selected="true" aria-controls="paneFonts">🔤 PHÔNG CHỮ</button>
+      <button type="button" class="drawer-tab" id="tabAdjust" role="tab" aria-selected="false" aria-controls="paneAdjust">🎛 CĂN CHỈNH</button>
+    </nav>
+
+    <!-- Pane 1: Font Directory -->
+    <div class="drawer-pane" id="paneFonts" role="tabpanel" aria-labelledby="tabFonts">
+      <div>
+        <p class="eyebrow">FONT DIRECTORY</p>
+        <h2 id="drawerTitle">HỆ FONT UTM</h2>
+      </div>
+      <p class="hint" id="drawerHint">Bấm vào một bảng trên tường để chọn.</p>
+      <div class="face-grid">
+        <label>Dòng loại hình<select id="faceCat"></select></label>
+        <label>Tên tiệm<select id="faceName"></select></label>
+        <label>Slogan<select id="faceTagline"></select></label>
+        <label>Chân bảng<select id="faceFooter"></select></label>
+      </div>
+      <div class="drawer-actions">
+        <button type="button" id="shuffleFace">ĐỔI KIỂU CHỮ</button>
+        <button type="button" id="resetFace">VỀ CÔNG THỨC</button>
+      </div>
+      <p class="font-status" id="fontStatus">Đang dò font…</p>
+      <div class="font-drop" id="dropzone">
+        <p>Có font UTM thật? Kéo thả .TTF / .OTF vào đây. File chỉ nằm trong trình duyệt này.</p>
+        <input type="file" id="fontFiles" multiple accept=".ttf,.otf,.woff,.woff2" hidden>
+        <button type="button" id="pickFonts">CHỌN FILE FONT</button>
+      </div>
     </div>
-    <p class="hint" id="drawerHint">Bấm vào một bảng trên tường để chọn.</p>
-    <div class="face-grid">
-      <label>Dòng loại hình<select id="faceCat"></select></label>
-      <label>Tên tiệm<select id="faceName"></select></label>
-      <label>Slogan<select id="faceTagline"></select></label>
-      <label>Chân bảng<select id="faceFooter"></select></label>
-    </div>
-    <div class="drawer-actions">
-      <button type="button" id="shuffleFace">ĐỔI KIỂU CHỮ</button>
-      <button type="button" id="resetFace">VỀ CÔNG THỨC</button>
-    </div>
-    <p class="font-status" id="fontStatus">Đang dò font…</p>
-    <div class="font-drop" id="dropzone">
-      <p>Có font UTM thật? Kéo thả .TTF / .OTF vào đây. File chỉ nằm trong trình duyệt này.</p>
-      <input type="file" id="fontFiles" multiple accept=".ttf,.otf,.woff,.woff2" hidden>
-      <button type="button" id="pickFonts">CHỌN FILE FONT</button>
+
+    <!-- Pane 2: Text Adjustments (Tracking, Kerning, Spacing) -->
+    <div class="drawer-pane" id="paneAdjust" role="tabpanel" aria-labelledby="tabAdjust" hidden>
+      <div>
+        <p class="eyebrow">TEXT ADJUSTMENT</p>
+        <h2>CĂN CHỈNH CHỮ</h2>
+      </div>
+      <p class="hint" id="adjustHint">Bấm vào một bảng trên tường để điều chỉnh.</p>
+
+      <div class="adj-controls" id="adjustControls">
+        <div class="adj-group">
+          <label for="adjTarget">Áp dụng cho dòng</label>
+          <select id="adjTarget">
+            <option value="all">Toàn bộ bảng (Tất cả dòng)</option>
+            <option value="name">Tên tiệm (Shop name)</option>
+            <option value="cat">Dòng loại hình (Category)</option>
+            <option value="tagline">Slogan (Tagline)</option>
+            <option value="footer">Chân bảng (Footer)</option>
+          </select>
+        </div>
+
+        <div class="adj-group">
+          <div class="adj-header">
+            <label for="adjTracking">Tracking (Khoảng cách ký tự)</label>
+            <span class="adj-badge" id="adjTrackingVal">0 px</span>
+          </div>
+          <p class="adj-desc">Độ giãn / khít giữa các con chữ trong dòng.</p>
+          <input type="range" id="adjTracking" min="-30" max="80" step="1" value="0">
+        </div>
+
+        <div class="adj-group">
+          <div class="adj-header">
+            <label for="adjKerning">Kerning (Cặp chữ)</label>
+          </div>
+          <p class="adj-desc">Quy tắc khớp cặp ký tự tự nhiên của font.</p>
+          <select id="adjKerning">
+            <option value="auto">Tự động (Auto)</option>
+            <option value="normal">Bật / Chuẩn (Normal)</option>
+            <option value="none">Tắt cặp chữ (None)</option>
+          </select>
+          <div class="adj-subrow">
+            <div class="adj-header">
+              <label for="adjKerningFine" class="sub-label">Tinh chỉnh khoảng cách cặp</label>
+              <span class="adj-badge" id="adjKerningFineVal">0 px</span>
+            </div>
+            <input type="range" id="adjKerningFine" min="-20" max="20" step="1" value="0">
+          </div>
+        </div>
+
+        <div class="adj-group">
+          <div class="adj-header">
+            <label for="adjWordSpacing">Word Spacing (Khoảng cách từ)</label>
+            <span class="adj-badge" id="adjWordSpacingVal">0 px</span>
+          </div>
+          <p class="adj-desc">Khoảng cách giữa các từ ngữ phân tách bởi dấu cách.</p>
+          <input type="range" id="adjWordSpacing" min="-20" max="60" step="1" value="0">
+        </div>
+
+        <div class="adj-group">
+          <div class="adj-header">
+            <label for="adjLineHeight">Line Height (Khoảng cách dòng)</label>
+            <span class="adj-badge" id="adjLineHeightVal">1.00x</span>
+          </div>
+          <p class="adj-desc">Độ cao và độ thoáng của dòng chữ.</p>
+          <input type="range" id="adjLineHeight" min="0.5" max="2.2" step="0.05" value="1">
+        </div>
+
+        <div class="adj-group">
+          <div class="adj-header">
+            <label for="adjGap">Stack Gap (Khoảng cách hàng chữ)</label>
+            <span class="adj-badge" id="adjGapVal">+0 px</span>
+          </div>
+          <p class="adj-desc">Khoảng cách giãn giữa các khối chữ trên bảng hiệu.</p>
+          <input type="range" id="adjGap" min="-15" max="50" step="1" value="0">
+        </div>
+
+        <div class="drawer-actions">
+          <button type="button" id="resetAdjust">VỀ MẶC ĐỊNH</button>
+          <button type="button" id="applyAllAdjust">CHO CẢ PHỐ</button>
+        </div>
+      </div>
     </div>
   </aside>
 

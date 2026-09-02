@@ -37,16 +37,17 @@ century changes.
 |---|---|
 | **Drag any seam** | Resize two neighbouring signs. Double-click a seam to split it evenly. |
 | **Click any line of text** | Edit it in place; the sign re-fits as you type. |
-| **Hover a sign** | Four tools appear: 🎲 new business, ⬍ / ⬌ split this sign in two, ✕ take it down. |
+| **Hover a sign** | Five tools appear: 🎲 new business, 🎛 adjust type (tracking/kerning/spacing), ⬍ / ⬌ split this sign in two, ✕ take it down. |
 | **🎲 XÁO PHỐ** | Re-deal every shop on the wall. |
 | **＋ THÊM BẢNG** | Split the largest sign to hang one more. |
 | **▦ BỐ CỤC MỚI** | Generate a fresh mosaic. |
 | **⏳ 1985 / 2010** | Switch era. Layout, shops and edits all survive. |
 | **🖼 XUẤT PNG / ✎ XUẤT SVG** | Export the selected sign, or the whole wall when nothing is selected. |
 | **🔤 FONT** | Open the type drawer for the selected sign. |
+| **🎛 CHỈNH CHỮ** | Open typography adjustments (tracking, kerning, word & line spacing) for the selected sign. |
 | **👁 ẨN** | Hide the chrome for a clean screenshot. |
 
-Keyboard: `R` reshuffle, `A` add, `N` new layout, `T` era, `F` fonts, `H` hide chrome, `Esc` deselect, `Ctrl+Z` / `Ctrl+Y` undo and redo.
+Keyboard: `R` reshuffle, `A` add, `N` new layout, `T` era, `F` fonts, `J` adjust type, `H` hide chrome, `Esc` deselect, `Ctrl+Z` / `Ctrl+Y` undo and redo.
 
 The dock is grouped by what each button touches: what is on the wall, how it is
 arranged, undoing it, taking it away, and the app itself.

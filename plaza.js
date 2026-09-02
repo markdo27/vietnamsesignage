@@ -363,6 +363,32 @@ function dealShop() {
   return deck.pop();
 }
 
+function defaultAdjust() {
+  return {
+    tracking: 0,
+    kerning: 'auto',
+    kerningFine: 0,
+    wordSpacing: 0,
+    lineSpacing: 1.0,
+    gap: 0,
+    lines: {}
+  };
+}
+
+function getAdjust(sign, key) {
+  if (!sign) return { tracking: 0, kerning: 'auto', kerningFine: 0, wordSpacing: 0, lineSpacing: 1.0, gap: 0 };
+  var a = sign.adjust || {};
+  var l = (a.lines && a.lines[key]) || {};
+  return {
+    tracking: (a.tracking || 0) + (l.tracking || 0),
+    kerning: (l.kerning && l.kerning !== 'auto') ? l.kerning : (a.kerning || 'auto'),
+    kerningFine: (a.kerningFine || 0) + (l.kerningFine || 0),
+    wordSpacing: (a.wordSpacing || 0) + (l.wordSpacing || 0),
+    lineSpacing: (a.lineSpacing !== undefined ? a.lineSpacing : 1.0) * (l.lineSpacing !== undefined ? l.lineSpacing : 1.0),
+    gap: (a.gap || 0)
+  };
+}
+
 function makeSign(key) {
   var sign = {};
   dressShop(sign, key || dealShop());
@@ -375,6 +401,7 @@ function dressShop(sign, key) {
   sign.key = key;
   sign.badge = shop.icon;
   sign.text = { cat: shop.cat, name: pick(shop.name), tagline: pick(shop.tagline), footer: pick(shop.footer) };
+  sign.adjust = sign.adjust || defaultAdjust();
   dressRecipe(sign);
   dressMood(sign);
   return sign;
@@ -700,6 +727,7 @@ function targetCount() {
    ========================================================================= */
 var TOOLS = [
   ['dice', '🎲', 'Đổi tiệm khác'],
+  ['adjust', '🎛', 'Căn chỉnh chữ (J)'],
   ['col', '⬍', 'Tách trên / dưới'],
   ['row', '⬌', 'Tách trái / phải'],
   ['close', '✕', 'Bỏ bảng này']
@@ -950,9 +978,13 @@ function applyLine(el, sign, key, capPx) {
   var tweak = sign.tweak[key] || {};
   var tune = Object.assign({}, type.face(sign.faces[key]).tune, tweak);
   var size = type.applyFace(el, sign.faces[key], Math.max(4, capPx), tweak);
+  var adj = getAdjust(sign, key);
   /* The era sets how close the lines stack. Scale whatever line-height the face
      declares rather than overriding it, so each face keeps its own rhythm. */
-  el.style.lineHeight = ((parseFloat(el.style.lineHeight) || 1.1) * (theme().leading || 1)).toFixed(3);
+  var baseLh = (parseFloat(el.style.lineHeight) || 1.1) * (theme().leading || 1);
+  el.style.lineHeight = (baseLh * adj.lineSpacing).toFixed(3);
+  el.style.fontKerning = adj.kerning;
+  el.style.wordSpacing = adj.wordSpacing ? adj.wordSpacing.toFixed(2) + 'px' : '';
   el.dataset.sx = tune.sx || 1;
   return size;
 }
@@ -1131,7 +1163,8 @@ function justify(plan) {
   keys.forEach(function (key) {
     var el = node.lineEls[key], L = plan.line[key], o = out[key];
     applyLine(el, sign, key, PROBE * (sign.scale[key] || 0.5) * (o.size / L.size));
-    setTracking(el, o.track);
+    var adj = getAdjust(sign, key);
+    setTracking(el, o.track + adj.tracking + adj.kerningFine);
     dressHero(el, sign, key === hero, o.size, L.script);
   });
 
@@ -1180,6 +1213,7 @@ function dressHero(el, sign, isHero, size, script) {
 
 function settle(plan) {
   var node = plan.node, sign = node.sign;
+  var extraGap = (sign.adjust && sign.adjust.gap) || 0;
 
   if (theme().justify) {
     justify(plan);
@@ -1187,7 +1221,7 @@ function settle(plan) {
       ? Math.min(plan.slack * 0.35 / (plan.keys.length - 1),
                  plan.line[plan.heroKey].size * (theme().gapSpend || 0))
       : 0;
-    node.stackEl.style.gap = lead.toFixed(2) + 'px';
+    node.stackEl.style.gap = Math.max(0, lead + extraGap).toFixed(2) + 'px';
     if (plan.footerH) fitFooter(plan);
     return;
   }
@@ -1195,7 +1229,8 @@ function settle(plan) {
   var factor = Math.min(plan.boxW / plan.mw, plan.boxH / plan.mh) * 0.98;
   plan.keys.forEach(function (key) {
     applyLine(node.lineEls[key], sign, key, PROBE * (sign.scale[key] || 0.5) * factor);
-    setTracking(node.lineEls[key], parseFloat(node.lineEls[key].style.letterSpacing) || 0);
+    var adj = getAdjust(sign, key);
+    setTracking(node.lineEls[key], (parseFloat(node.lineEls[key].style.letterSpacing) || 0) + adj.tracking + adj.kerningFine);
     dressHero(node.lineEls[key], sign, false, 0, false);
   });
   /* A block held back by its widest line leaves air above and below. Sign
@@ -1205,7 +1240,7 @@ function settle(plan) {
     var slack = Math.max(0, plan.boxH - needH * factor);
     lead = Math.min(slack * 0.55 / (plan.keys.length - 1), PROBE * factor * 0.45);
   }
-  node.stackEl.style.gap = lead.toFixed(2) + 'px';
+  node.stackEl.style.gap = Math.max(0, lead + extraGap).toFixed(2) + 'px';
   if (plan.footerH) fitFooter(plan);
 }
 
@@ -1223,7 +1258,8 @@ function fitFooter(plan) {
     var bare = Math.max(1, plan.fw * room - (parseFloat(el.style.letterSpacing) || 0) * chars);
     track = Math.max(0, Math.min(trackMax() * size, (band - bare) / chars));
   }
-  setTracking(el, track || (parseFloat(el.style.letterSpacing) || 0));
+  var adj = getAdjust(sign, 'footer');
+  setTracking(el, (track || (parseFloat(el.style.letterSpacing) || 0)) + adj.tracking + adj.kerningFine);
 }
 
 function fitLeaves(nodes) {
@@ -1328,6 +1364,9 @@ function wireSign(node) {
       dressShop(node.sign, dealShop());
       if (Math.random() < 0.5) dressType(node.sign);
       paintSign(node); scheduleFit([node]); syncDrawer(); scheduleSave();
+    } else if (tool === 'adjust') {
+      select(node);
+      toggleDrawer(true, 'adjust');
     } else if (tool === 'row' || tool === 'col') {
       var rect = el.getBoundingClientRect();
       if (Math.min(rect.width, rect.height) < MIN_CELL * 2.4) { say('Bảng này hết chỗ để tách.'); return; }
@@ -1411,6 +1450,7 @@ function setTheme(key, quiet, internal) {
   button.querySelector('span').textContent = THEMES[theme().other].short;
   button.title = 'Chuyển sang ' + THEMES[theme().other].label;
   $('#dropzone').hidden = key !== 'nay';
+  if ($('#drawerTitle')) $('#drawerTitle').textContent = key === 'sg85' ? 'HỆ FONT SG85' : 'HỆ FONT UTM';
   document.documentElement.style.setProperty('--gut', theme().gut + 'px');
   GUT = theme().gut;
 
@@ -1470,14 +1510,164 @@ function fillPicker(select, role) {
   });
 }
 
+var activeDrawerTab = 'fonts';
+
+function switchDrawerTab(tab) {
+  activeDrawerTab = tab || 'fonts';
+  var isFonts = activeDrawerTab === 'fonts';
+  var tabFonts = $('#tabFonts'), tabAdjust = $('#tabAdjust');
+  var paneFonts = $('#paneFonts'), paneAdjust = $('#paneAdjust');
+  if (tabFonts) {
+    tabFonts.classList.toggle('is-active', isFonts);
+    tabFonts.setAttribute('aria-selected', String(isFonts));
+  }
+  if (tabAdjust) {
+    tabAdjust.classList.toggle('is-active', !isFonts);
+    tabAdjust.setAttribute('aria-selected', String(!isFonts));
+  }
+  if (paneFonts) paneFonts.hidden = !isFonts;
+  if (paneAdjust) paneAdjust.hidden = isFonts;
+
+  var fontBtn = document.querySelector('[data-act="fonts"]');
+  var adjBtn = document.querySelector('[data-act="adjust"]');
+  var drawer = $('#drawer');
+  var open = drawer && !drawer.hidden;
+  if (fontBtn) fontBtn.setAttribute('aria-pressed', String(open && isFonts));
+  if (adjBtn) adjBtn.setAttribute('aria-pressed', String(open && !isFonts));
+
+  if (!isFonts) syncAdjustPane();
+}
+
+function syncAdjustPane() {
+  var hint = $('#adjustHint');
+  var controls = $('#adjustControls');
+  var has = !!selected;
+  if (hint) {
+    hint.textContent = has
+      ? 'Đang chỉnh: ' + SHOPS[selected.sign.key].label + ' — ' + selected.sign.text.name
+      : 'Bấm vào một bảng trên tường để điều chỉnh.';
+  }
+  if (controls) controls.classList.toggle('is-disabled', !has);
+  if (!has) return;
+
+  var sign = selected.sign;
+  if (!sign.adjust) sign.adjust = defaultAdjust();
+  var target = ($('#adjTarget') && $('#adjTarget').value) || 'all';
+
+  var tracking = 0, kerning = 'auto', kerningFine = 0, wordSpacing = 0, lineSpacing = 1.0, gap = sign.adjust.gap || 0;
+  if (target === 'all') {
+    tracking = sign.adjust.tracking || 0;
+    kerning = sign.adjust.kerning || 'auto';
+    kerningFine = sign.adjust.kerningFine || 0;
+    wordSpacing = sign.adjust.wordSpacing || 0;
+    lineSpacing = sign.adjust.lineSpacing !== undefined ? sign.adjust.lineSpacing : 1.0;
+  } else {
+    var l = (sign.adjust.lines && sign.adjust.lines[target]) || {};
+    tracking = l.tracking || 0;
+    kerning = (l.kerning && l.kerning !== 'auto') ? l.kerning : (sign.adjust.kerning || 'auto');
+    kerningFine = l.kerningFine || 0;
+    wordSpacing = l.wordSpacing || 0;
+    lineSpacing = l.lineSpacing !== undefined ? l.lineSpacing : 1.0;
+  }
+
+  var elTrack = $('#adjTracking');
+  if (elTrack) {
+    elTrack.value = tracking;
+    var tv = $('#adjTrackingVal');
+    if (tv) tv.textContent = (tracking > 0 ? '+' : '') + tracking + ' px';
+  }
+  var elKern = $('#adjKerning');
+  if (elKern) elKern.value = kerning;
+
+  var elKernFine = $('#adjKerningFine');
+  if (elKernFine) {
+    elKernFine.value = kerningFine;
+    var kfv = $('#adjKerningFineVal');
+    if (kfv) kfv.textContent = (kerningFine > 0 ? '+' : '') + kerningFine + ' px';
+  }
+  var elWs = $('#adjWordSpacing');
+  if (elWs) {
+    elWs.value = wordSpacing;
+    var wsv = $('#adjWordSpacingVal');
+    if (wsv) wsv.textContent = (wordSpacing > 0 ? '+' : '') + wordSpacing + ' px';
+  }
+  var elLh = $('#adjLineHeight');
+  if (elLh) {
+    elLh.value = lineSpacing;
+    var lhv = $('#adjLineHeightVal');
+    if (lhv) lhv.textContent = Number(lineSpacing).toFixed(2) + 'x';
+  }
+  var elGap = $('#adjGap');
+  if (elGap) {
+    elGap.value = gap;
+    var gv = $('#adjGapVal');
+    if (gv) gv.textContent = (gap > 0 ? '+' : '') + gap + ' px';
+  }
+}
+
+function onAdjustInput() {
+  if (!selected) return;
+  var sign = selected.sign;
+  if (!sign.adjust) sign.adjust = defaultAdjust();
+  var target = ($('#adjTarget') && $('#adjTarget').value) || 'all';
+
+  var tracking = parseInt($('#adjTracking').value, 10) || 0;
+  var kerning = $('#adjKerning').value;
+  var kerningFine = parseInt($('#adjKerningFine').value, 10) || 0;
+  var wordSpacing = parseInt($('#adjWordSpacing').value, 10) || 0;
+  var lineSpacing = parseFloat($('#adjLineHeight').value) || 1.0;
+  var gap = parseInt($('#adjGap').value, 10) || 0;
+
+  var tv = $('#adjTrackingVal');
+  if (tv) tv.textContent = (tracking > 0 ? '+' : '') + tracking + ' px';
+  var kfv = $('#adjKerningFineVal');
+  if (kfv) kfv.textContent = (kerningFine > 0 ? '+' : '') + kerningFine + ' px';
+  var wsv = $('#adjWordSpacingVal');
+  if (wsv) wsv.textContent = (wordSpacing > 0 ? '+' : '') + wordSpacing + ' px';
+  var lhv = $('#adjLineHeightVal');
+  if (lhv) lhv.textContent = lineSpacing.toFixed(2) + 'x';
+  var gv = $('#adjGapVal');
+  if (gv) gv.textContent = (gap > 0 ? '+' : '') + gap + ' px';
+
+  if (target === 'all') {
+    sign.adjust.tracking = tracking;
+    sign.adjust.kerning = kerning;
+    sign.adjust.kerningFine = kerningFine;
+    sign.adjust.wordSpacing = wordSpacing;
+    sign.adjust.lineSpacing = lineSpacing;
+    sign.adjust.gap = gap;
+  } else {
+    if (!sign.adjust.lines) sign.adjust.lines = {};
+    if (!sign.adjust.lines[target]) sign.adjust.lines[target] = {};
+    sign.adjust.lines[target].tracking = tracking;
+    sign.adjust.lines[target].kerning = kerning;
+    sign.adjust.lines[target].kerningFine = kerningFine;
+    sign.adjust.lines[target].wordSpacing = wordSpacing;
+    sign.adjust.lines[target].lineSpacing = lineSpacing;
+    sign.adjust.gap = gap;
+  }
+
+  scheduleFit([selected]);
+  scheduleSave();
+}
+
+function onAdjustChange() {
+  if (!selected) return;
+  checkpoint();
+  scheduleSave();
+}
+
 function syncDrawer() {
   var hint = $('#drawerHint');
   var has = !!selected;
-  hint.textContent = has
-    ? 'Đang sửa: ' + SHOPS[selected.sign.key].label + ' — ' + selected.sign.text.name
-    : 'Bấm vào một bảng trên tường để chọn, rồi đổi mặt chữ ở đây.';
+  if (hint) {
+    hint.textContent = has
+      ? 'Đang sửa: ' + SHOPS[selected.sign.key].label + ' — ' + selected.sign.text.name
+      : 'Bấm vào một bảng trên tường để chọn, rồi đổi mặt chữ ở đây.';
+  }
   LINES.forEach(function (key) {
     var select = pickers[key];
+    if (!select) return;
     select.disabled = !has;
     var extra = select.querySelector('option[data-extra]');
     if (extra) select.removeChild(extra);
@@ -1495,8 +1685,9 @@ function syncDrawer() {
     }
     select.value = id;
   });
-  $('#shuffleFace').disabled = !has;
-  $('#resetFace').disabled = !has;
+  if ($('#shuffleFace')) $('#shuffleFace').disabled = !has;
+  if ($('#resetFace')) $('#resetFace').disabled = !has;
+  syncAdjustPane();
 }
 
 function refreshPickers() {
@@ -1570,6 +1761,8 @@ function lineRun(el, ox, oy) {
   var size = parseFloat(cs.fontSize);
   var lh = parseFloat(cs.lineHeight) || size;
   var ls = parseFloat(cs.letterSpacing) || 0;
+  var ws = parseFloat(cs.wordSpacing) || 0;
+  var fk = cs.fontKerning || 'auto';
 
   /* the baseline sits half the leading below the top of the line box */
   probe.font = cs.fontStyle + ' ' + cs.fontWeight + ' ' + size + 'px ' + cs.fontFamily;
@@ -1584,6 +1777,8 @@ function lineRun(el, ox, oy) {
     baseline: rect.top + (lh - (asc + desc)) / 2 + asc - oy,
     size: size, family: cs.fontFamily, weight: cs.fontWeight, style: cs.fontStyle,
     letterSpacing: ls,
+    wordSpacing: ws,
+    fontKerning: fk,
     fill: cs.webkitTextFillColor && cs.webkitTextFillColor !== 'rgba(0, 0, 0, 0)' ? cs.webkitTextFillColor : cs.color,
     gradient: el.closest('.gradient-name') && el.classList.contains('name')
       ? getComputedStyle(el.closest('.sign')).getPropertyValue('--name-grad') : '',
@@ -1684,6 +1879,8 @@ function renderCanvas(scene, scale) {
     ctx.save();
     ctx.font = run.style + ' ' + run.weight + ' ' + run.size + 'px ' + run.family;
     if ('letterSpacing' in ctx) ctx.letterSpacing = run.letterSpacing + 'px';
+    if ('wordSpacing' in ctx && run.wordSpacing) ctx.wordSpacing = run.wordSpacing + 'px';
+    if ('fontKerning' in ctx && run.fontKerning) ctx.fontKerning = run.fontKerning;
     ctx.textAlign = 'left';
     ctx.textBaseline = 'alphabetic';
     var width = ctx.measureText(run.text).width;
@@ -1787,7 +1984,9 @@ function renderSVG(scene, fontCSS) {
     var attrs = 'x="' + run.cx.toFixed(1) + '" y="' + run.baseline.toFixed(1) +
       '" text-anchor="middle" font-family="' + esc(run.family.replace(/"/g, "'")) +
       '" font-size="' + run.size.toFixed(2) + '" font-weight="' + run.weight +
-      '" letter-spacing="' + run.letterSpacing.toFixed(2) + '"';
+      '" letter-spacing="' + run.letterSpacing.toFixed(2) + '"' +
+      (run.wordSpacing ? ' word-spacing="' + run.wordSpacing.toFixed(2) + '"' : '') +
+      (run.fontKerning && run.fontKerning !== 'auto' ? ' font-kerning="' + run.fontKerning + '"' : '');
     run.shadows.slice().reverse().forEach(function (s) {
       out.push('<text ' + attrs + ' transform="translate(' + s.dx.toFixed(2) + ',' + s.dy.toFixed(2) +
         ')" fill="' + s.color + '">' + esc(run.text) + '</text>');
@@ -1861,12 +2060,61 @@ function wireChrome() {
       else if (act === 'theme') setTheme(theme().other);
       else if (act === 'export') exportImage('png');
       else if (act === 'export-svg') exportImage('svg');
-      else if (act === 'fonts') toggleDrawer();
+      else if (act === 'fonts') toggleDrawer(undefined, 'fonts');
+      else if (act === 'adjust') toggleDrawer(undefined, 'adjust');
       else if (act === 'hide') { document.body.classList.add('chrome-off'); }
     });
   });
   $('#peek').addEventListener('click', function () { document.body.classList.remove('chrome-off'); });
   $('#drawerClose').addEventListener('click', function () { toggleDrawer(false); });
+
+  if ($('#tabFonts')) $('#tabFonts').addEventListener('click', function () { switchDrawerTab('fonts'); });
+  if ($('#tabAdjust')) $('#tabAdjust').addEventListener('click', function () { switchDrawerTab('adjust'); });
+
+  if ($('#adjTarget')) $('#adjTarget').addEventListener('change', syncAdjustPane);
+  ['adjTracking', 'adjKerningFine', 'adjWordSpacing', 'adjLineHeight', 'adjGap'].forEach(function (id) {
+    var el = $('#' + id);
+    if (el) {
+      el.addEventListener('input', onAdjustInput);
+      el.addEventListener('change', onAdjustChange);
+    }
+  });
+  if ($('#adjKerning')) {
+    $('#adjKerning').addEventListener('change', function () {
+      onAdjustInput();
+      onAdjustChange();
+    });
+  }
+  if ($('#resetAdjust')) {
+    $('#resetAdjust').addEventListener('click', function () {
+      if (!selected) return;
+      checkpoint();
+      var target = ($('#adjTarget') && $('#adjTarget').value) || 'all';
+      if (target === 'all') {
+        selected.sign.adjust = defaultAdjust();
+      } else if (selected.sign.adjust && selected.sign.adjust.lines && selected.sign.adjust.lines[target]) {
+        delete selected.sign.adjust.lines[target];
+      }
+      syncAdjustPane();
+      scheduleFit([selected]);
+      scheduleSave();
+      say('Đã đặt lại căn chỉnh về mặc định.');
+    });
+  }
+  if ($('#applyAllAdjust')) {
+    $('#applyAllAdjust').addEventListener('click', function () {
+      if (!selected) return;
+      if (!selected.sign.adjust) selected.sign.adjust = defaultAdjust();
+      checkpoint();
+      var copy = JSON.parse(JSON.stringify(selected.sign.adjust));
+      eachLeaf(tree).forEach(function (node) {
+        if (node.sign) node.sign.adjust = JSON.parse(JSON.stringify(copy));
+      });
+      scheduleFit();
+      scheduleSave();
+      say('Đã áp dụng căn chỉnh này cho toàn bộ bảng trên phố.');
+    });
+  }
 
   LINES.forEach(function (key) {
     pickers[key].addEventListener('change', function (ev) {
@@ -1922,19 +2170,32 @@ function wireChrome() {
     else if (key === 'n') newLayout();
     else if (key === 'a') addSign();
     else if (key === 't') setTheme(theme().other);
-    else if (key === 'f') toggleDrawer();
+    else if (key === 'f') toggleDrawer(undefined, 'fonts');
+    else if (key === 'j') toggleDrawer(undefined, 'adjust');
     else if (key === 'h') document.body.classList.toggle('chrome-off');
     else if (key === 'escape') select(null);
   });
 
 }
 
-function toggleDrawer(force) {
-  var drawer = $('#drawer'), button = document.querySelector('[data-act="fonts"]');
+function toggleDrawer(force, tab) {
+  var drawer = $('#drawer');
+  var fontBtn = document.querySelector('[data-act="fonts"]');
+  var adjBtn = document.querySelector('[data-act="adjust"]');
   var open = force === undefined ? drawer.hidden : force;
+  if (tab) {
+    if (drawer.hidden) open = true;
+    else if (activeDrawerTab === tab && force === undefined) open = false;
+    switchDrawerTab(tab);
+  }
   drawer.hidden = !open;
-  button.setAttribute('aria-pressed', String(open));
-  if (open) syncDrawer();
+  var isFonts = activeDrawerTab === 'fonts';
+  if (fontBtn) fontBtn.setAttribute('aria-pressed', String(open && isFonts));
+  if (adjBtn) adjBtn.setAttribute('aria-pressed', String(open && !isFonts));
+  if (open) {
+    syncDrawer();
+    syncAdjustPane();
+  }
 }
 
 /* ===========================================================================

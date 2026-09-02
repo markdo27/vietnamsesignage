@@ -209,6 +209,7 @@ body.dragging .sign { pointer-events: none; }
   line-height: 1;
 }
 .sign-tools button:hover { background: var(--frame-dark); }
+.sign-tools button[data-tool="adjust"]:hover { background: var(--yellow); color: var(--purple); }
 .sign-tools button[data-tool="close"]:hover { background: var(--red); }
 
 /* --- floating dock ------------------------------------------------------ */
@@ -325,6 +326,41 @@ body:not(.chrome-off) .peek { display: none; }
   color: var(--purple);
   background: var(--yellow);
   font-weight: 900;
+  z-index: 2;
+}
+.drawer-tabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5px;
+  margin-top: 18px;
+  margin-bottom: 2px;
+}
+.drawer-tab {
+  min-height: 32px;
+  border: 2px solid rgba(255, 255, 255, .4);
+  cursor: pointer;
+  color: #fff;
+  background: transparent;
+  font-size: .58rem;
+  font-weight: 900;
+  letter-spacing: .06em;
+  transition: background .1s ease, color .1s ease, border-color .1s ease;
+}
+.drawer-tab:hover {
+  border-color: #fff;
+}
+.drawer-tab.is-active {
+  color: var(--purple);
+  background: var(--yellow);
+  border-color: var(--yellow);
+}
+.drawer-pane {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.drawer-pane[hidden] {
+  display: none;
 }
 .face-grid { display: grid; gap: 8px; }
 .drawer-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
@@ -343,6 +379,107 @@ body:not(.chrome-off) .peek { display: none; }
 .font-drop.over { color: var(--purple); background: var(--yellow); border-style: solid; }
 .font-drop button { width: 100%; margin-top: 8px; }
 .drawer .hint { color: #c9b3e0; font-size: .56rem; font-style: italic; }
+
+/* --- adjustment pane controls ------------------------------------------- */
+.adj-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+}
+.adj-controls.is-disabled {
+  opacity: .4;
+  pointer-events: none;
+}
+.adj-group {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding-bottom: 9px;
+  border-bottom: 1px solid rgba(255, 255, 255, .16);
+}
+.adj-group:last-of-type {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+.adj-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 6px;
+}
+.adj-badge {
+  display: inline-block;
+  font-size: .56rem;
+  font-weight: 900;
+  color: var(--yellow);
+  font-family: monospace, monospace;
+  background: rgba(0, 0, 0, .35);
+  padding: 1px 6px;
+  letter-spacing: 0;
+}
+.adj-desc {
+  margin: 0;
+  color: #c9b3e0;
+  font-size: .53rem;
+  line-height: 1.35;
+}
+.adj-subrow {
+  margin-top: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.sub-label {
+  font-size: .52rem;
+  opacity: .85;
+}
+
+/* Retro range slider */
+.drawer input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 6px;
+  margin: 7px 0 3px;
+  background: rgba(255, 255, 255, .32);
+  border: 1px solid rgba(0, 0, 0, .4);
+  border-radius: 0;
+  outline: none;
+  cursor: pointer;
+}
+.drawer input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 14px;
+  height: 16px;
+  background: var(--yellow);
+  border: 2px solid #111;
+  border-radius: 0;
+  cursor: ew-resize;
+  box-shadow: 1px 1px 0 rgba(0, 0, 0, .4);
+  transition: transform .08s ease, background .08s ease;
+}
+.drawer input[type="range"]::-webkit-slider-thumb:hover {
+  background: #fff;
+  transform: scale(1.1);
+}
+.drawer input[type="range"]::-moz-range-thumb {
+  width: 14px;
+  height: 16px;
+  background: var(--yellow);
+  border: 2px solid #111;
+  border-radius: 0;
+  cursor: ew-resize;
+  box-shadow: 1px 1px 0 rgba(0, 0, 0, .4);
+  transition: transform .08s ease, background .08s ease;
+}
+.drawer input[type="range"]::-moz-range-thumb:hover {
+  background: #fff;
+  transform: scale(1.1);
+}
+.drawer input[type="range"]:focus-visible {
+  outline: 2px solid var(--yellow);
+}
 
 /* ===========================================================================
    THEME · PHỐ HÔM NAY
