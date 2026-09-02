@@ -321,11 +321,11 @@ var THEMES = {
     }
   },
   nay: {
-    label: 'PHỐ HÔM NAY', short: 'NAY', other: 'sg85',
+    label: 'PHỐ 2010', short: '2010', other: 'sg85',
     system: 'UTM', palettes: MODERN, gut: 7, mat: false,
     justify: true, track: 0.22, rotate: true, outline: true, dropShadow: true,
     leading: 0.94, gapSpend: 0.07,
-    brand: 'PHỐ BẢNG HIỆU', tagline: 'KÉO MÉP ĐỂ ĐỔI CỠ · BẤM VÀO CHỮ ĐỂ SỬA',
+    brand: 'Phố 2010', tagline: 'BẢNG HIỆU HIFLEX · IN KỸ THUẬT SỐ',
     note: function (report) {
       return report.genuine + '/' + report.total + ' mặt chữ UTM thật có sẵn trên máy này. ' +
         'Thiếu font thật thì hệ thống dùng bản thay thế mở, đủ dấu tiếng Việt.';
@@ -1517,81 +1517,336 @@ function ingest(files) {
   });
 }
 
-function collectCSS() {
-  var css = '';
-  Array.from(document.styleSheets).forEach(function (sheet) {
-    try { Array.from(sheet.cssRules).forEach(function (rule) { css += rule.cssText + '\n'; }); }
-    catch (err) { /* cross-origin sheets cannot be read; this app has none */ }
-  });
-  return css.replace(/body\[data-theme=/g, '[data-theme=');
+/* ===========================================================================
+   11. EXPORT
+   The first attempt serialised the DOM into a <foreignObject> and drew that as
+   an image. That cannot work here: the Google Fonts stylesheet is cross-origin,
+   so reading its rules throws SecurityError, and an SVG drawn through an <img>
+   may not fetch external resources at all — the canvas comes out tainted and
+   toBlob refuses it. ("Tainted canvases may not be exported.")
+
+   So both formats are built from primitives instead. One pass reads the live
+   DOM into a flat scene — rectangles and runs of text with their real metrics —
+   and two small backends write it out. PNG paints onto a canvas using the faces
+   the document has already loaded. SVG writes <rect> and <text> and embeds the
+   faces it actually used as base64, so the file opens correctly on a machine
+   that has never heard of UTM.
+
+   Either exports the selected sign on its own, or the whole wall when nothing
+   is selected.
+   ========================================================================= */
+
+var probe = document.createElement('canvas').getContext('2d');
+var MAT_FACE = '#f4efe2', MAT_KEYLINE = 'rgba(18,28,26,.5)';
+
+function exportScope() {
+  if (selected && selected.el && selected.el.isConnected) {
+    return { el: selected.el, nodes: [selected], label: SHOPS[selected.sign.key].label, whole: false };
+  }
+  return { el: wall, nodes: eachLeaf(tree), label: 'cả tường', whole: true };
 }
 
-function inlineComputedStyles(source, clone) {
-  var originals = [source].concat(Array.from(source.querySelectorAll('*')));
-  var copies = [clone].concat(Array.from(clone.querySelectorAll('*')));
-  originals.forEach(function (original, index) {
-    var computed = getComputedStyle(original), style = '';
-    Array.from(computed).forEach(function (property) {
-      style += property + ':' + computed.getPropertyValue(property) + ';';
-    });
-    copies[index].setAttribute('style', style);
-    copies[index].removeAttribute('contenteditable');
-    copies[index].removeAttribute('tabindex');
-  });
+function slug(text) {
+  return String(text).normalize('NFD').replace(/[̀-ͯ]/g, '')
+    .replace(/đ/gi, 'd').replace(/[^a-zA-Z0-9]+/g, '-').replace(/^-|-$/g, '').toLowerCase() || 'bang-hieu';
 }
 
-function exportPNG() {
-  var rect = wall.getBoundingClientRect();
-  if (rect.width < 2 || rect.height < 2) { say('Chưa có bảng để xuất.'); return; }
-  say('Đang dựng ảnh PNG…');
+/* text-shadow resolves to a list we can read back verbatim, which is more
+   faithful than recomputing the slab from the rules that drew it */
+function readShadows(css) {
+  var out = [], re = /(rgba?\([^)]+\))\s+(-?[\d.]+)px\s+(-?[\d.]+)px\s+(-?[\d.]+)px/g, m;
+  while ((m = re.exec(css))) out.push({ color: m[1], dx: +m[2], dy: +m[3], blur: +m[4] });
+  return out;
+}
 
-  var clone = wall.cloneNode(true);
-  inlineComputedStyles(wall, clone);
-  clone.querySelectorAll('.is-selected').forEach(function (el) { el.classList.remove('is-selected'); });
-  clone.querySelectorAll('.sign-tools').forEach(function (el) { el.remove(); });
-  clone.style.position = 'relative';
-  clone.style.inset = 'auto';
-  clone.style.width = Math.round(rect.width) + 'px';
-  clone.style.height = Math.round(rect.height) + 'px';
+function lineRun(el, ox, oy) {
+  var cs = getComputedStyle(el);
+  if (cs.display === 'none' || cs.visibility === 'hidden') return null;
+  var text = el.textContent;
+  if (cs.textTransform === 'uppercase') text = text.toUpperCase();
+  if (!text.trim()) return null;
 
-  var wrapper = document.createElement('div');
-  wrapper.setAttribute('xmlns', 'http://www.w3.org/1999/xhtml');
-  wrapper.dataset.theme = themeKey;
-  wrapper.style.cssText = 'position:relative;overflow:hidden;width:' + Math.round(rect.width) +
-    'px;height:' + Math.round(rect.height) + 'px;margin:0;padding:0;';
-  var style = document.createElement('style');
-  style.textContent = collectCSS();
-  wrapper.append(style, clone);
+  var rect = el.getBoundingClientRect();
+  var size = parseFloat(cs.fontSize);
+  var lh = parseFloat(cs.lineHeight) || size;
+  var ls = parseFloat(cs.letterSpacing) || 0;
 
-  var serialized = new XMLSerializer().serializeToString(wrapper);
-  var svg = '<svg xmlns="http://www.w3.org/2000/svg" width="' + Math.round(rect.width) +
-    '" height="' + Math.round(rect.height) + '"><foreignObject width="100%" height="100%">' +
-    serialized + '</foreignObject></svg>';
-  var svgURL = URL.createObjectURL(new Blob([svg], { type: 'image/svg+xml;charset=utf-8' }));
-  var image = new Image();
-  image.onload = function () {
-    var scale = Math.max(1, Math.min(2, 3600 / Math.max(rect.width, rect.height)));
-    var canvas = document.createElement('canvas');
-    canvas.width = Math.round(rect.width * scale);
-    canvas.height = Math.round(rect.height * scale);
-    var context = canvas.getContext('2d');
-    context.scale(scale, scale);
-    context.drawImage(image, 0, 0);
-    URL.revokeObjectURL(svgURL);
-    canvas.toBlob(function (blob) {
-      if (!blob) { say('Không thể tạo ảnh PNG.'); return; }
-      var url = URL.createObjectURL(blob), link = document.createElement('a');
-      link.href = url;
-      link.download = 'pho-bang-hieu-' + themeKey + '.png';
-      document.body.appendChild(link);
-      link.click();
-      link.remove();
-      setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
-      say('Đã xuất ảnh PNG.');
-    }, 'image/png');
+  /* the baseline sits half the leading below the top of the line box */
+  probe.font = cs.fontStyle + ' ' + cs.fontWeight + ' ' + size + 'px ' + cs.fontFamily;
+  var m = probe.measureText(text);
+  var asc = m.fontBoundingBoxAscent || size * 0.8;
+  var desc = m.fontBoundingBoxDescent || size * 0.2;
+
+  var strokeW = parseFloat(cs.webkitTextStrokeWidth) || 0;
+  return {
+    text: text,
+    cx: rect.left + rect.width / 2 - ox,
+    baseline: rect.top + (lh - (asc + desc)) / 2 + asc - oy,
+    size: size, family: cs.fontFamily, weight: cs.fontWeight, style: cs.fontStyle,
+    letterSpacing: ls,
+    fill: cs.webkitTextFillColor && cs.webkitTextFillColor !== 'rgba(0, 0, 0, 0)' ? cs.webkitTextFillColor : cs.color,
+    gradient: el.closest('.gradient-name') && el.classList.contains('name')
+      ? getComputedStyle(el.closest('.sign')).getPropertyValue('--name-grad') : '',
+    stroke: strokeW ? cs.webkitTextStrokeColor : '', strokeWidth: strokeW,
+    shadows: readShadows(cs.textShadow || '')
   };
-  image.onerror = function () { URL.revokeObjectURL(svgURL); say('Không thể dựng ảnh PNG.'); };
-  image.src = svgURL;
+}
+
+/* Read the live wall into a flat list of rectangles and text runs. */
+function buildScene(scope) {
+  var box = scope.el.getBoundingClientRect();
+  var ox = box.left, oy = box.top;
+  /* The board's colour sits in a multi-layer background shorthand, so reading
+     backgroundColor alone comes back transparent and the export would have no
+     board at all. Fall back to the frame variable that paints it. */
+  var wallBG = getComputedStyle(wall).backgroundColor;
+  if (!wallBG || /transparent|rgba\(0, 0, 0, 0\)/.test(wallBG)) {
+    wallBG = getComputedStyle(document.body).getPropertyValue('--frame').trim() || '#ffffff';
+  }
+  var scene = { w: Math.round(box.width), h: Math.round(box.height),
+                bg: wallBG, rects: [], runs: [] };
+
+  scope.nodes.forEach(function (node) {
+    var el = node.el;
+    if (!el || !el.isConnected) return;
+    var r = el.getBoundingClientRect();
+    var cs = getComputedStyle(el);
+    var x = r.left - ox, y = r.top - oy;
+    var mat = parseFloat(cs.getPropertyValue('--mat')) || 0;
+
+    if (mat > 0) {                                  /* the 1985 photo mat */
+      scene.rects.push({ x: x, y: y, w: r.width, h: r.height, fill: MAT_FACE });
+      scene.rects.push({ x: x + mat, y: y + mat, w: r.width - mat * 2, h: r.height - mat * 2, fill: MAT_KEYLINE });
+      scene.rects.push({ x: x + mat + 1.5, y: y + mat + 1.5,
+                         w: r.width - (mat + 1.5) * 2, h: r.height - (mat + 1.5) * 2, fill: cs.backgroundColor });
+    } else {
+      scene.rects.push({ x: x, y: y, w: r.width, h: r.height, fill: cs.backgroundColor });
+    }
+
+    /* the shop-name banner, when the palette carries one */
+    var catLine = el.querySelector('.line.cat');
+    if (catLine && !catLine.hidden) {
+      var bcs = getComputedStyle(catLine);
+      if (bcs.backgroundColor && bcs.backgroundColor !== 'rgba(0, 0, 0, 0)') {
+        var br = catLine.getBoundingClientRect();
+        scene.rects.push({ x: br.left - ox, y: br.top - oy, w: br.width, h: br.height, fill: bcs.backgroundColor });
+      }
+    }
+
+    var strip = el.querySelector('.footer-strip');
+    var stripH = 0;
+    if (strip && getComputedStyle(strip).display !== 'none') {
+      var sr = strip.getBoundingClientRect();
+      stripH = sr.height;
+      scene.rects.push({ x: sr.left - ox, y: sr.top - oy, w: sr.width, h: sr.height,
+                         fill: getComputedStyle(strip).backgroundColor });
+    }
+
+    if (el.classList.contains('ruled') && el.dataset.level === '3') {
+      var inset = mat + 4;
+      scene.rects.push({ x: x + inset, y: y + inset,
+                         w: r.width - inset * 2, h: r.height - inset - stripH - mat - 4,
+                         stroke: cs.getPropertyValue('--rule').trim() || '#000', width: 2 });
+    }
+
+    el.querySelectorAll('.line').forEach(function (line) {
+      var run = lineRun(line, ox, oy);
+      if (run) scene.runs.push(run);
+    });
+  });
+
+  return scene;
+}
+
+/* --- PNG: paint the scene with the faces the page already has --------- */
+function renderCanvas(scene, scale) {
+  var canvas = document.createElement('canvas');
+  canvas.width = Math.round(scene.w * scale);
+  canvas.height = Math.round(scene.h * scale);
+  var ctx = canvas.getContext('2d');
+  ctx.scale(scale, scale);
+  ctx.fillStyle = scene.bg || '#fff';
+  ctx.fillRect(0, 0, scene.w, scene.h);
+
+  scene.rects.forEach(function (r) {
+    if (r.stroke) {
+      ctx.strokeStyle = r.stroke;
+      ctx.lineWidth = r.width || 1;
+      ctx.strokeRect(r.x + (r.width || 1) / 2, r.y + (r.width || 1) / 2,
+                     Math.max(0, r.w - (r.width || 1)), Math.max(0, r.h - (r.width || 1)));
+    } else {
+      ctx.fillStyle = r.fill;
+      ctx.fillRect(r.x, r.y, r.w, r.h);
+    }
+  });
+
+  scene.runs.forEach(function (run) {
+    ctx.save();
+    ctx.font = run.style + ' ' + run.weight + ' ' + run.size + 'px ' + run.family;
+    if ('letterSpacing' in ctx) ctx.letterSpacing = run.letterSpacing + 'px';
+    ctx.textAlign = 'left';
+    ctx.textBaseline = 'alphabetic';
+    var width = ctx.measureText(run.text).width;
+    /* the DOM cancels the trailing letter-space to keep the line centred */
+    var x = run.cx - (width - run.letterSpacing) / 2;
+
+    run.shadows.slice().reverse().forEach(function (s) {
+      ctx.fillStyle = s.color;
+      ctx.fillText(run.text, x + s.dx, run.baseline + s.dy);
+    });
+    if (run.strokeWidth) {
+      ctx.strokeStyle = run.stroke;
+      ctx.lineWidth = run.strokeWidth * 2;   /* CSS strokes centred, fill covers the inner half */
+      ctx.lineJoin = 'round';
+      ctx.strokeText(run.text, x, run.baseline);
+    }
+    if (run.gradient) {
+      var g = ctx.createLinearGradient(x, 0, x + width, 0);
+      var stops = run.gradient.match(/#[0-9a-f]{3,8}|rgba?\([^)]+\)/gi) || ['#fff'];
+      stops.forEach(function (c, i) { g.addColorStop(stops.length === 1 ? 0 : i / (stops.length - 1), c); });
+      ctx.fillStyle = g;
+    } else {
+      ctx.fillStyle = run.fill;
+    }
+    ctx.fillText(run.text, x, run.baseline);
+    ctx.restore();
+  });
+  return canvas;
+}
+
+/* --- SVG: real vectors, with the faces embedded so it travels ---------- */
+function fontFileFor(family) {
+  var name = family.replace(/['"]/g, '').split(',')[0].trim();
+  var sg = (window.SG85 && window.SG85.faces || []).filter(function (f) { return f.utm === name; })[0];
+  if (sg) return 'fonts/saigon1985/' + sg.file;
+  var utm = (window.UTM && window.UTM.faces || []).filter(function (f) { return f.utm === name; })[0];
+  if (utm && exportManifest) {
+    var want = name.toLowerCase().replace(/[^a-z0-9]/g, '');
+    var hit = exportManifest.filter(function (file) {
+      return file.toLowerCase().replace(/\.[a-z0-9]+$/, '').replace(/[^a-z0-9]/g, '').indexOf(want) !== -1;
+    })[0];
+    if (hit) return 'fonts/' + hit;
+  }
+  return null;
+}
+
+var exportManifest = null;
+function loadExportManifest() {
+  if (exportManifest) return Promise.resolve(exportManifest);
+  return fetch('fonts/manifest.json').then(function (r) { return r.json(); })
+    .then(function (j) { exportManifest = j.files || []; return exportManifest; })
+    .catch(function () { exportManifest = []; return exportManifest; });
+}
+
+function embedFonts(scene) {
+  var families = {};
+  scene.runs.forEach(function (run) {
+    var name = run.family.replace(/['"]/g, '').split(',')[0].trim();
+    if (name) families[name] = true;
+  });
+  return loadExportManifest().then(function () {
+    var jobs = Object.keys(families).map(function (name) {
+      var url = fontFileFor(name);
+      if (!url) return Promise.resolve('');
+      return fetch(encodeURI(url)).then(function (r) { return r.ok ? r.arrayBuffer() : null; })
+        .then(function (buf) {
+          if (!buf) return '';
+          var bytes = new Uint8Array(buf), bin = '';
+          for (var i = 0; i < bytes.length; i++) bin += String.fromCharCode(bytes[i]);
+          return "@font-face{font-family:'" + name + "';src:url(data:font/ttf;base64," +
+                 btoa(bin) + ") format('truetype');}";
+        }).catch(function () { return ''; });
+    });
+    return Promise.all(jobs).then(function (css) { return css.join('\n'); });
+  });
+}
+
+function esc(s) {
+  return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+
+function renderSVG(scene, fontCSS) {
+  var out = ['<svg xmlns="http://www.w3.org/2000/svg" width="' + scene.w + '" height="' + scene.h +
+             '" viewBox="0 0 ' + scene.w + ' ' + scene.h + '">'];
+  out.push('<style>' + fontCSS + '</style>');
+  out.push('<rect width="' + scene.w + '" height="' + scene.h + '" fill="' + (scene.bg || '#fff') + '"/>');
+
+  scene.rects.forEach(function (r) {
+    if (r.stroke) {
+      out.push('<rect x="' + r.x.toFixed(1) + '" y="' + r.y.toFixed(1) + '" width="' + Math.max(0, r.w).toFixed(1) +
+        '" height="' + Math.max(0, r.h).toFixed(1) + '" fill="none" stroke="' + r.stroke +
+        '" stroke-width="' + (r.width || 1) + '"/>');
+    } else {
+      out.push('<rect x="' + r.x.toFixed(1) + '" y="' + r.y.toFixed(1) + '" width="' + Math.max(0, r.w).toFixed(1) +
+        '" height="' + Math.max(0, r.h).toFixed(1) + '" fill="' + r.fill + '"/>');
+    }
+  });
+
+  var gradId = 0;
+  scene.runs.forEach(function (run) {
+    var attrs = 'x="' + run.cx.toFixed(1) + '" y="' + run.baseline.toFixed(1) +
+      '" text-anchor="middle" font-family="' + esc(run.family.replace(/"/g, "'")) +
+      '" font-size="' + run.size.toFixed(2) + '" font-weight="' + run.weight +
+      '" letter-spacing="' + run.letterSpacing.toFixed(2) + '"';
+    run.shadows.slice().reverse().forEach(function (s) {
+      out.push('<text ' + attrs + ' transform="translate(' + s.dx.toFixed(2) + ',' + s.dy.toFixed(2) +
+        ')" fill="' + s.color + '">' + esc(run.text) + '</text>');
+    });
+    var fill = run.fill;
+    if (run.gradient) {
+      var stops = run.gradient.match(/#[0-9a-f]{3,8}|rgba?\([^)]+\)/gi) || ['#fff'];
+      var id = 'g' + (++gradId);
+      out.push('<defs><linearGradient id="' + id + '">' + stops.map(function (c, i) {
+        return '<stop offset="' + (stops.length === 1 ? 0 : i / (stops.length - 1)) + '" stop-color="' + c + '"/>';
+      }).join('') + '</linearGradient></defs>');
+      fill = 'url(#' + id + ')';
+    }
+    if (run.strokeWidth) {
+      out.push('<text ' + attrs + ' fill="' + fill + '" stroke="' + run.stroke + '" stroke-width="' +
+        (run.strokeWidth * 2).toFixed(2) + '" stroke-linejoin="round" paint-order="stroke">' + esc(run.text) + '</text>');
+    } else {
+      out.push('<text ' + attrs + ' fill="' + fill + '">' + esc(run.text) + '</text>');
+    }
+  });
+  out.push('</svg>');
+  return out.join('\n');
+}
+
+function saveBlob(blob, filename) {
+  var url = URL.createObjectURL(blob), link = document.createElement('a');
+  link.href = url;
+  link.download = filename;
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+  setTimeout(function () { URL.revokeObjectURL(url); }, 1500);
+}
+
+function exportImage(format) {
+  if (!tree) { say('Chưa có bảng để xuất.'); return; }
+  var scope = exportScope();
+  var rect = scope.el.getBoundingClientRect();
+  if (rect.width < 2 || rect.height < 2) { say('Chưa có bảng để xuất.'); return; }
+
+  var name = 'pho-bang-hieu-' + themeKey + '-' + slug(scope.whole ? 'ca-tuong' : scope.label);
+  var scene = buildScene(scope);
+
+  if (format === 'svg') {
+    say('Đang dựng SVG…');
+    embedFonts(scene).then(function (fontCSS) {
+      saveBlob(new Blob([renderSVG(scene, fontCSS)], { type: 'image/svg+xml;charset=utf-8' }), name + '.svg');
+      say('Đã xuất SVG · ' + scope.label + '.');
+    });
+    return;
+  }
+
+  say('Đang dựng PNG…');
+  var scale = Math.max(1, Math.min(3, 2400 / Math.max(scene.w, scene.h)));
+  renderCanvas(scene, scale).toBlob(function (blob) {
+    if (!blob) { say('Không tạo được ảnh PNG.'); return; }
+    saveBlob(blob, name + '.png');
+    say('Đã xuất PNG · ' + scope.label + ' · ' + Math.round(scene.w * scale) + '×' + Math.round(scene.h * scale) + '.');
+  }, 'image/png');
 }
 
 function wireChrome() {
@@ -1604,7 +1859,8 @@ function wireChrome() {
       else if (act === 'undo') undoState();
       else if (act === 'redo') redoState();
       else if (act === 'theme') setTheme(theme().other);
-      else if (act === 'export') exportPNG();
+      else if (act === 'export') exportImage('png');
+      else if (act === 'export-svg') exportImage('svg');
       else if (act === 'fonts') toggleDrawer();
       else if (act === 'hide') { document.body.classList.add('chrome-off'); }
     });

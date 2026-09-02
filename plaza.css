@@ -234,7 +234,13 @@ body.dragging .sign { pointer-events: none; }
 }
 .dock-brand b { font: 900 .82rem/1 "Alfa Slab One", Georgia, serif; letter-spacing: .02em; }
 .dock-brand span { color: #8fc6cf; font-size: .54rem; font-weight: 700; letter-spacing: .07em; }
-.dock-actions { display: flex; gap: 5px; }
+.dock-actions { display: flex; align-items: stretch; gap: 9px; }
+/* buttons sit in labelled groups — content, layout, history, export, tools —
+   divided by a hairline so the dock reads as sections, not one long row */
+.dock-group { display: flex; gap: 3px; padding-right: 9px; border-right: 1px solid rgba(255, 255, 255, .22); }
+.dock-group:last-child { padding-right: 0; border-right: 0; }
+.dock button:disabled { opacity: .4; cursor: default; }
+.dock button:disabled:hover { background: var(--paper); }
 .dock button {
   min-height: 38px;
   padding: 0 11px;
@@ -252,6 +258,7 @@ body.dragging .sign { pointer-events: none; }
 .dock button:hover { background: var(--yellow); }
 .dock button:disabled { cursor: not-allowed; filter: grayscale(1); opacity: .38; }
 .dock button[data-act="shuffle"] { color: #fff; background: var(--red); }
+.dock button[data-act="theme"] { font-variant-numeric: tabular-nums; letter-spacing: .06em; }
 .dock button[data-act="shuffle"]:hover { background: #e5313c; }
 .dock button[aria-pressed="true"] { color: #fff; background: var(--blue); }
 
@@ -448,6 +455,8 @@ body[data-theme="sg85"] .dock-brand b {
 }
 body[data-theme="sg85"] .dock-brand span { color: #8fc0a8; }
 body[data-theme="sg85"] .dock button { color: #17453b; background: var(--board-ink); }
+body[data-theme="sg85"] .dock-group { border-right-color: rgba(233, 201, 106, .45); }
+body[data-theme="sg85"] .dock button:disabled:hover { background: var(--board-ink); }
 body[data-theme="sg85"] .dock button:hover { background: var(--gold); }
 body[data-theme="sg85"] .dock button[data-act="shuffle"] { color: #f7f1e3; background: #b8352a; }
 body[data-theme="sg85"] .dock button[data-act="shuffle"]:hover { background: #cd3f31; }
@@ -481,13 +490,14 @@ body[data-theme="sg85"] .drawer-close { color: #17453b; background: var(--gold);
 }
 .toast.show { opacity: 1; transform: translateY(0); }
 
-/* On a phone the dock is a lodger on someone else's wall: shrink it to five
-   icons in one row so it covers as little signage as possible. */
+/* On a phone the dock is a lodger on someone else's wall: icons only, and the
+   groups wrap rather than squeezing ten buttons onto one line. */
 @media (max-width: 620px) {
   :root { --gut: 6px; }
   .dock { right: 8px; left: 8px; bottom: 8px; padding: 5px; gap: 4px; }
   .dock-brand { display: none; }
-  .dock-actions { width: 100%; gap: 3px; }
+  .dock-actions { width: 100%; flex-wrap: wrap; gap: 5px; }
+  .dock-group { flex: 1 1 auto; padding-right: 5px; }
   .dock button { min-width: 0; min-height: 40px; flex: 1 1 0; padding: 0; font-size: .84rem; }
   .dock button span { display: none; }
   .peek { left: 8px; bottom: 8px; }

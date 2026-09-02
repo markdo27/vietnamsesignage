@@ -35,15 +35,31 @@
       <span id="brandNote">BỘ PHÔNG CHỮ BIỂN HIỆU SÀI GÒN XƯA</span>
     </div>
     <div class="dock-actions">
-      <button type="button" data-act="shuffle" aria-label="Xáo toàn bộ phố" title="Đổi toàn bộ tiệm (R)"><i>🎲</i><span>XÁO PHỐ</span></button>
-      <button type="button" data-act="add" aria-label="Thêm một bảng" title="Thêm một bảng (A)"><i>＋</i><span>THÊM BẢNG</span></button>
-      <button type="button" data-act="undo" aria-label="Hoàn tác" title="Hoàn tác (Ctrl+Z)" disabled><i>↶</i><span>HOÀN TÁC</span></button>
-      <button type="button" data-act="redo" aria-label="Làm lại" title="Làm lại (Ctrl+Y)" disabled><i>↷</i><span>LÀM LẠI</span></button>
-      <button type="button" data-act="theme" aria-label="Đổi thời kỳ" title="Đổi thời kỳ (T)"><i>⏳</i><span>NAY</span></button>
-      <button type="button" data-act="relayout" aria-label="Tạo bố cục mới" title="Bố cục ngẫu nhiên mới (N)"><i>▦</i><span>BỐ CỤC MỚI</span></button>
-      <button type="button" data-act="export" aria-label="Xuất ảnh PNG" title="Xuất ảnh PNG"><i>⇩</i><span>XUẤT PNG</span></button>
-      <button type="button" data-act="fonts" aria-label="Mở bảng chọn font" aria-pressed="false" aria-controls="drawer" title="Hệ font UTM (F)"><i>🔤</i><span>FONT</span></button>
-      <button type="button" data-act="hide" aria-label="Ẩn bảng điều khiển" title="Ẩn bảng điều khiển (H)"><i>👁</i><span>ẨN</span></button>
+      <!-- what is on the wall -->
+      <div class="dock-group" role="group" aria-label="Nội dung">
+        <button type="button" data-act="shuffle" aria-label="Xáo toàn bộ phố" title="Đổi toàn bộ tiệm (R)"><i>🎲</i><span>XÁO PHỐ</span></button>
+        <button type="button" data-act="theme" aria-label="Đổi thời kỳ" title="Đổi thời kỳ (T)"><i>⏳</i><span>2010</span></button>
+      </div>
+      <!-- how it is arranged -->
+      <div class="dock-group" role="group" aria-label="Bố cục">
+        <button type="button" data-act="add" aria-label="Thêm một bảng" title="Thêm một bảng (A)"><i>＋</i><span>THÊM BẢNG</span></button>
+        <button type="button" data-act="relayout" aria-label="Tạo bố cục mới" title="Bố cục ngẫu nhiên mới (N)"><i>▦</i><span>BỐ CỤC MỚI</span></button>
+      </div>
+      <!-- undoing it -->
+      <div class="dock-group" role="group" aria-label="Lịch sử">
+        <button type="button" data-act="undo" aria-label="Hoàn tác" title="Hoàn tác (Ctrl+Z)" disabled><i>↶</i><span>HOÀN TÁC</span></button>
+        <button type="button" data-act="redo" aria-label="Làm lại" title="Làm lại (Ctrl+Y)" disabled><i>↷</i><span>LÀM LẠI</span></button>
+      </div>
+      <!-- taking it away -->
+      <div class="dock-group" role="group" aria-label="Xuất file">
+        <button type="button" data-act="export" aria-label="Xuất ảnh PNG" title="Xuất PNG — bảng đang chọn, hoặc cả tường nếu chưa chọn bảng nào"><i>🖼</i><span>XUẤT PNG</span></button>
+        <button type="button" data-act="export-svg" aria-label="Xuất file SVG" title="Xuất SVG vector — bảng đang chọn, hoặc cả tường nếu chưa chọn bảng nào"><i>✎</i><span>XUẤT SVG</span></button>
+      </div>
+      <!-- the app itself -->
+      <div class="dock-group" role="group" aria-label="Công cụ">
+        <button type="button" data-act="fonts" aria-label="Mở bảng chọn font" aria-pressed="false" aria-controls="drawer" title="Hệ font (F)"><i>🔤</i><span>FONT</span></button>
+        <button type="button" data-act="hide" aria-label="Ẩn bảng điều khiển" title="Ẩn bảng điều khiển (H)"><i>👁</i><span>ẨN</span></button>
+      </div>
     </div>
   </div>
   <button type="button" class="peek" id="peek">▲ HIỆN BẢNG ĐIỀU KHIỂN</button>

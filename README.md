@@ -17,7 +17,7 @@ board of the reference sheet: signs hang as white-matted photographs with
 painted keylines, in enamel inks sampled from the originals — the oxide red and
 navy of HIỀN KHÁNH, the works blue of CHỈ SƠN, the maroon and gold of HỒNG KÝ.
 Press the era button (or `T`) and the same wall — same layout, same shops, same
-words, every hand edit intact — is re-lettered as **PHỐ HÔM NAY**: today's
+words, every hand edit intact — is re-lettered as **PHỐ 2010**: today's
 neon vinyl in the UTM system, with its own grammar: per-line ink rotation,
 keylines on everything, a flat hierarchy and name banners. A sign keeps its
 colour *intent* across the switch, so the wall's rhythm survives while its
@@ -41,11 +41,23 @@ century changes.
 | **🎲 XÁO PHỐ** | Re-deal every shop on the wall. |
 | **＋ THÊM BẢNG** | Split the largest sign to hang one more. |
 | **▦ BỐ CỤC MỚI** | Generate a fresh mosaic. |
-| **⏳ 1985 / NAY** | Switch era. Layout, shops and edits all survive. |
+| **⏳ 1985 / 2010** | Switch era. Layout, shops and edits all survive. |
+| **🖼 XUẤT PNG / ✎ XUẤT SVG** | Export the selected sign, or the whole wall when nothing is selected. |
 | **🔤 FONT** | Open the type drawer for the selected sign. |
 | **👁 ẨN** | Hide the chrome for a clean screenshot. |
 
-Keyboard: `R` reshuffle, `A` add, `N` new layout, `T` era, `F` fonts, `H` hide chrome, `Esc` deselect.
+Keyboard: `R` reshuffle, `A` add, `N` new layout, `T` era, `F` fonts, `H` hide chrome, `Esc` deselect, `Ctrl+Z` / `Ctrl+Y` undo and redo.
+
+The dock is grouped by what each button touches: what is on the wall, how it is
+arranged, undoing it, taking it away, and the app itself.
+
+**Export** writes from primitives rather than screenshotting the page. PNG paints
+onto a canvas with the faces already loaded; SVG writes real `<rect>` and
+`<text>` and embeds the faces it used as base64, so the file opens correctly on
+a machine that has never had UTM installed — and stays editable as vectors. Both
+export the selected sign alone, or the whole wall when nothing is selected. The
+vinyl texture overlay is deliberately left out of both; it is a screen effect,
+not something you want baked into a file you are going to print or edit.
 
 ## How the board works
 
@@ -193,7 +205,7 @@ every recipe pairs one wide face for the name with a narrow one for the detail.
 The ten files live in `fonts/saigon1985/` and are committed, so a fresh clone
 letters this era with no setup and the drawer reports `10/10`.
 
-### Phố hôm nay — the UTM system
+### Phố 2010 — the UTM system
 
 Today's theme is set in the **UTM pack** — the ~500-face collection every Vietnamese
 sign shop actually uses. It is also legally unshippable: the faces are

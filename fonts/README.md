@@ -24,7 +24,7 @@ so in the drawer.
 Every one of the ten covers the full 134-character Vietnamese repertoire with
 real accented glyphs — verified, not assumed — so nothing loses a dấu.
 
-## UTM files — the PHỐ HÔM NAY theme
+## UTM files — the PHỐ 2010 theme
 
 The 196 `UTM *.ttf` files in this folder are the full pack, committed at the
 repository owner's decision, and `manifest.json` lists the 33 of them the
