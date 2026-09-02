@@ -312,7 +312,7 @@ var THEMES = {
   sg85: {
     label: 'SÀI GÒN 1985', short: '1985', other: 'nay',
     system: 'SG85', palettes: VINTAGE, gut: 11, mat: true,
-    justify: true, extrude: true, track: 0.16, leading: 0.97, gapSpend: 0.16,
+    justify: true, extrude: true, track: 0.16, leading: 1.02, gapSpend: 0.16,
     brand: 'Sàigòn 1985', tagline: 'BỘ PHÔNG CHỮ BIỂN HIỆU SÀI GÒN XƯA',
     note: function (report, system) {
       return report.genuine + '/' + report.total + ' mặt chữ Sài Gòn 1985 đã nạp. ' +
@@ -324,7 +324,7 @@ var THEMES = {
     label: 'PHỐ HÔM NAY', short: 'NAY', other: 'sg85',
     system: 'UTM', palettes: MODERN, gut: 7, mat: false,
     justify: true, track: 0.22, rotate: true, outline: true, dropShadow: true,
-    leading: 0.84, gapSpend: 0.03,
+    leading: 0.94, gapSpend: 0.07,
     brand: 'PHỐ BẢNG HIỆU', tagline: 'KÉO MÉP ĐỂ ĐỔI CỠ · BẤM VÀO CHỮ ĐỂ SỬA',
     note: function (report) {
       return report.genuine + '/' + report.total + ' mặt chữ UTM thật có sẵn trên máy này. ' +
