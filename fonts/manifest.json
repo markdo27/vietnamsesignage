@@ -1,0 +1,4 @@
+{
+  "_comment": "List UTM font files placed in this folder and the app will load them on startup. Files themselves are gitignored — see README.md.",
+  "files": []
+}

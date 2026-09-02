@@ -2,3 +2,12 @@
 node_modules/
 .env
 *.log
+
+# UTM font files are never committed — unauthorized derivatives of commercial
+# typefaces. See docs/utm-font-system.md.
+fonts/*
+!fonts/README.md
+!fonts/manifest.json
+
+# git bundle used to move this project between machines
+*.bundle
