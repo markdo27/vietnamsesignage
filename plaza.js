@@ -133,7 +133,67 @@ var SHOPS = {
   'sua-khoa': { label: 'Sửa khóa', icon: 'SK', cat: 'SỬA KHÓA · MÀI DAO', like: 'sua-xe', pal: ['red', 'orange', 'light'],
     name: ['CHÚ BẢY', 'LƯU ĐỘNG', 'TÂN TIẾN'],
     tagline: ['CHÌA KHÓA XE · NHÀ', 'MỞ KHÓA TẬN NƠI', 'MÀI DAO KÉO'],
-    footer: ['CÓ MẶT SAU 15 PHÚT', '0977 246 802'] }
+    footer: ['CÓ MẶT SAU 15 PHÚT', '0977 246 802'] },
+
+  'banh-trang-tron': { label: 'Bánh tráng trộn', icon: 'BT', cat: 'BÁNH TRÁNG TRỘN', like: 'banh-mi', pal: ['yellow', 'orange', 'red', 'light'],
+    name: ['CHÚ VIÊN', 'CÔ GIANG', 'BÀ CHẢNH', 'DÌ BA', 'SỐ 1'],
+    tagline: ['MUỐI TÔM TÂY NINH · BÒ ĐỎ', 'TRỨNG CÚT LÒNG ĐÀO · BÒ KHÔ', 'SỐT ME BƠ BÉO · HÀNH PHI', 'CUỐN · TRỘN · NƯỚNG GIÒN'],
+    footer: ['15K — 25K / PHẦN', 'ĂN LÀ GHIỀN · BÁN TỪ 13H', 'GIAO TẬN NƠI · 0938 123 789'] },
+
+  'massage': { label: 'Massage', icon: 'MS', cat: 'MASSAGE KHIẾM THỊ', like: 'nail-spa', pal: ['purple', 'teal', 'light', 'green'],
+    name: ['Ánh Dương', 'Minh Tâm', 'Đồng Đội', 'Hoàng Gia', 'Tâm An'],
+    tagline: ['XÔNG HƠI · BẤM HUYỆT · DAY ẤN', 'ĐÁ NÓNG · PHỤC HỒI CỘT SỐNG', 'TRỊ LIỆU VAI GÁY TẬN GỐC', 'LÀNH MẠNH · KỸ THUẬT VIÊN KHIẾM THỊ'],
+    footer: ['100K / 60 PHÚT', 'CÓ PHÒNG NAM · NỮ RIÊNG', 'ĐẶT LỊCH 0908 666 888', 'MỞ 9H – 23H'] },
+
+  'ktv': { label: 'KTV', icon: 'KTV', cat: 'KTV · KARAOKE VIP', like: 'karaoke', pal: ['dark', 'red', 'purple'],
+    name: ['NEW WORLD', 'PARADISE', 'HOÀNG GIA', 'HỒNG KÔNG 88', 'DIAMOND'],
+    tagline: ['ÂM THANH 5 TẤC ĐẲNG CẤP', 'PHÒNG BAY HIỆN ĐẠI · LED 3D', 'TIỆC LIÊN HOAN · SINH NHẬT', 'CHỌN BÀI MÀN HÌNH CẢM ỨNG'],
+    footer: ['GIỜ VÀNG GIẢM 30%', 'HOTLINE: 0989 999 888', 'PHỤC VỤ XUYÊN ĐÊM'] },
+
+  'hu-tiu-go': { label: 'Hủ tíu gõ', icon: 'HTG', cat: 'HỦ TÍU GÕ · MÌ GÕ', like: 'quan-com', pal: ['red', 'yellow', 'light'],
+    name: ['GỐC CÂY ĐA', 'CHÚ BẢY', 'CÔ TÁM BÉO', 'SỐ 49', 'MÌ GÕ SÀI GÒN'],
+    tagline: ['HỦ TÍU XƯƠNG · THỊT HEO LÁT', 'HOÀNH THÁNH CHIÊN · NƯỚC SÚP NGỌT', 'MÌ TƯƠI MỖI TỐI', 'BÁN XUYÊN ĐÊM TỚI SÁNG'],
+    footer: ['20K / TÔ', 'MỞ TỪ 16H30 — 3H SÁNG', 'CÓ BÁN MANG VỀ', 'THÊM XÍ QUÁCH 15K'] },
+
+  'bap-xao': { label: 'Bắp xào', icon: 'BX', cat: 'BẮP XÀO BƠ · HỘT VỊT LỘN', like: 'banh-mi', pal: ['yellow', 'orange', 'light'],
+    name: ['CÔ NGA', 'HỒ CON RÙA', 'DÌ TƯ', 'BÀ NĂM VỈA HÈ'],
+    tagline: ['BẮP NẾP XÀO BƠ RUỐC TÉP', 'HỘT VỊT LỘN RANG ME CÚT LỘN', 'BẮP NƯỚNG MỠ HÀNH CAY', 'THƠM NỨC MŨI · ĂN NÓNG'],
+    footer: ['15K — 20K / PHẦN', 'BÁN TỪ 15H ĐẾN KHUYA', 'GÓI MANG ĐI'] },
+
+  'bun-bo': { label: 'Bún bò Huế', icon: 'BB', cat: 'BÚN BÒ HUẾ', like: 'quan-com', pal: ['red', 'light', 'orange'],
+    name: ['O NỞ', 'SÔNG HƯƠNG', 'ĐÔNG BA', 'MỤ RỚT', 'GIA HỘI'],
+    tagline: ['BẮP BÒ · NẠM · GIÒ HEO · CHẢ CUA', 'MẮM RUỐC HUẾ NGUYÊN CHẤT GIA TRUYỀN', 'NƯỚC DÙNG ĐẬM ĐÀ CAY NỒNG'],
+    footer: ['35K / TÔ ĐẶC BIỆT', 'MỞ CẢ NGÀY TỪ 6H', 'RAU SỐNG HOA CHUỐI MIỄN PHÍ'] },
+
+  'tra-sua': { label: 'Trà sữa', icon: 'TS', cat: 'TRÀ SỮA NHÀ LÀM · ĂN VẶT', like: 'ca-phe', pal: ['pink', 'yellow', 'teal'],
+    name: ['CÔ TẤM', 'MÈO BÉO', 'CHILL', 'GEN Z', 'GÓC PHỐ'],
+    tagline: ['TRÂN CHÂU ĐƯỜNG ĐEN · KHOAI MÔN', 'TRÀ ĐÀO · TRÀ DÂU TƯƠI', 'CÁ VIÊN CHIÊN · XÚC XÍCH LẮC'],
+    footer: ['15K — 30K / LY', 'MUA 2 LY FREE SHIP', '0977 123 456'] },
+
+  'che-thai': { label: 'Chè Thái', icon: 'CH', cat: 'CHÈ THÁI SẦU RIÊNG · CHÈ BƯỞI', like: 'ca-phe', pal: ['yellow', 'green', 'pink', 'light'],
+    name: ['Ý PHƯƠNG', 'CÔ BA', 'HÀ NỘI PHỐ', 'HIỂN KHÁNH'],
+    tagline: ['SẦU RIÊNG TƯƠI NGUYÊN CHẤT', 'CỐT DỪA THƠM BÉO · THẠCH THẢO MỘC', 'KHÔNG DÙNG ĐƯỜNG HÓA HỌC'],
+    footer: ['25K / LY', 'MỞ 10H – 23H', 'GIAO HÀNG TẬN NƠI 0909 333 555'] },
+
+  'pha-lau': { label: 'Phá lấu', icon: 'PL', cat: 'PHÁ LẤU BÒ · BÁNH MÌ', like: 'quan-com', pal: ['orange', 'red', 'yellow'],
+    name: ['DÌ LIÊN', 'CÔ THẢO', 'KHU CHỢ THIẾC', 'BÀ HẠNH'],
+    tagline: ['LÒNG BÒ NƯỚC CỐT DỪA BÉO', 'ĂN KÈM BÁNH MÌ GIÒN RỤM', 'NƯỚC MẮM TẮC CHUA CAY ĐẶC BIỆT'],
+    footer: ['25K — 30K / CHÉN', 'BÁN TỪ 13H ĐẾN HẾT', 'CÓ MÌ GÓI PHÁ LẤU'] },
+
+  'quan-oc': { label: 'Quán ốc', icon: 'ỐC', cat: 'ỐC SÀI GÒN · HẢI SẢN', like: 'bia-tuoi', pal: ['red', 'yellow', 'green', 'blue'],
+    name: ['ỐC NHỚ', 'ỐC ĐÀO', 'ỐC MẮM SỮA', 'ỐC XUÂN', 'SỐ 9'],
+    tagline: ['ỐC HƯƠNG TRỨNG MUỐI · CÀ NA XÀO ME', 'NGHÊU HẤP SẢ · CÀNG GHẸ RANG MUỐI', 'MỒI BÉN · BIA LẠNH'],
+    footer: ['ĐỒNG GIÁ 40K', 'MỞ 15H ĐẾN 2H SÁNG', 'BÌNH DÂN · VỈA HÈ'] },
+
+  'banh-xeo': { label: 'Bánh xèo', icon: 'BX', cat: 'BÁNH XÈO MIỀN TÂY · BÁNH KHỌT', like: 'quan-com', pal: ['yellow', 'red', 'light'],
+    name: ['BÀ HAI', 'ĂN LÀ GHIỀN', 'SỐ 135', 'MƯỜI XIỀM'],
+    tagline: ['VỎ GIÒN RỤM · TÔM THỊT GIÁ ĐỖ', 'RAU RỪNG MIỄN PHÍ THỎA THÍCH', 'NƯỚC MẮM TỎI ỚT GIA TRUYỀN'],
+    footer: ['35K / CÁI', 'MỞ TỪ 10H SÁNG', 'GÓI MANG VỀ CÓ RAU ĐỦ'] },
+
+  'rua-xe': { label: 'Rửa xe', icon: 'RX', cat: 'RỬA XE BỌT TUYẾT · THAY NHỚT', like: 'sua-xe', pal: ['blue', 'teal', 'orange'],
+    name: ['TÁM XE', 'HOÀNG PHÁT', 'SẠCH BÓNG', '24H'],
+    tagline: ['RỬA XE MÁY · XE Ô TÔ', 'THAY NHỚT CHÍNH HÃNG CASTROL MOTUL', 'XỊT GẦM · DƯỠNG SƠN · BƠM LỐP'],
+    footer: ['XE MÁY 25K — TAY GA 30K', 'NHANH GỌN SẠCH', 'MỞ 6H – 20H'] }
 };
 
 /* ===========================================================================

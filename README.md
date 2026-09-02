@@ -5,7 +5,7 @@ A web app for recreating the visual language of classic Vietnamese street-vendor
 ## What's here right now
 
 **A wall of signs that fills the whole screen.** Open it and you get a mosaic of
-Vietnamese shopfront signs — twenty trades, each with its own type recipe,
+Vietnamese shopfront signs — 32 trades (cơm tấm, bánh mì, hủ tíu gõ, bánh tráng trộn, bắp xào, cà phê, massage, KTV, sửa xe...), each with its own type recipe,
 palette convention and copy — packed edge to edge with no gaps and no page
 scroll. Every seam between two signs is draggable: pull one and it takes space
 from its neighbour, that sign's typography re-sizes to its new box, and nothing
