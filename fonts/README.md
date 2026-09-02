@@ -1,11 +1,34 @@
 # fonts/
 
-Drop your own UTM font files here, or load them straight into the app.
+Two font sets live here, one per theme. **Nothing in this folder is committed** —
+`.gitignore` excludes every font file.
 
-**Nothing in this folder is committed.** `.gitignore` excludes every font file —
-the UTM pack is a set of unauthorized Vietnamese-diacritic grafts onto
+## `saigon1985/` — the SÀI GÒN 1985 theme
+
+Ten faces traced off surviving Saigon shopfronts by **Thái Hiếu**
+(fontzin.com · fb.com/thaihieufz), from the pack *10 Font Sài Gòn Xưa*:
+
+```
+CHI SON 1.ttf   CHI SON 2.ttf      HIEN KHANH 1.ttf  HIEN KHANH 2.ttf
+HIEN KHANH 3.ttf  HONG KY 1.ttf    HONG KY 2.ttf     PHAT TAI.ttf
+SAIGON1985.ttf    SG85-CUA HANG.ttf
+```
+
+The designer's terms: **free for any use including commercial, resale
+forbidden.** They are kept out of git out of respect for that — this repo is not
+a distribution channel for someone else's type. Drop the ten `.ttf` files into
+`fonts/saigon1985/` and the 1985 theme picks them up automatically; the font
+drawer reports `10/10 mặt chữ Sài Gòn 1985 đã nạp`. Without them the theme falls
+back to the nearest open faces and says so.
+
+Every one of the ten covers the full 134-character Vietnamese repertoire with
+real accented glyphs — verified, not assumed — so nothing loses a dấu.
+
+## UTM files — the PHỐ HÔM NAY theme
+
+The UTM pack is a set of unauthorized Vietnamese-diacritic grafts onto
 commercial typefaces and must not be redistributed. See
-`../docs/utm-font-system.md`.
+`../docs/utm-font-system.md`. Drop them straight in this folder.
 
 ## Two ways to load them
 

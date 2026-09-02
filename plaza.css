@@ -1,0 +1,497 @@
+/* ===========================================================================
+   PHỐ BẢNG HIỆU — a wall of Vietnamese street-vendor signs that fills the
+   whole screen. The board is a split tree: every sign is a flex item, every
+   seam between two signs is a draggable gutter. Dragging a seam takes space
+   from one sign and gives it to its neighbour, so the screen stays exactly
+   full — no gaps, no scrolling, no dead space.
+   ========================================================================= */
+
+:root {
+  --frame: #00505f;
+  --frame-dark: #00323c;
+  --paper: #f4f1e9;
+  --red: #c51f29;
+  --blue: #163fa5;
+  --green: #008c61;
+  --yellow: #f4d91f;
+  --orange: #ef661c;
+  --purple: #4b168b;
+  --ink: #171717;
+  --gut: 7px;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+  overscroll-behavior: none;
+  background: var(--frame);
+  color: var(--ink);
+  font-family: "Be Vietnam Pro", Arial, sans-serif;
+  -webkit-text-size-adjust: 100%;
+}
+
+button, select, input { font: inherit; color: inherit; }
+:focus-visible { outline: 3px solid #ff4e00; outline-offset: -3px; }
+
+/* --- the wall ----------------------------------------------------------- */
+.wall {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  padding: var(--gut);
+  background: var(--frame);
+  touch-action: none;
+}
+.split { display: flex; flex: 1 1 0; min-width: 0; min-height: 0; }
+.split.row { flex-direction: row; }
+.split.col { flex-direction: column; }
+
+/* --- seams -------------------------------------------------------------- */
+.gutter {
+  position: relative;
+  z-index: 6;
+  flex: 0 0 var(--gut);
+  background: var(--frame);
+  touch-action: none;
+}
+.row > .gutter { cursor: col-resize; }
+.col > .gutter { cursor: row-resize; }
+.gutter::before {                     /* fat invisible hit area */
+  content: "";
+  position: absolute;
+  inset: -5px;
+}
+.gutter::after {                      /* grip mark, revealed on hover */
+  content: "";
+  position: absolute;
+  background: var(--yellow);
+  opacity: 0;
+  transition: opacity .12s ease;
+}
+.row > .gutter::after { inset: calc(50% - 17px) 1px; }
+.col > .gutter::after { inset: 1px calc(50% - 17px); }
+.gutter:hover::after, .gutter.live::after { opacity: 1; }
+body.dragging { user-select: none; }
+body.dragging .sign { pointer-events: none; }
+
+/* --- one sign ----------------------------------------------------------- */
+.sign {
+  --bg: #f4d91f;
+  --cat: #008c61;
+  --name: #c51f29;
+  --tagline: #008c61;
+  --footer-bg: #c51f29;
+  --footer-color: #fff;
+  --name-shadow: transparent;
+  --outline: #fff;
+  --mat: 0px;              /* photo mat, set per sign by the fitter */
+  position: relative;
+  flex: 1 1 0;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+  isolation: isolate;
+  background: var(--bg);
+  box-shadow: inset 0 0 0 2px rgba(0, 0, 0, .14);
+}
+.sign::after {                        /* vinyl / print texture */
+  content: "";
+  position: absolute;
+  z-index: 3;
+  inset: 0;
+  pointer-events: none;
+  opacity: .16;
+  mix-blend-mode: multiply;
+  background-image: repeating-linear-gradient(4deg, transparent 0 3px, rgba(0, 0, 0, .12) 4px);
+}
+.sign.is-selected { box-shadow: inset 0 0 0 4px #fff, inset 0 0 0 9px var(--frame-dark); }
+
+.sign-body {
+  position: absolute;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+.stack {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: max-content;
+  text-align: center;
+  pointer-events: auto;
+}
+.line {
+  margin: .04em 0;
+  padding: 0 .02em;
+  outline: 0;
+  white-space: nowrap;
+  transform-origin: center;
+}
+.line[hidden] { display: none; }
+.cat { color: var(--cat); }
+.name { color: var(--name); text-shadow: .055em .055em 0 var(--name-shadow); }
+.tagline { color: var(--tagline); }
+.sign.outline .name { -webkit-text-stroke: .028em var(--outline); }
+.sign.gradient-name .name {
+  color: transparent;
+  background: var(--name-grad);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: none;
+}
+
+.footer-strip {
+  position: absolute;
+  z-index: 2;
+  inset: auto 0 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding: 0 6px;
+  color: var(--footer-color);
+  background: var(--footer-bg);
+}
+.footer-strip .line { color: inherit; margin: 0; text-shadow: none; }
+
+.badge {
+  position: absolute;
+  z-index: 4;
+  top: 7px;
+  left: 7px;
+  display: grid;
+  place-items: center;
+  min-width: 22px;
+  height: 19px;
+  padding: 0 5px;
+  color: var(--bg);
+  background: var(--cat);
+  font-size: 9px;
+  font-weight: 900;
+  letter-spacing: .06em;
+}
+.sign[data-level="0"] .badge,
+.sign[data-level="1"] .badge,
+.sign[data-level="2"] .badge { display: none; }
+
+/* --- per-sign tools ----------------------------------------------------- */
+.sign-tools {
+  position: absolute;
+  z-index: 5;
+  top: 5px;
+  right: 5px;
+  display: flex;
+  gap: 3px;
+  opacity: 0;
+  transition: opacity .12s ease;
+}
+.sign:hover .sign-tools,
+.sign:focus-within .sign-tools,
+.sign.is-selected .sign-tools { opacity: 1; }
+.sign.is-tiny .sign-tools { display: none; }
+.sign-tools button {
+  display: grid;
+  place-items: center;
+  width: 23px;
+  height: 23px;
+  padding: 0;
+  border: 0;
+  cursor: pointer;
+  color: #fff;
+  background: rgba(0, 0, 0, .58);
+  font-size: 11px;
+  line-height: 1;
+}
+.sign-tools button:hover { background: var(--frame-dark); }
+.sign-tools button[data-tool="close"]:hover { background: var(--red); }
+
+/* --- floating dock ------------------------------------------------------ */
+.dock {
+  position: fixed;
+  z-index: 20;
+  left: 14px;
+  bottom: 14px;
+  display: flex;
+  align-items: stretch;
+  gap: 7px;
+  padding: 7px;
+  background: var(--frame-dark);
+  box-shadow: 5px 5px 0 rgba(0, 0, 0, .3);
+}
+.dock-brand {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 2px;
+  padding: 4px 12px 4px 8px;
+  color: var(--paper);
+}
+.dock-brand b { font: 900 .82rem/1 "Alfa Slab One", Georgia, serif; letter-spacing: .02em; }
+.dock-brand span { color: #8fc6cf; font-size: .54rem; font-weight: 700; letter-spacing: .07em; }
+.dock-actions { display: flex; gap: 5px; }
+.dock button {
+  min-height: 38px;
+  padding: 0 11px;
+  border: 0;
+  cursor: pointer;
+  color: var(--ink);
+  background: var(--paper);
+  font-size: .6rem;
+  font-weight: 900;
+  letter-spacing: .04em;
+  white-space: nowrap;
+}
+.dock button i { font-style: normal; }
+.dock button span { margin-left: 5px; }
+.dock button:hover { background: var(--yellow); }
+.dock button[data-act="shuffle"] { color: #fff; background: var(--red); }
+.dock button[data-act="shuffle"]:hover { background: #e5313c; }
+.dock button[aria-pressed="true"] { color: #fff; background: var(--blue); }
+
+.peek {
+  position: fixed;
+  z-index: 20;
+  left: 14px;
+  bottom: 14px;
+  min-height: 34px;
+  padding: 0 12px;
+  border: 0;
+  cursor: pointer;
+  color: var(--paper);
+  background: var(--frame-dark);
+  font-size: .6rem;
+  font-weight: 900;
+  box-shadow: 4px 4px 0 rgba(0, 0, 0, .3);
+}
+body.chrome-off .dock, body.chrome-off .drawer { display: none; }
+body:not(.chrome-off) .peek { display: none; }
+
+/* --- font drawer -------------------------------------------------------- */
+.drawer {
+  position: fixed;
+  z-index: 21;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: min(340px, 88vw);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  overflow-y: auto;
+  padding: 18px;
+  color: #fff;
+  background: var(--purple);
+  box-shadow: -8px 0 0 rgba(0, 0, 0, .25);
+}
+.drawer[hidden] { display: none; }
+.drawer h2 { margin: 0; font: 900 1.25rem/1 "Alfa Slab One", Georgia, serif; }
+.drawer .eyebrow { margin: 0 0 4px; font-size: .58rem; font-weight: 800; letter-spacing: .16em; }
+.drawer p { margin: 0; color: #e6d9f0; font-size: .6rem; line-height: 1.5; }
+.drawer label { display: block; font-size: .55rem; font-weight: 900; letter-spacing: .08em; text-transform: uppercase; }
+.drawer select {
+  width: 100%;
+  height: 34px;
+  margin-top: 3px;
+  padding: 0 6px;
+  border: 2px solid #fff;
+  border-radius: 0;
+  color: var(--ink);
+  background: #fff;
+  font-size: .62rem;
+  font-weight: 700;
+}
+.drawer-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 26px;
+  height: 26px;
+  border: 0;
+  cursor: pointer;
+  color: var(--purple);
+  background: var(--yellow);
+  font-weight: 900;
+}
+.face-grid { display: grid; gap: 8px; }
+.drawer-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+.drawer-actions button, .font-drop button {
+  min-height: 36px;
+  border: 2px solid #fff;
+  cursor: pointer;
+  color: #fff;
+  background: transparent;
+  font-size: .58rem;
+  font-weight: 900;
+}
+.drawer-actions button:first-child { color: var(--purple); background: var(--yellow); border-color: var(--yellow); }
+.font-status { padding-top: 10px; border-top: 1px solid rgba(255, 255, 255, .35); font-size: .58rem; line-height: 1.5; }
+.font-drop { padding: 12px; border: 2px dashed rgba(255, 255, 255, .6); }
+.font-drop.over { color: var(--purple); background: var(--yellow); border-style: solid; }
+.font-drop button { width: 100%; margin-top: 8px; }
+.drawer .hint { color: #c9b3e0; font-size: .56rem; font-style: italic; }
+
+/* ===========================================================================
+   THEME · PHỐ HÔM NAY
+   Printed vinyl, not paint. Every line carries a keyline — on a printed
+   standee an outline costs nothing, so shops use it on all of them — and the
+   shop name can sit in a solid banner across the board.
+   ========================================================================= */
+body[data-theme="nay"] .line {
+  -webkit-text-stroke: var(--stroke-w, 0px) var(--stroke, transparent);
+  paint-order: stroke fill;
+}
+body[data-theme="nay"] .name { text-shadow: none; }
+body[data-theme="nay"] .sign.bannered .cat {
+  padding: .1em .4em;
+  color: var(--cat);
+  background: var(--banner);
+  -webkit-text-stroke: 0;
+}
+body[data-theme="nay"] .footer-strip .line { -webkit-text-stroke: 0; }
+
+/* ===========================================================================
+   THEME · SÀI GÒN 1985
+   The wall becomes the painted green board of the reference sheet, and each
+   sign is presented the way those signs survive: as a photograph, white-matted,
+   hairline-keyed and pinned up with a little shadow under it. --mat is set per
+   sign in JS (it scales with the cell) and the type fitter is told about it, so
+   nothing ever runs under the mat.
+   ========================================================================= */
+body[data-theme="sg85"] {
+  --frame: #1d5c4f;
+  --frame-dark: #14413a;
+  --gold: #e9c96a;
+  --board-ink: #f2ead5;
+}
+
+body[data-theme="sg85"] .wall {
+  background:
+    radial-gradient(132% 104% at 50% 42%, transparent 38%, rgba(0, 0, 0, .38) 100%),
+    repeating-linear-gradient(64deg, transparent 0 37px, rgba(255, 255, 255, .04) 37px 38px),
+    repeating-linear-gradient(-51deg, transparent 0 53px, rgba(0, 0, 0, .05) 53px 54px),
+    repeating-linear-gradient(11deg, transparent 0 97px, rgba(255, 255, 255, .03) 97px 99px),
+    var(--frame);
+}
+body[data-theme="sg85"] .wall::before,
+body[data-theme="sg85"] .wall::after {   /* the poster's double gold rule */
+  content: "";
+  position: absolute;
+  z-index: 9;
+  pointer-events: none;
+}
+body[data-theme="sg85"] .wall::before { inset: 3px; border: 1.5px solid rgba(233, 201, 106, .8); }
+body[data-theme="sg85"] .wall::after  { inset: 8px; border: 1px dashed rgba(233, 201, 106, .42); }
+
+body[data-theme="sg85"] .sign {
+  box-shadow:
+    inset 0 0 0 var(--mat) #f4efe2,
+    inset 0 0 0 calc(var(--mat) + 1.5px) rgba(18, 28, 26, .5),
+    0 3px 7px rgba(0, 0, 0, .34);
+}
+body[data-theme="sg85"] .sign.is-selected {
+  box-shadow:
+    inset 0 0 0 var(--mat) var(--gold),
+    inset 0 0 0 calc(var(--mat) + 2px) rgba(18, 28, 26, .6),
+    0 3px 7px rgba(0, 0, 0, .34);
+}
+/* The hero word: painted fill, keyline drawn *outside* it (paint-order puts the
+   stroke behind the fill so the letter keeps its weight), and the hard slab
+   behind both — set as a stepped text-shadow in JS, scaled to the type. */
+body[data-theme="sg85"] .line.is-hero {
+  -webkit-text-stroke: var(--stroke-w, 0px) var(--stroke, transparent);
+  paint-order: stroke fill;
+}
+body[data-theme="sg85"] .name { text-shadow: none; }
+
+body[data-theme="sg85"] .sign::after {   /* age, not gloss */
+  opacity: .2;
+  background-image:
+    repeating-linear-gradient(97deg, transparent 0 2px, rgba(0, 0, 0, .1) 3px),
+    radial-gradient(78% 62% at 28% 18%, rgba(255, 244, 214, .3), transparent 72%);
+}
+/* the painted keyline inside the panel — HIỀN KHÁNH's red rule, CỬA HÀNG 99's
+   border. Only on signs big enough to carry all four lines, where the fitter's
+   padding guarantees clearance. */
+body[data-theme="sg85"] .sign.ruled[data-level="3"]::before {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  inset: calc(var(--mat) + 4px) calc(var(--mat) + 4px) calc(var(--mat) + var(--footer-h, 0px) + 4px);
+  border: 2px solid var(--rule);
+  opacity: .85;
+  pointer-events: none;
+}
+body[data-theme="sg85"] .footer-strip { inset: auto var(--mat) var(--mat); }
+body[data-theme="sg85"] .badge {
+  top: calc(var(--mat) + 5px);
+  left: calc(var(--mat) + 5px);
+  letter-spacing: .1em;
+}
+body[data-theme="sg85"] .sign-tools { top: calc(var(--mat) + 4px); right: calc(var(--mat) + 4px); }
+
+body[data-theme="sg85"] .dock {
+  background: var(--frame-dark);
+  box-shadow: 0 0 0 1px rgba(233, 201, 106, .45), 5px 5px 0 rgba(0, 0, 0, .35);
+}
+body[data-theme="sg85"] .dock-brand b {
+  color: var(--gold);
+  font: 400 1.65rem/1 "SG85 Sàigòn 1985", "Alfa Slab One", Georgia, serif;
+  letter-spacing: 0;
+  text-shadow: 1px 1px 0 rgba(0, 0, 0, .45);
+}
+body[data-theme="sg85"] .dock-brand span { color: #8fc0a8; }
+body[data-theme="sg85"] .dock button { color: #17453b; background: var(--board-ink); }
+body[data-theme="sg85"] .dock button:hover { background: var(--gold); }
+body[data-theme="sg85"] .dock button[data-act="shuffle"] { color: #f7f1e3; background: #b8352a; }
+body[data-theme="sg85"] .dock button[data-act="shuffle"]:hover { background: #cd3f31; }
+body[data-theme="sg85"] .dock button[aria-pressed="true"] { color: #17453b; background: var(--gold); }
+body[data-theme="sg85"] .peek { color: var(--gold); background: var(--frame-dark); }
+body[data-theme="sg85"] .toast { background: var(--frame-dark); box-shadow: 0 0 0 1px rgba(233, 201, 106, .4), 4px 4px 0 rgba(0, 0, 0, .3); }
+body[data-theme="sg85"] .drawer { background: var(--frame-dark); box-shadow: -8px 0 0 rgba(0, 0, 0, .3); }
+body[data-theme="sg85"] .drawer h2 { color: var(--gold); }
+body[data-theme="sg85"] .drawer p { color: #cfe0d5; }
+body[data-theme="sg85"] .drawer .hint { color: #9fc9b3; }
+body[data-theme="sg85"] .drawer-actions button:first-child { color: #17453b; background: var(--gold); border-color: var(--gold); }
+body[data-theme="sg85"] .drawer-close { color: #17453b; background: var(--gold); }
+
+/* --- toast -------------------------------------------------------------- */
+.toast {
+  position: fixed;
+  z-index: 30;
+  right: 16px;
+  bottom: 16px;
+  max-width: 320px;
+  padding: 11px 15px;
+  color: #fff;
+  background: var(--frame-dark);
+  font-size: .66rem;
+  font-weight: 800;
+  box-shadow: 4px 4px 0 rgba(0, 0, 0, .3);
+  opacity: 0;
+  transform: translateY(130%);
+  transition: .18s ease;
+}
+.toast.show { opacity: 1; transform: translateY(0); }
+
+/* On a phone the dock is a lodger on someone else's wall: shrink it to five
+   icons in one row so it covers as little signage as possible. */
+@media (max-width: 620px) {
+  :root { --gut: 6px; }
+  .dock { left: 8px; bottom: 8px; padding: 5px; gap: 4px; }
+  .dock-brand { display: none; }
+  .dock-actions { gap: 4px; }
+  .dock button { min-height: 40px; padding: 0 12px; font-size: .95rem; }
+  .dock button span { display: none; }
+  .peek { left: 8px; bottom: 8px; }
+  .toast { left: 8px; right: 8px; bottom: 60px; max-width: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition-duration: .001ms !important; }
+}

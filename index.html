@@ -1,478 +1,64 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="vi">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Bảng Hiệu Generator — UTM Type System</title>
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Alfa+Slab+One&family=Allura&family=Anton&family=Archivo:wdth,wght@62..125,400..900&family=Be+Vietnam+Pro:wght@400;600;700;800;900&family=Bevan&family=Bitter:wght@600;700&family=Charmonman:wght@700&family=Chivo:wght@700;900&family=Dancing+Script:wght@700&family=EB+Garamond:wght@500;600;700&family=Ephesis&family=Great+Vibes&family=Italianno&family=Kanit:wght@600&family=Lobster&family=Mea+Culpa&family=Oswald:wght@600&family=Pinyon+Script&family=Playfair+Display:wght@900&family=Saira+Condensed:wght@700&family=Tektur:wght@600;700&family=Yeseva+One&display=swap">
-
-<style>
-  * { box-sizing: border-box; }
-  body {
-    margin: 0;
-    min-height: 100vh;
-    background: #e7e2d6;
-    background-image:
-      radial-gradient(circle at 20% 20%, rgba(0,0,0,0.03) 0, transparent 45%),
-      radial-gradient(circle at 80% 70%, rgba(0,0,0,0.03) 0, transparent 45%);
-    font-family: 'Be Vietnam Pro', sans-serif;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 40px 16px 60px;
-    color: #1a1a1a;
-  }
-
-  .masthead { text-align: center; max-width: 520px; margin-bottom: 24px; }
-  .masthead .kicker {
-    font-size: 11px; letter-spacing: 3px; font-weight: 700; color: #8a8372;
-    text-transform: uppercase; margin-bottom: 8px;
-  }
-  .masthead h1 {
-    font-weight: 900; font-size: clamp(22px, 6vw, 32px); margin: 0 0 8px;
-    text-transform: uppercase; letter-spacing: 0.5px;
-  }
-  .masthead p { font-size: 13.5px; color: #555; line-height: 1.5; margin: 0; }
-
-  .controls {
-    display: flex; gap: 10px; flex-wrap: wrap; justify-content: center;
-    margin-bottom: 16px;
-  }
-  select, button, input[type=file]::file-selector-button {
-    font-family: inherit; font-size: 13px; font-weight: 700;
-    padding: 10px 16px; border-radius: 3px; border: 2px solid #1a1a1a;
-    background: #fff; cursor: pointer; appearance: none; color: #1a1a1a;
-  }
-  select { background: #fff url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="10" height="6"><path d="M0 0l5 6 5-6z" fill="%231a1a1a"/></svg>') no-repeat right 12px center; padding-right: 30px; }
-  #randomBtn { background: #1a1a1a; color: #fff; }
-  #randomBtn:active, #shuffleType:active { transform: translateY(1px) scale(0.98); }
-  button[aria-pressed="true"] { background: #1a1a1a; color: #fff; }
-
-  /* ---------- type panel ---------- */
-  .typePanel {
-    width: min(680px, 100%); margin: 0 0 22px; padding: 16px 18px 14px;
-    border: 2px solid #1a1a1a; border-radius: 4px; background: #fbf9f3;
-    box-shadow: 4px 4px 0 rgba(26,26,26,0.14);
-  }
-  .typePanel[hidden] { display: none; }
-  .typePanel h2 {
-    margin: 0 0 3px; font-size: 12px; letter-spacing: 2.5px; text-transform: uppercase;
-  }
-  .typePanel .sub { margin: 0 0 14px; font-size: 12px; color: #6b655a; line-height: 1.5; }
-  .typeGrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; }
-  .typeGrid label { display: block; font-size: 10px; letter-spacing: 1.6px; font-weight: 700;
-    text-transform: uppercase; color: #8a8372; margin-bottom: 4px; }
-  .typeGrid select { width: 100%; font-size: 12px; padding: 8px 26px 8px 10px; font-weight: 600; }
-
-  .status { margin-top: 13px; padding-top: 12px; border-top: 1px dashed #cdc6b6;
-    font-size: 12px; line-height: 1.55; color: #4a463d; }
-  .status b { font-weight: 800; }
-  .pill { display: inline-block; padding: 1px 7px; border-radius: 999px; font-size: 10.5px;
-    font-weight: 800; letter-spacing: .4px; vertical-align: 1px; }
-  .pill.real { background: #1a7a3c; color: #fff; }
-  .pill.sub  { background: #e3dccb; color: #5c5648; }
-
-  .dropzone { margin-top: 11px; padding: 12px; border: 2px dashed #bdb5a2; border-radius: 4px;
-    text-align: center; font-size: 12px; color: #6b655a; line-height: 1.5; transition: .15s; }
-  .dropzone.over { border-color: #1a7a3c; background: #eef6ef; color: #1a7a3c; }
-  .dropzone input { display: none; }
-  .dropzone .act { display: inline-flex; gap: 8px; margin-top: 8px; flex-wrap: wrap; justify-content: center; }
-  .dropzone button { padding: 7px 12px; font-size: 11.5px; }
-
-  /* ---------- the sign ---------- */
-  .stage { display: flex; flex-direction: column; align-items: center; }
-
-  .board {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    width: min(300px, 82vw);
-    background: var(--bg);
-    border: 7px solid var(--border);
-    padding: 24px 18px 0;
-    box-shadow: 0 14px 26px rgba(0,0,0,0.32);
-    transition: background .2s ease, border-color .2s ease;
-  }
-  .rivet { position: absolute; width: 7px; height: 7px; border-radius: 50%;
-    background: rgba(0,0,0,0.28); box-shadow: inset 0 1px 1px rgba(255,255,255,0.35); }
-  .rivet.tl { top: 6px; left: 6px; } .rivet.tr { top: 6px; right: 6px; }
-  .rivet.bl { bottom: 6px; left: 6px; } .rivet.br { bottom: 6px; right: 6px; }
-
-  .badge {
-    position: absolute; top: -16px; left: 50%; transform: translateX(-50%);
-    width: 30px; height: 30px; border-radius: 50%; background: #fff;
-    border: 3px solid var(--border); display: flex; align-items: center;
-    justify-content: center; font-size: 14px; box-shadow: 0 3px 6px rgba(0,0,0,0.25);
-  }
-
-  /* Type is driven entirely by js/utm-fonts.js — these rules carry colour,
-     alignment and effects only. Font family / size / tracking / case all come
-     from the active UTM face and its measured cap height. */
-  .line { text-align: center; outline: none; padding: 1px 0; }
-  .cat     { color: var(--cat); white-space: nowrap; }
-  .name    { color: var(--name); margin: 5px 0 3px; word-break: break-word; }
-  .tagline { color: var(--tagline); white-space: nowrap; padding-bottom: 14px; }
-  .footer  { margin: 0 -18px; padding: 8px 18px; background: var(--footerBg); order: 4; }
-  .footer .line { color: var(--footerColor); white-space: nowrap; }
-
-  .board.outline .name { -webkit-text-stroke: 2px var(--outline); }
-  .board.gradientName .name {
-    background: var(--nameGrad); -webkit-background-clip: text; background-clip: text;
-    color: transparent; -webkit-text-fill-color: transparent;
-  }
-
-  .stand { width: 8px; height: 40px; background: linear-gradient(#bbb, #888); }
-  .foot { width: 90px; height: 8px; border-radius: 50%; background: rgba(0,0,0,0.15);
-    filter: blur(2px); margin-top: -2px; }
-
-  .hint { margin-top: 22px; font-size: 12px; color: #8a8372; text-align: center; max-width: 320px; line-height: 1.55; }
-</style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#00505f">
+  <title>Phố Bảng Hiệu — tường bảng hiệu Việt</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Alfa+Slab+One&family=Allura&family=Anton&family=Archivo:wdth,wght@62..125,400..900&family=Be+Vietnam+Pro:wght@400;600;700;800;900&family=Bevan&family=Bitter:wght@600;700&family=Charmonman:wght@700&family=Chivo:wght@700;900&family=Dancing+Script:wght@700&family=EB+Garamond:wght@500;600;700&family=Ephesis&family=Great+Vibes&family=Italianno&family=Kanit:wght@600&family=Lobster&family=Mea+Culpa&family=Oswald:wght@600&family=Pinyon+Script&family=Playfair+Display:wght@900&family=Saira+Condensed:wght@700&family=Tektur:wght@600;700&family=Yeseva+One&display=swap">
+  <link rel="stylesheet" href="plaza.css">
 </head>
 <body>
+  <!-- the wall: every sign is drawn here by plaza.js -->
+  <main class="wall" id="wall" aria-label="Tường bảng hiệu"></main>
 
-  <div class="masthead">
-    <div class="kicker">Prototype — hệ font UTM</div>
-    <h1>Bảng Hiệu Generator</h1>
-    <p>Chọn loại tiệm, bấm xúc xắc để đổi bộ màu / kiểu chữ, bấm vào bất kỳ dòng nào để sửa chữ. Chữ được xếp theo hệ font UTM — đúng bộ font mà tiệm in bảng hiệu thật đang dùng.</p>
+  <div class="dock" id="dock">
+    <div class="dock-brand">
+      <b id="brand">Sàigòn 1985</b>
+      <span id="brandNote">BỘ PHÔNG CHỮ BIỂN HIỆU SÀI GÒN XƯA</span>
+    </div>
+    <div class="dock-actions">
+      <button type="button" data-act="shuffle" title="Đổi toàn bộ tiệm (R)"><i>🎲</i><span>XÁO PHỐ</span></button>
+      <button type="button" data-act="add" title="Thêm một bảng (A)"><i>＋</i><span>THÊM BẢNG</span></button>
+      <button type="button" data-act="theme" title="Đổi thời kỳ (T)"><i>⏳</i><span>NAY</span></button>
+      <button type="button" data-act="relayout" title="Bố cục ngẫu nhiên mới (N)"><i>▦</i><span>BỐ CỤC MỚI</span></button>
+      <button type="button" data-act="fonts" aria-pressed="false" aria-controls="drawer" title="Hệ font UTM (F)"><i>🔤</i><span>FONT</span></button>
+      <button type="button" data-act="hide" title="Ẩn bảng điều khiển (H)"><i>👁</i><span>ẨN</span></button>
+    </div>
   </div>
+  <button type="button" class="peek" id="peek">▲ HIỆN BẢNG ĐIỀU KHIỂN</button>
 
-  <div class="controls">
-    <select id="catSelect">
-      <option value="khach-san">🏨 Khách Sạn</option>
-      <option value="nha-tro">🔑 Nhà Trọ</option>
-      <option value="quan-com">🍚 Quán Cơm</option>
-      <option value="banh-mi">🥖 Bánh Mì - Xôi</option>
-      <option value="ca-phe">☕ Cà Phê - Trà Đá</option>
-      <option value="hot-toc">💈 Hớt Tóc</option>
-      <option value="nail-spa">💅 Nail - Spa</option>
-      <option value="sua-xe">🔧 Sửa Xe Máy</option>
-      <option value="sua-dt">📱 Sửa Điện Thoại</option>
-      <option value="giat-ui">👕 Giặt Ủi</option>
-      <option value="cam-do">💰 Cầm Đồ</option>
-      <option value="bia-tuoi">🍺 Bia Tươi</option>
-      <option value="thuoc-tay">✚ Nhà Thuốc Tây</option>
-      <option value="karaoke">🎤 Karaoke</option>
-    </select>
-    <button id="randomBtn">🎲 Random hoá</button>
-    <button id="typeToggle" aria-pressed="false" aria-controls="typePanel">🔤 Hệ font UTM</button>
-  </div>
-
-  <section class="typePanel" id="typePanel" hidden>
-    <h2>Hệ font UTM</h2>
-    <p class="sub">Mỗi dòng trên bảng hiệu được gán một face UTM. Nếu máy này có sẵn font UTM thật thì dùng font thật; nếu không, một font mở tương đương (đủ dấu tiếng Việt) sẽ đứng thay, đã chỉnh sẵn độ đậm, độ nén, giãn chữ và chiều cao chữ hoa cho khớp.</p>
-
-    <div class="typeGrid">
-      <div><label for="faceCat">Dòng loại hình</label><select id="faceCat"></select></div>
-      <div><label for="faceName">Tên tiệm</label><select id="faceName"></select></div>
-      <div><label for="faceTagline">Slogan</label><select id="faceTagline"></select></div>
-      <div><label for="faceFooter">Chân bảng</label><select id="faceFooter"></select></div>
+  <aside class="drawer" id="drawer" hidden aria-label="Hệ font UTM">
+    <button type="button" class="drawer-close" id="drawerClose" aria-label="Đóng">✕</button>
+    <div>
+      <p class="eyebrow">FONT DIRECTORY</p>
+      <h2>HỆ FONT UTM</h2>
     </div>
-
-    <div class="controls" style="justify-content:flex-start;margin:12px 0 0">
-      <button id="shuffleType">🎲 Đổi kiểu chữ</button>
-      <button id="resetType">↺ Về đúng công thức</button>
+    <p class="hint" id="drawerHint">Bấm vào một bảng trên tường để chọn.</p>
+    <div class="face-grid">
+      <label>Dòng loại hình<select id="faceCat"></select></label>
+      <label>Tên tiệm<select id="faceName"></select></label>
+      <label>Slogan<select id="faceTagline"></select></label>
+      <label>Chân bảng<select id="faceFooter"></select></label>
     </div>
-
-    <div class="status" id="fontStatus">Đang dò font…</div>
-
-    <div class="dropzone" id="dropzone">
-      Có sẵn bộ font UTM? Kéo thả file <b>.ttf / .otf</b> vào đây — font chỉ nằm trong trình duyệt này, không tải lên đâu cả.
-      <input type="file" id="fontFiles" multiple accept=".ttf,.otf,.woff,.woff2">
-      <span class="act">
-        <button id="pickFonts">Chọn file font…</button>
-        <button id="clearFonts">Xoá font đã nạp</button>
-      </span>
+    <div class="drawer-actions">
+      <button type="button" id="shuffleFace">ĐỔI KIỂU CHỮ</button>
+      <button type="button" id="resetFace">VỀ CÔNG THỨC</button>
     </div>
-  </section>
-
-  <div class="stage">
-    <div class="board" id="board">
-      <div class="badge" id="badge">🏨</div>
-      <div class="rivet tl"></div><div class="rivet tr"></div>
-      <div class="rivet bl"></div><div class="rivet br"></div>
-      <div class="line cat" contenteditable="true" id="cat">KHÁCH SẠN</div>
-      <div class="line name" contenteditable="true" id="name">MƯỜI EM</div>
-      <div class="line tagline" contenteditable="true" id="tagline">PHỤC VỤ 24/24</div>
-      <div class="footer"><div class="line" contenteditable="true" id="footerText">GIÁ BÌNH DÂN</div></div>
+    <p class="font-status" id="fontStatus">Đang dò font…</p>
+    <div class="font-drop" id="dropzone">
+      <p>Có font UTM thật? Kéo thả .TTF / .OTF vào đây. File chỉ nằm trong trình duyệt này.</p>
+      <input type="file" id="fontFiles" multiple accept=".ttf,.otf,.woff,.woff2" hidden>
+      <button type="button" id="pickFonts">CHỌN FILE FONT</button>
     </div>
-    <div class="stand"></div>
-    <div class="foot"></div>
-  </div>
+  </aside>
 
-  <p class="hint">Cỡ chữ được tính theo <b>chiều cao chữ hoa</b> đo trực tiếp từ font đang hoạt động — đổi font thì bố cục bảng vẫn đứng yên, đúng cách thợ vẽ bảng hiệu làm việc.</p>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-<script src="js/utm-fonts.js"></script>
-<script>
-(function(){
-  const board = document.getElementById('board');
-  const catSel = document.getElementById('catSelect');
-  const els = {
-    cat: document.getElementById('cat'),
-    name: document.getElementById('name'),
-    tagline: document.getElementById('tagline'),
-    footer: document.getElementById('footerText')
-  };
-  const picks = {
-    cat: document.getElementById('faceCat'),
-    name: document.getElementById('faceName'),
-    tagline: document.getElementById('faceTagline'),
-    footer: document.getElementById('faceFooter')
-  };
-  const LINES = ['cat','name','tagline','footer'];
-
-  const categories = {
-    'khach-san': { icon:'🏨', cat:'KHÁCH SẠN', name:'MƯỜI EM', tagline:'PHỤC VỤ 24/24', footer:'GIÁ BÌNH DÂN', mood:0 },
-    'nha-tro':   { icon:'🔑', cat:'NHÀ TRỌ', name:'CÔ BA', tagline:'PHÒNG SẠCH - AN NINH', footer:'0909.222.333', mood:1 },
-    'quan-com':  { icon:'🍚', cat:'CƠM TẤM', name:'SƯỜN QUE', tagline:'GIAO HÀNG TẬN NƠI', footer:'☎ 0909.123.456', mood:1 },
-    'banh-mi':   { icon:'🥖', cat:'BÁNH MÌ - XÔI', name:'CÔ TÁM', tagline:'NÓNG GIÒN MỖI SÁNG', footer:'5K - 15K', mood:4 },
-    'ca-phe':    { icon:'☕', cat:'CÀ PHÊ - TRÀ ĐÁ', name:'CHÚ TƯ', tagline:'VỈA HÈ MÁT MẺ', footer:'GIÁ SINH VIÊN', mood:4 },
-    'hot-toc':   { icon:'💈', cat:'HỚT TÓC NAM', name:'Salon Hải', tagline:'CẮT · GỘI · UỐN · NHUỘM', footer:'ĐẶC BIỆT: RÁY TAI', mood:3 },
-    'nail-spa':  { icon:'💅', cat:'NAIL - SPA', name:'Mỹ Tiên', tagline:'LÀM ĐẸP TRỌN GÓI', footer:'ƯU ĐÃI THÁNG NÀY', mood:5 },
-    'sua-xe':    { icon:'🔧', cat:'SỬA XE MÁY', name:'GARA ANH HAI', tagline:'ĐỒNG SƠN · MÁY · ĐIỆN', footer:'0938.456.789', mood:2 },
-    'sua-dt':    { icon:'📱', cat:'BƠM VÁ', name:'ĐIỆN THOẠI', tagline:'SỬA NHANH LẤY LIỀN', footer:'BẢO HÀNH 1 NĂM', mood:2 },
-    'giat-ui':   { icon:'👕', cat:'GIẶT ỦI', name:'SẠCH NHANH', tagline:'LẤY LIỀN TRONG NGÀY', footer:'GIAO TẬN NHÀ', mood:4 },
-    'cam-do':    { icon:'💰', cat:'CẦM ĐỒ', name:'UY TÍN', tagline:'LÃI SUẤT THẤP NHẤT', footer:'HỖ TRỢ NHANH', mood:6 },
-    'bia-tuoi':  { icon:'🍺', cat:'BIA TƯƠI', name:'BIVA', tagline:'PHỤC VỤ CÁC MÓN ĂN', footer:'BÌNH DÂN', mood:2 },
-    'thuoc-tay': { icon:'✚', cat:'NHÀ THUỐC TÂY', name:'SỐ 1', tagline:'TƯ VẤN MIỄN PHÍ', footer:'MỞ CỬA 24/24', mood:7 },
-    'karaoke':   { icon:'🎤', cat:'KARAOKE', name:'NGÔI SAO', tagline:'PHÒNG VIP - MÁY LẠNH', footer:'GIỜ VÀNG GIẢM 50%', mood:8 },
-  };
-
-  const moods = [
-    { bg:'#ffffff', border:'#d81f26', cat:'#d81f26', name:'#2b2fa3', tagline:'#d81f26', footerBg:'transparent', footerColor:'#1a7a3c', font:'script', outline:false },
-    { bg:'#f7d900', border:'#161616', cat:'#161616', name:'#d81f26', tagline:'#d81f26', footerBg:'#154ea6', footerColor:'#ffffff', font:'block', outline:false },
-    { bg:'#f7d900', border:'#154ea6', cat:'#154ea6', name:'#d81f26', tagline:'#1a7a3c', footerBg:'transparent', footerColor:'#1a7a3c', font:'block', outline:true, outlineColor:'#154ea6' },
-    { bg:'#141518', border:'#f5a300', cat:'#f5a300', name:'#ffffff', tagline:'#f5a300', footerBg:'#d81f26', footerColor:'#ffffff', font:'script', outline:false },
-    { bg:'#ffffff', border:'#1a7a3c', cat:'#154ea6', name:'#d81f26', tagline:'#1a7a3c', footerBg:'#d81f26', footerColor:'#ffffff', font:'block', outline:false },
-    { bg:'#ffffff', border:'#e6007e', cat:'#e6007e', name:'#c9a227', tagline:'#e6007e', footerBg:'#e6007e', footerColor:'#ffffff', font:'script', outline:true, outlineColor:'#e6007e' },
-    { bg:'#b91c1c', border:'#d4af37', cat:'#d4af37', name:'#ffffff', tagline:'#d4af37', footerBg:'#161616', footerColor:'#d4af37', font:'block', outline:false },
-    { bg:'#ffffff', border:'#0a7a3c', cat:'#0a7a3c', name:'#0a7a3c', tagline:'#0a7a3c', footerBg:'#0a7a3c', footerColor:'#ffffff', font:'block', outline:false },
-    { bg:'#0a0a12', border:'#00e5ff', cat:'#ff2fb0', name:null, nameGrad:'linear-gradient(90deg,#ff004c,#ffea00,#00e5ff,#a100ff)', tagline:'#00e5ff', footerBg:'#a100ff', footerColor:'#ffffff', font:'block', outline:false },
-  ];
-
-  /* live state: which UTM face is on each line, and the cap-height ratios */
-  let state = { key:'khach-san', faces:{}, scale:{}, tweak:{}, order:{} };
-
-  /* ---------- type panel wiring ---------- */
-  function fillPicker(sel, role) {
-    sel.innerHTML = '';
-    const groups = {};
-    UTM.facesFor(role).forEach(f => (groups[f.group] = groups[f.group] || []).push(f));
-    Object.keys(groups).forEach(g => {
-      const og = document.createElement('optgroup');
-      og.label = UTM.groups[g] ? UTM.groups[g].vi : g;
-      groups[g].forEach(f => {
-        const o = document.createElement('option');
-        o.value = f.id;
-        o.textContent = f.utm + (UTM.isGenuine(f.id) ? '  ✔ font thật' : '  → ' + f.sub.replace(/'/g, ''));
-        og.appendChild(o);
-      });
-      sel.appendChild(og);
-    });
-  }
-
-  function refreshPickers() {
-    LINES.forEach(line => {
-      fillPicker(picks[line], line);
-      picks[line].value = state.faces[line];
-    });
-  }
-
-  /* ---------- layout ---------- */
-  function capUnit() {
-    const cs = getComputedStyle(board);
-    const inner = board.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
-    return inner * 0.115;
-  }
-
-  /* Shrink a nowrap line until it fits the board, keeping tracking proportional. */
-  function fitLine(el, maxW) {
-    if (el.id === 'name') return;              // names are allowed to wrap
-    const sx = parseFloat(el.dataset.utmSx || 1);
-    const w = el.scrollWidth * sx;
-    if (w <= maxW || !w) return;
-    const size = parseFloat(el.style.fontSize);
-    const track = parseFloat(el.dataset.utmTrack || 0);
-    const next = size * (maxW / w);
-    el.style.fontSize = next.toFixed(2) + 'px';
-    el.style.letterSpacing = (track * next).toFixed(2) + 'px';
-  }
-
-  function render() {
-    const unit = capUnit();
-    const cs = getComputedStyle(board);
-    const maxW = board.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
-    LINES.forEach(line => {
-      const el = els[line];
-      const id = state.faces[line];
-      const tweak = state.tweak[line] || {};
-      UTM.applyFace(el, id, unit * (state.scale[line] || 0.5), tweak);
-      el.dataset.utmTrack = (Object.assign({}, UTM.face(id).tune, tweak).track || 0);
-      el.dataset.utmSx = (Object.assign({}, UTM.face(id).tune, tweak).sx || 1);
-      fitLine(el, maxW);
-    });
-  }
-
-  function applyMood(m){
-    board.style.setProperty('--bg', m.bg);
-    board.style.setProperty('--border', m.border);
-    board.style.setProperty('--cat', m.cat);
-    board.style.setProperty('--tagline', m.tagline);
-    board.style.setProperty('--footerBg', m.footerBg);
-    board.style.setProperty('--footerColor', m.footerColor);
-    board.classList.toggle('outline', !!m.outline);
-    if (m.outline) board.style.setProperty('--outline', m.outlineColor);
-    board.classList.toggle('gradientName', !!m.nameGrad);
-    if (m.nameGrad) board.style.setProperty('--nameGrad', m.nameGrad);
-    else board.style.setProperty('--name', m.name);
-    board.style.transform = 'rotate(' + (Math.random()*3 - 1.5).toFixed(2) + 'deg)';
-  }
-
-  function loadRecipe(key) {
-    const r = UTM.recipes[key];
-    state.key = key;
-    state.faces = Object.assign({}, r.faces);
-    state.scale = Object.assign({}, r.scale);
-    state.tweak = JSON.parse(JSON.stringify(r.tweak || {}));
-    state.order = Object.assign({ cat:1, name:2, tagline:3, footer:4 }, r.order || {});
-    applyOrder();
-  }
-
-  /* Recipes may restack the lines — a barbershop's script name sits above the
-     service line rather than under it. */
-  function applyOrder() {
-    LINES.forEach(line => {
-      const target = line === 'footer' ? els.footer.parentNode : els[line];
-      target.style.order = state.order[line];
-    });
-  }
-
-  function applyCategory(key){
-    const c = categories[key];
-    els.cat.textContent = c.cat;
-    els.name.textContent = c.name;
-    els.tagline.textContent = c.tagline;
-    els.footer.textContent = c.footer;
-    document.getElementById('badge').textContent = c.icon;
-    loadRecipe(key);
-    refreshPickers();
-    applyMood(moods[c.mood]);
-    render();
-  }
-
-  const pick = a => a[Math.floor(Math.random() * a.length)];
-
-  /* Randomising the mood also re-rolls the type, staying inside the faces that
-     actually suit each line — a script mood forces a script/brush name. */
-  function shuffleType(mood) {
-    LINES.forEach(line => {
-      let pool = UTM.facesFor(line);
-      if (line === 'name' && mood) {
-        const wantScript = mood.font === 'script';
-        const filtered = pool.filter(f => {
-          const isScript = f.group === 'script' || f.group === 'brush';
-          return wantScript ? isScript : !isScript;
-        });
-        if (filtered.length) pool = filtered;
-      }
-      state.faces[line] = pick(pool).id;
-    });
-    state.tweak = {};
-    refreshPickers();
-    render();
-  }
-
-  /* ---------- status ---------- */
-  function updateStatus() {
-    const r = UTM.report();
-    const inUse = LINES.map(line => {
-      const f = UTM.face(state.faces[line]);
-      const real = UTM.isGenuine(f.id);
-      return '<div>' + f.utm + ' ' +
-        (real ? '<span class="pill real">font thật</span>'
-              : '<span class="pill sub">thay bằng ' + f.sub.replace(/'/g,'') + '</span>') +
-        '</div>';
-    }).join('');
-    document.getElementById('fontStatus').innerHTML =
-      '<b>' + r.genuine + '/' + r.total + '</b> face UTM thật có trên máy này. Đang dùng trên bảng:' + inUse;
-  }
-
-  /* ---------- events ---------- */
-  catSel.addEventListener('change', e => applyCategory(e.target.value));
-
-  document.getElementById('randomBtn').addEventListener('click', () => {
-    const m = pick(moods);
-    applyMood(m);
-    shuffleType(m);
-    updateStatus();
-  });
-
-  const toggle = document.getElementById('typeToggle');
-  toggle.addEventListener('click', () => {
-    const open = toggle.getAttribute('aria-pressed') === 'true';
-    toggle.setAttribute('aria-pressed', String(!open));
-    document.getElementById('typePanel').hidden = open;
-  });
-
-  LINES.forEach(line => {
-    picks[line].addEventListener('change', e => {
-      state.faces[line] = e.target.value;
-      delete state.tweak[line];
-      render();
-      updateStatus();
-    });
-    els[line].addEventListener('input', render);
-  });
-
-  document.getElementById('shuffleType').addEventListener('click', () => {
-    shuffleType(null); updateStatus();
-  });
-  document.getElementById('resetType').addEventListener('click', () => {
-    loadRecipe(state.key); refreshPickers(); render(); updateStatus();
-  });
-
-  /* ---------- drop-in UTM files ---------- */
-  const dz = document.getElementById('dropzone');
-  const fileInput = document.getElementById('fontFiles');
-  document.getElementById('pickFonts').addEventListener('click', () => fileInput.click());
-  fileInput.addEventListener('change', e => ingest(e.target.files));
-  document.getElementById('clearFonts').addEventListener('click', () => {
-    UTM.clearDropIns().then(() => location.reload());
-  });
-  ['dragenter','dragover'].forEach(ev => dz.addEventListener(ev, e => {
-    e.preventDefault(); dz.classList.add('over');
-  }));
-  ['dragleave','drop'].forEach(ev => dz.addEventListener(ev, e => {
-    e.preventDefault(); dz.classList.remove('over');
-  }));
-  dz.addEventListener('drop', e => ingest(e.dataTransfer.files));
-
-  function ingest(files) {
-    UTM.adoptFiles(files).then(res => {
-      const matched = res.filter(r => r.matched).length;
-      refreshPickers(); render(); updateStatus();
-      const note = document.createElement('div');
-      note.style.cssText = 'margin-top:8px;font-weight:700;color:#1a7a3c';
-      note.textContent = 'Đã nạp ' + res.length + ' file — ' + matched + ' file khớp tên face UTM trong hệ thống.';
-      dz.appendChild(note);
-      setTimeout(() => note.remove(), 6000);
-    });
-  }
-
-  let rafId = null;
-  window.addEventListener('resize', () => {
-    cancelAnimationFrame(rafId);
-    rafId = requestAnimationFrame(render);
-  });
-
-  /* ---------- boot ---------- */
-  loadRecipe('khach-san');
-  applyCategory('khach-san');
-  UTM.onchange(() => { refreshPickers(); render(); updateStatus(); });
-  UTM.init();
-})();
-</script>
+  <script src="js/utm-fonts.js"></script>
+  <script src="js/sg85-fonts.js"></script>
+  <script src="plaza.js"></script>
 </body>
 </html>
