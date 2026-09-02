@@ -112,6 +112,8 @@ brush letters — opening them would break the strokes. They reach the measure b
 being drawn *bigger*, so the app scales script lines to fill instead of
 tracking them.
 
+**Scripts are never set in all-caps.** Cursive scripts and brush letters (like Sàigòn 1985, Hiền Khánh 1, UTM Silk Script, UTM Cabaret, etc.) rely on continuous connections and ornate initial capitals. Setting them in all-caps causes swashes to collide and renders words illegible. The app automatically enforces Title Case on any line assigned to a script or brush face (e.g. *Mười Em* rather than *MƯỜI EM*), ensuring legibility across both themes and in exports.
+
 **Hierarchy is a ratio, not a nudge.** The hero runs 2–3× its neighbours, never
 1.1×, and it takes all the decoration while everything else stays flat: a hard
 slab stepped down-right in a *contrasting* colour — pink under red on Vĩnh

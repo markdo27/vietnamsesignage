@@ -408,6 +408,46 @@ function rnd(a, b) { return a + Math.random() * (b - a); }
 function nid() { return 'n' + (++seq); }
 function recipeFor(key) { return type.recipes[SHOPS[key].like || key] || type.recipes['quan-com']; }
 
+/* Typographic rule: Script and brush fonts must NEVER be set in ALL CAPS.
+   Connecting cursives and flourish capitals crash into each other when set in all-caps,
+   making the line illegible. Any text assigned to a script face is normalized to Title Case. */
+function isScriptFace(faceId) {
+  if (!faceId) return false;
+  if (typeof type !== 'undefined' && type && type.byId && type.byId[faceId]) {
+    var f = type.byId[faceId];
+    return f.group === 'script' || f.group === 'brush';
+  }
+  if (typeof SG85 !== 'undefined' && SG85.byId && SG85.byId[faceId]) {
+    return SG85.byId[faceId].group === 'script';
+  }
+  if (typeof UTM !== 'undefined' && UTM.byId && UTM.byId[faceId]) {
+    var fu = UTM.byId[faceId];
+    return fu.group === 'script' || fu.group === 'brush';
+  }
+  return false;
+}
+
+function isAllUpper(str) {
+  if (!str) return false;
+  var letters = str.replace(/[^\p{L}]/gu, '');
+  return letters.length > 0 && letters === letters.toUpperCase();
+}
+
+function toVietnameseTitleCase(str) {
+  if (!str) return '';
+  return str.toLowerCase().replace(/(^|[^\p{L}\p{N}])(\p{L})/gu, function (match, boundary, char) {
+    return boundary + char.toUpperCase();
+  });
+}
+
+function formatLineText(text, faceId) {
+  if (!text) return '';
+  if (isScriptFace(faceId) && isAllUpper(text)) {
+    return toVietnameseTitleCase(text);
+  }
+  return text;
+}
+
 /* Shops are dealt from a shuffled deck rather than drawn at random: a real
    street has one pharmacy, not three in a row. The deck refills only once every
    trade has had its turn. */
@@ -464,6 +504,11 @@ function dressShop(sign, key) {
   sign.adjust = sign.adjust || defaultAdjust();
   dressRecipe(sign);
   dressMood(sign);
+  LINES.forEach(function (k) {
+    if (isScriptFace(sign.faces[k]) && isAllUpper(sign.text[k])) {
+      sign.text[k] = toVietnameseTitleCase(sign.text[k]);
+    }
+  });
   return sign;
 }
 
@@ -476,6 +521,11 @@ function dressRecipe(sign) {
   sign.scale = Object.assign({}, recipe.scale);
   sign.tweak = JSON.parse(JSON.stringify(recipe.tweak || {}));
   sign.order = Object.assign({ cat: 1, name: 2, tagline: 3 }, recipe.order || {});
+  LINES.forEach(function (k) {
+    if (isScriptFace(sign.faces[k]) && isAllUpper(sign.text[k])) {
+      sign.text[k] = toVietnameseTitleCase(sign.text[k]);
+    }
+  });
 }
 
 /* A sign stores the colour *family* it wants plus a seed, not a palette index,
@@ -541,6 +591,9 @@ function dressType(sign) {
       if (wanted.length) pool = wanted;
     }
     if (pool.length) sign.faces[key] = pickFace(pool).id;
+    if (isScriptFace(sign.faces[key]) && isAllUpper(sign.text[key])) {
+      sign.text[key] = toVietnameseTitleCase(sign.text[key]);
+    }
   });
   sign.tweak = {};
 }
@@ -1021,6 +1074,10 @@ function paintSign(node) {
 
   node.badgeEl.textContent = sign.badge;
   LINES.forEach(function (key) {
+    var faceId = sign.faces[key];
+    if (isScriptFace(faceId) && isAllUpper(sign.text[key])) {
+      sign.text[key] = toVietnameseTitleCase(sign.text[key]);
+    }
     if (node.lineEls[key].textContent !== sign.text[key]) node.lineEls[key].textContent = sign.text[key];
     if (key !== 'footer') node.lineEls[key].style.order = sign.order[key];
   });
@@ -1035,6 +1092,11 @@ function paintSign(node) {
 var PROBE = 60;
 
 function applyLine(el, sign, key, capPx) {
+  var faceId = sign.faces[key];
+  if (isScriptFace(faceId) && isAllUpper(sign.text[key])) {
+    sign.text[key] = toVietnameseTitleCase(sign.text[key]);
+    if (el.textContent !== sign.text[key]) el.textContent = sign.text[key];
+  }
   var tweak = sign.tweak[key] || {};
   var tune = Object.assign({}, type.face(sign.faces[key]).tune, tweak);
   var size = type.applyFace(el, sign.faces[key], Math.max(4, capPx), tweak);
@@ -1447,6 +1509,16 @@ function wireSign(node) {
       scheduleFit([node]);
       scheduleSave();
     });
+    line.addEventListener('blur', function () {
+      var faceId = node.sign.faces[key];
+      if (isScriptFace(faceId) && isAllUpper(line.textContent)) {
+        var fixed = toVietnameseTitleCase(line.textContent);
+        line.textContent = fixed;
+        node.sign.text[key] = fixed;
+        scheduleFit([node]);
+        scheduleSave();
+      }
+    });
     line.addEventListener('keydown', function (ev) {
       if (ev.key === 'Enter') { ev.preventDefault(); line.blur(); }
       if (ev.key === 'Escape') line.blur();
@@ -1814,7 +1886,12 @@ function lineRun(el, ox, oy) {
   var cs = getComputedStyle(el);
   if (cs.display === 'none' || cs.visibility === 'hidden') return null;
   var text = el.textContent;
-  if (cs.textTransform === 'uppercase') text = text.toUpperCase();
+  var faceId = el.dataset.sgFace || el.dataset.utmFace;
+  if (isScriptFace(faceId) && isAllUpper(text)) {
+    text = toVietnameseTitleCase(text);
+  } else if (cs.textTransform === 'uppercase') {
+    text = text.toUpperCase();
+  }
   if (!text.trim()) return null;
 
   var rect = el.getBoundingClientRect();
@@ -2182,6 +2259,10 @@ function wireChrome() {
       checkpoint();
       selected.sign.faces[key] = ev.target.value;
       delete selected.sign.tweak[key];
+      if (isScriptFace(ev.target.value) && isAllUpper(selected.sign.text[key])) {
+        selected.sign.text[key] = toVietnameseTitleCase(selected.sign.text[key]);
+        if (selected.lineEls[key]) selected.lineEls[key].textContent = selected.sign.text[key];
+      }
       scheduleFit([selected]);
       scheduleSave();
     });
@@ -2189,7 +2270,11 @@ function wireChrome() {
   $('#shuffleFace').addEventListener('click', function () {
     if (!selected) return;
     checkpoint();
-    dressType(selected.sign); scheduleFit([selected]); syncDrawer(); scheduleSave();
+    dressType(selected.sign);
+    LINES.forEach(function (key) {
+      if (selected.lineEls[key]) selected.lineEls[key].textContent = selected.sign.text[key];
+    });
+    scheduleFit([selected]); syncDrawer(); scheduleSave();
   });
   $('#resetFace').addEventListener('click', function () {
     if (!selected) return;
@@ -2197,6 +2282,12 @@ function wireChrome() {
     var recipe = recipeFor(selected.sign.key);
     selected.sign.faces = Object.assign({}, recipe.faces);
     selected.sign.tweak = JSON.parse(JSON.stringify(recipe.tweak || {}));
+    LINES.forEach(function (key) {
+      if (isScriptFace(selected.sign.faces[key]) && isAllUpper(selected.sign.text[key])) {
+        selected.sign.text[key] = toVietnameseTitleCase(selected.sign.text[key]);
+      }
+      if (selected.lineEls[key]) selected.lineEls[key].textContent = selected.sign.text[key];
+    });
     scheduleFit([selected]); syncDrawer(); scheduleSave();
     say('Đã về đúng công thức chữ của loại tiệm.');
   });

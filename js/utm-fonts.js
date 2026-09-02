@@ -394,6 +394,7 @@
   function applyFace(el, id, capPx, override) {
     var f = face(id);
     var t = Object.assign({}, f.tune, override || {});
+    if (f.group === 'script' || f.group === 'brush') t.caps = false; // Rule: All the script fonts do not write in ALL CAP
     var stack = stackFor(id);
     var size = (capPx / normRatio(stack, !!t.caps)) * (t.opt || 1);
 
