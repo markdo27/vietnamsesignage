@@ -3,8 +3,23 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <meta name="theme-color" content="#00505f">
-  <title>Phố Bảng Hiệu — tường bảng hiệu Việt</title>
+  <meta name="theme-color" content="#1d5c4f">
+  <title>Phố Bảng Hiệu — tường bảng hiệu Sài Gòn 1985</title>
+  <meta name="description" content="Một bức tường bảng hiệu Việt Nam lấp đầy màn hình: kéo mép để đổi cỡ, bấm vào chữ để sửa, đổi qua lại giữa Sài Gòn 1985 và phố hôm nay.">
+
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="alternate icon" href="favicon.ico" sizes="16x16 32x32 48x48">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Phố Bảng Hiệu — tường bảng hiệu Sài Gòn 1985">
+  <meta property="og:description" content="Một bức tường bảng hiệu Việt Nam lấp đầy màn hình. Kéo mép để đổi cỡ, bấm vào chữ để sửa, đổi qua lại giữa Sài Gòn 1985 và phố hôm nay.">
+  <meta property="og:url" content="https://markdo27.github.io/vietnamsesignage/">
+  <meta property="og:image" content="https://markdo27.github.io/vietnamsesignage/og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:locale" content="vi_VN">
+  <meta name="twitter:card" content="summary_large_image">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Alfa+Slab+One&family=Allura&family=Anton&family=Archivo:wdth,wght@62..125,400..900&family=Be+Vietnam+Pro:wght@400;600;700;800;900&family=Bevan&family=Bitter:wght@600;700&family=Charmonman:wght@700&family=Chivo:wght@700;900&family=Dancing+Script:wght@700&family=EB+Garamond:wght@500;600;700&family=Ephesis&family=Great+Vibes&family=Italianno&family=Kanit:wght@600&family=Lobster&family=Mea+Culpa&family=Oswald:wght@600&family=Pinyon+Script&family=Playfair+Display:wght@900&family=Saira+Condensed:wght@700&family=Tektur:wght@600;700&family=Yeseva+One&display=swap">
@@ -20,12 +35,15 @@
       <span id="brandNote">BỘ PHÔNG CHỮ BIỂN HIỆU SÀI GÒN XƯA</span>
     </div>
     <div class="dock-actions">
-      <button type="button" data-act="shuffle" title="Đổi toàn bộ tiệm (R)"><i>🎲</i><span>XÁO PHỐ</span></button>
-      <button type="button" data-act="add" title="Thêm một bảng (A)"><i>＋</i><span>THÊM BẢNG</span></button>
-      <button type="button" data-act="theme" title="Đổi thời kỳ (T)"><i>⏳</i><span>NAY</span></button>
-      <button type="button" data-act="relayout" title="Bố cục ngẫu nhiên mới (N)"><i>▦</i><span>BỐ CỤC MỚI</span></button>
-      <button type="button" data-act="fonts" aria-pressed="false" aria-controls="drawer" title="Hệ font UTM (F)"><i>🔤</i><span>FONT</span></button>
-      <button type="button" data-act="hide" title="Ẩn bảng điều khiển (H)"><i>👁</i><span>ẨN</span></button>
+      <button type="button" data-act="shuffle" aria-label="Xáo toàn bộ phố" title="Đổi toàn bộ tiệm (R)"><i>🎲</i><span>XÁO PHỐ</span></button>
+      <button type="button" data-act="add" aria-label="Thêm một bảng" title="Thêm một bảng (A)"><i>＋</i><span>THÊM BẢNG</span></button>
+      <button type="button" data-act="undo" aria-label="Hoàn tác" title="Hoàn tác (Ctrl+Z)" disabled><i>↶</i><span>HOÀN TÁC</span></button>
+      <button type="button" data-act="redo" aria-label="Làm lại" title="Làm lại (Ctrl+Y)" disabled><i>↷</i><span>LÀM LẠI</span></button>
+      <button type="button" data-act="theme" aria-label="Đổi thời kỳ" title="Đổi thời kỳ (T)"><i>⏳</i><span>NAY</span></button>
+      <button type="button" data-act="relayout" aria-label="Tạo bố cục mới" title="Bố cục ngẫu nhiên mới (N)"><i>▦</i><span>BỐ CỤC MỚI</span></button>
+      <button type="button" data-act="export" aria-label="Xuất ảnh PNG" title="Xuất ảnh PNG"><i>⇩</i><span>XUẤT PNG</span></button>
+      <button type="button" data-act="fonts" aria-label="Mở bảng chọn font" aria-pressed="false" aria-controls="drawer" title="Hệ font UTM (F)"><i>🔤</i><span>FONT</span></button>
+      <button type="button" data-act="hide" aria-label="Ẩn bảng điều khiển" title="Ẩn bảng điều khiển (H)"><i>👁</i><span>ẨN</span></button>
     </div>
   </div>
   <button type="button" class="peek" id="peek">▲ HIỆN BẢNG ĐIỀU KHIỂN</button>

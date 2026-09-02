@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="Phố Bảng Hiệu">
+  <!-- the painted green board of the 1985 theme, with its gold rule -->
+  <rect width="32" height="32" fill="#1d5c4f"/>
+  <rect x="1.5" y="1.5" width="29" height="29" fill="none" stroke="#e9c96a" stroke-width="1.4"/>
+  <!-- a sign hung on it: cream panel, headline, second line, address band.
+       Every bar spans the same measure, which is what the wall is about. -->
+  <rect x="5" y="6.5" width="22" height="19" fill="#f2ead5"/>
+  <rect x="7.5" y="9" width="17" height="5.5" fill="#b8352a"/>
+  <rect x="7.5" y="15.5" width="17" height="2.4" fill="#1f4272"/>
+  <rect x="5" y="20.5" width="22" height="5" fill="#b8352a"/>
+</svg>

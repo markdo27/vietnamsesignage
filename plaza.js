@@ -449,6 +449,106 @@ function dressType(sign) {
 var GUT = 7, MIN_CELL = 40;
 var wall = $('#wall');
 var tree = null, selected = null;
+var STORAGE_KEY = 'pho-bang-hieu-state-v1';
+var HISTORY_LIMIT = 40;
+var historyPast = [], historyFuture = [], saveTimer = 0;
+
+function nodeData(node) {
+  var data = { id: node.id, size: node.size };
+  if (isLeaf(node)) data.sign = JSON.parse(JSON.stringify(node.sign));
+  else { data.dir = node.dir; data.children = node.children.map(nodeData); }
+  return data;
+}
+
+function reviveNode(data) {
+  if (!data || typeof data !== 'object') return null;
+  var id = typeof data.id === 'string' ? data.id : nid();
+  var match = /^n(\d+)$/.exec(id);
+  if (match) seq = Math.max(seq, Number(match[1]));
+  var node = { id: id, size: Number(data.size) > 0 ? Number(data.size) : 1 };
+  if (data.sign && SHOPS[data.sign.key]) node.sign = data.sign;
+  else if ((data.dir === 'row' || data.dir === 'col') && Array.isArray(data.children)) {
+    node.dir = data.dir;
+    node.children = data.children.map(reviveNode).filter(Boolean);
+    if (!node.children.length) return null;
+  } else return null;
+  return node;
+}
+
+function captureState() {
+  return JSON.stringify({ version: 1, theme: themeKey, tree: tree ? nodeData(tree) : null });
+}
+
+function saveNow() {
+  clearTimeout(saveTimer);
+  if (!tree) return;
+  try { localStorage.setItem(STORAGE_KEY, captureState()); }
+  catch (err) { say('Trình duyệt không thể lưu bản thiết kế này.'); }
+}
+
+function scheduleSave() {
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(saveNow, 180);
+}
+
+function restoreSaved() {
+  try {
+    var raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return false;
+    var data = JSON.parse(raw);
+    if (!data || data.version !== 1 || !THEMES[data.theme]) return false;
+    var restored = reviveNode(data.tree);
+    if (!restored) return false;
+    themeKey = data.theme;
+    tree = restored;
+    return true;
+  } catch (err) { return false; }
+}
+
+function syncHistoryButtons() {
+  var undoButton = $('[data-act="undo"]'), redoButton = $('[data-act="redo"]');
+  if (undoButton) undoButton.disabled = !historyPast.length;
+  if (redoButton) redoButton.disabled = !historyFuture.length;
+}
+
+function checkpoint() {
+  if (!tree) return;
+  var current = captureState();
+  if (historyPast[historyPast.length - 1] !== current) historyPast.push(current);
+  if (historyPast.length > HISTORY_LIMIT) historyPast.shift();
+  historyFuture = [];
+  syncHistoryButtons();
+}
+
+function applyCaptured(serialized) {
+  var data;
+  try { data = JSON.parse(serialized); } catch (err) { return false; }
+  var nextTree = reviveNode(data.tree);
+  if (!nextTree || !THEMES[data.theme]) return false;
+  tree = null;
+  setTheme(data.theme, true, true);
+  tree = nextTree;
+  selected = null;
+  built = true;
+  buildDOM();
+  saveNow();
+  syncHistoryButtons();
+  return true;
+}
+
+function undoState() {
+  if (!historyPast.length || !tree) return;
+  historyFuture.push(captureState());
+  applyCaptured(historyPast.pop());
+  say('Đã hoàn tác.');
+}
+
+function redoState() {
+  if (!historyFuture.length || !tree) return;
+  historyPast.push(captureState());
+  applyCaptured(historyFuture.pop());
+  say('Đã làm lại.');
+}
 
 function isLeaf(node) { return !!node.sign; }
 function leafNode(sign) { return { id: nid(), size: 1, sign: sign || makeSign() }; }
@@ -609,16 +709,51 @@ function renderGutter(node, index) {
   var el = document.createElement('div');
   el.className = 'gutter';
   el.setAttribute('role', 'separator');
-  el.setAttribute('aria-orientation', node.dir === 'row' ? 'vertical' : 'horizontal');
+  el.tabIndex = 0;
+  updateGutterARIA(el, node, index);
   el.title = 'Kéo để đổi cỡ · bấm đúp để chia đều';
   el.addEventListener('pointerdown', function (ev) { startDrag(ev, el, node, index); });
   el.addEventListener('dblclick', function () {
     var a = node.children[index - 1], b = node.children[index], sum = a.size + b.size;
+    checkpoint();
     a.size = b.size = sum / 2;
     a.el.style.flexGrow = a.size; b.el.style.flexGrow = b.size;
+    updateGutterARIA(el, node, index);
     scheduleFit([a, b]);
+    scheduleSave();
+  });
+  el.addEventListener('keydown', function (ev) {
+    var backward = node.dir === 'row' ? ev.key === 'ArrowLeft' : ev.key === 'ArrowUp';
+    var forward = node.dir === 'row' ? ev.key === 'ArrowRight' : ev.key === 'ArrowDown';
+    if (!backward && !forward) return;
+    var a = node.children[index - 1], b = node.children[index];
+    var grow = a.size + b.size;
+    var ra = a.el.getBoundingClientRect(), rb = b.el.getBoundingClientRect();
+    var span = node.dir === 'row' ? ra.width + rb.width : ra.height + rb.height;
+    var minShare = Math.min(.45, Math.max(.02, MIN_CELL / Math.max(span, MIN_CELL * 2)));
+    var share = a.size / grow + (forward ? .05 : -.05);
+    share = Math.max(minShare, Math.min(1 - minShare, share));
+    if (Math.abs(a.size - grow * share) < .0001) return;
+    checkpoint();
+    a.size = grow * share; b.size = grow - a.size;
+    a.el.style.flexGrow = a.size; b.el.style.flexGrow = b.size;
+    updateGutterARIA(el, node, index);
+    scheduleFit([a, b]);
+    scheduleSave();
+    ev.preventDefault();
   });
   return el;
+}
+
+function updateGutterARIA(el, node, index) {
+  var a = node.children[index - 1], b = node.children[index];
+  var percent = Math.round(100 * a.size / (a.size + b.size));
+  el.setAttribute('aria-orientation', node.dir === 'row' ? 'vertical' : 'horizontal');
+  el.setAttribute('aria-label', 'Đổi kích thước hai bảng liền kề');
+  el.setAttribute('aria-valuemin', '5');
+  el.setAttribute('aria-valuemax', '95');
+  el.setAttribute('aria-valuenow', String(percent));
+  el.setAttribute('aria-valuetext', 'Bảng trước chiếm ' + percent + ' phần trăm');
 }
 
 function renderSign(node) {
@@ -626,6 +761,7 @@ function renderSign(node) {
   el.className = 'sign';
   el.dataset.id = node.id;
   el.style.flexGrow = node.size;
+  el.setAttribute('aria-label', 'Bảng hiệu ' + SHOPS[node.sign.key].label);
 
   var badge = document.createElement('span');
   badge.className = 'badge';
@@ -643,6 +779,9 @@ function renderSign(node) {
     line.contentEditable = 'true';
     line.spellcheck = false;
     line.dataset.line = key;
+    line.setAttribute('role', 'textbox');
+    line.setAttribute('aria-multiline', 'false');
+    line.tabIndex = 0;
     node.lineEls[key] = line;
     stack.appendChild(line);
   });
@@ -654,6 +793,9 @@ function renderSign(node) {
   footer.contentEditable = 'true';
   footer.spellcheck = false;
   footer.dataset.line = 'footer';
+  footer.setAttribute('role', 'textbox');
+  footer.setAttribute('aria-multiline', 'false');
+  footer.tabIndex = 0;
   strip.appendChild(footer);
   node.lineEls.footer = footer;
 
@@ -697,6 +839,12 @@ function paintAll() { eachLeaf(tree).forEach(paintSign); }
 
 function paintSign(node) {
   var sign = node.sign, mood = moodFor(sign), el = node.el;
+  var shopLabel = SHOPS[sign.key].label;
+  var lineLabels = { cat: 'Loại hình', name: 'Tên tiệm', tagline: 'Slogan', footer: 'Thông tin chân bảng' };
+  el.setAttribute('aria-label', 'Bảng hiệu ' + shopLabel);
+  LINES.forEach(function (key) {
+    node.lineEls[key].setAttribute('aria-label', lineLabels[key] + ' của ' + shopLabel);
+  });
   el.style.setProperty('--bg', mood.bg);
   el.style.setProperty('--footer-bg', mood.footerBg);
   el.style.setProperty('--footer-color', mood.footerColor);
@@ -1103,6 +1251,7 @@ function startDrag(ev, el, node, index) {
   var origin = horiz ? ev.clientX : ev.clientY;
   if (span < 4) return;
 
+  checkpoint();
   el.setPointerCapture(ev.pointerId);
   el.classList.add('live');
   document.body.classList.add('dragging');
@@ -1116,6 +1265,7 @@ function startDrag(ev, el, node, index) {
     b.size = grow - a.size;
     a.el.style.flexGrow = a.size;
     b.el.style.flexGrow = b.size;
+    updateGutterARIA(el, node, index);
     scheduleFit([a, b]);
   }
   function up() {
@@ -1126,6 +1276,7 @@ function startDrag(ev, el, node, index) {
     document.body.classList.remove('dragging');
     document.body.style.cursor = '';
     scheduleFit([a, b]);
+    scheduleSave();
   }
   el.addEventListener('pointermove', move);
   el.addEventListener('pointerup', up);
@@ -1149,17 +1300,20 @@ function wireSign(node) {
     if (!button) return;
     var tool = button.dataset.tool;
     if (tool === 'dice') {
+      checkpoint();
       dressShop(node.sign, dealShop());
       if (Math.random() < 0.5) dressType(node.sign);
-      paintSign(node); scheduleFit([node]); syncDrawer();
+      paintSign(node); scheduleFit([node]); syncDrawer(); scheduleSave();
     } else if (tool === 'row' || tool === 'col') {
       var rect = el.getBoundingClientRect();
       if (Math.min(rect.width, rect.height) < MIN_CELL * 2.4) { say('Bảng này hết chỗ để tách.'); return; }
+      checkpoint();
       splitLeaf(node, tool, 0.5);
-      buildDOM(); select(null); say('Đã thêm một bảng mới.');
+      buildDOM(); select(null); scheduleSave(); say('Đã thêm một bảng mới.');
     } else if (tool === 'close') {
-      if (dropLeaf(node)) { buildDOM(); select(null); }
-      else say('Phải chừa lại ít nhất một bảng.');
+      if (eachLeaf(tree).length < 2) { say('Phải chừa lại ít nhất một bảng.'); return; }
+      checkpoint();
+      if (dropLeaf(node)) { buildDOM(); select(null); scheduleSave(); }
     }
   });
 
@@ -1168,12 +1322,13 @@ function wireSign(node) {
     line.addEventListener('input', function () {
       node.sign.text[key] = line.textContent;
       scheduleFit([node]);
+      scheduleSave();
     });
     line.addEventListener('keydown', function (ev) {
       if (ev.key === 'Enter') { ev.preventDefault(); line.blur(); }
       if (ev.key === 'Escape') line.blur();
     });
-    line.addEventListener('focus', function () { select(node); });
+    line.addEventListener('focus', function () { checkpoint(); select(node); });
   });
 }
 
@@ -1197,6 +1352,7 @@ function say(message) {
 }
 
 function shuffleWall() {
+  checkpoint();
   eachLeaf(tree).forEach(function (node) {
     dressShop(node.sign, dealShop());
     if (Math.random() < 0.45) dressType(node.sign);
@@ -1204,20 +1360,24 @@ function shuffleWall() {
   });
   scheduleFit();
   syncDrawer();
+  scheduleSave();
   say('Cả phố đã đổi bảng.');
 }
 
 function newLayout() {
+  checkpoint();
   tree = buildLayout(targetCount());
   selected = null;
   buildDOM();
+  scheduleSave();
   say('Bố cục mới · ' + eachLeaf(tree).length + ' bảng.');
 }
 
 /* Change era. The layout, the shops and every hand edit survive: only the type
    system and the inks are swapped, then each sign is re-lettered from the new
    era's recipe and re-inked from the palette family it already wanted. */
-function setTheme(key, quiet) {
+function setTheme(key, quiet, internal) {
+  if (!internal && tree) checkpoint();
   themeKey = key;
   type = window[theme().system];
   document.body.dataset.theme = key;
@@ -1230,7 +1390,7 @@ function setTheme(key, quiet) {
   document.documentElement.style.setProperty('--gut', theme().gut + 'px');
   GUT = theme().gut;
 
-  if (tree) {
+  if (tree && built) {
     eachLeaf(tree).forEach(function (node) {
       dressRecipe(node.sign);
       paintSign(node);
@@ -1239,6 +1399,7 @@ function setTheme(key, quiet) {
   }
   refreshPickers();
   Promise.resolve(type.init()).then(function () { updateStatus(); scheduleFit(); });
+  if (!internal) scheduleSave();
   if (!quiet) say('Đã chuyển sang ' + theme().label + '.');
 }
 
@@ -1256,8 +1417,10 @@ function addSign() {
     if (!target || Math.min(target.w, target.h) < MIN_CELL * 2.4) { say('Hết chỗ trên tường rồi.'); return; }
     choice = { dir: target.w > target.h ? 'row' : 'col', ratio: 0.5 };
   }
+  checkpoint();
   splitLeaf(target.node, choice.dir, choice.ratio);
   buildDOM();
+  scheduleSave();
   say('Đã treo thêm một bảng.');
 }
 
@@ -1330,6 +1493,83 @@ function ingest(files) {
   });
 }
 
+function collectCSS() {
+  var css = '';
+  Array.from(document.styleSheets).forEach(function (sheet) {
+    try { Array.from(sheet.cssRules).forEach(function (rule) { css += rule.cssText + '\n'; }); }
+    catch (err) { /* cross-origin sheets cannot be read; this app has none */ }
+  });
+  return css.replace(/body\[data-theme=/g, '[data-theme=');
+}
+
+function inlineComputedStyles(source, clone) {
+  var originals = [source].concat(Array.from(source.querySelectorAll('*')));
+  var copies = [clone].concat(Array.from(clone.querySelectorAll('*')));
+  originals.forEach(function (original, index) {
+    var computed = getComputedStyle(original), style = '';
+    Array.from(computed).forEach(function (property) {
+      style += property + ':' + computed.getPropertyValue(property) + ';';
+    });
+    copies[index].setAttribute('style', style);
+    copies[index].removeAttribute('contenteditable');
+    copies[index].removeAttribute('tabindex');
+  });
+}
+
+function exportPNG() {
+  var rect = wall.getBoundingClientRect();
+  if (rect.width < 2 || rect.height < 2) { say('Chưa có bảng để xuất.'); return; }
+  say('Đang dựng ảnh PNG…');
+
+  var clone = wall.cloneNode(true);
+  inlineComputedStyles(wall, clone);
+  clone.querySelectorAll('.is-selected').forEach(function (el) { el.classList.remove('is-selected'); });
+  clone.querySelectorAll('.sign-tools').forEach(function (el) { el.remove(); });
+  clone.style.position = 'relative';
+  clone.style.inset = 'auto';
+  clone.style.width = Math.round(rect.width) + 'px';
+  clone.style.height = Math.round(rect.height) + 'px';
+
+  var wrapper = document.createElement('div');
+  wrapper.setAttribute('xmlns', 'http://www.w3.org/1999/xhtml');
+  wrapper.dataset.theme = themeKey;
+  wrapper.style.cssText = 'position:relative;overflow:hidden;width:' + Math.round(rect.width) +
+    'px;height:' + Math.round(rect.height) + 'px;margin:0;padding:0;';
+  var style = document.createElement('style');
+  style.textContent = collectCSS();
+  wrapper.append(style, clone);
+
+  var serialized = new XMLSerializer().serializeToString(wrapper);
+  var svg = '<svg xmlns="http://www.w3.org/2000/svg" width="' + Math.round(rect.width) +
+    '" height="' + Math.round(rect.height) + '"><foreignObject width="100%" height="100%">' +
+    serialized + '</foreignObject></svg>';
+  var svgURL = URL.createObjectURL(new Blob([svg], { type: 'image/svg+xml;charset=utf-8' }));
+  var image = new Image();
+  image.onload = function () {
+    var scale = Math.max(1, Math.min(2, 3600 / Math.max(rect.width, rect.height)));
+    var canvas = document.createElement('canvas');
+    canvas.width = Math.round(rect.width * scale);
+    canvas.height = Math.round(rect.height * scale);
+    var context = canvas.getContext('2d');
+    context.scale(scale, scale);
+    context.drawImage(image, 0, 0);
+    URL.revokeObjectURL(svgURL);
+    canvas.toBlob(function (blob) {
+      if (!blob) { say('Không thể tạo ảnh PNG.'); return; }
+      var url = URL.createObjectURL(blob), link = document.createElement('a');
+      link.href = url;
+      link.download = 'pho-bang-hieu-' + themeKey + '.png';
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
+      say('Đã xuất ảnh PNG.');
+    }, 'image/png');
+  };
+  image.onerror = function () { URL.revokeObjectURL(svgURL); say('Không thể dựng ảnh PNG.'); };
+  image.src = svgURL;
+}
+
 function wireChrome() {
   document.querySelectorAll('.dock button').forEach(function (button) {
     button.addEventListener('click', function () {
@@ -1337,7 +1577,10 @@ function wireChrome() {
       if (act === 'shuffle') shuffleWall();
       else if (act === 'add') addSign();
       else if (act === 'relayout') newLayout();
+      else if (act === 'undo') undoState();
+      else if (act === 'redo') redoState();
       else if (act === 'theme') setTheme(theme().other);
+      else if (act === 'export') exportPNG();
       else if (act === 'fonts') toggleDrawer();
       else if (act === 'hide') { document.body.classList.add('chrome-off'); }
     });
@@ -1348,21 +1591,25 @@ function wireChrome() {
   LINES.forEach(function (key) {
     pickers[key].addEventListener('change', function (ev) {
       if (!selected) return;
+      checkpoint();
       selected.sign.faces[key] = ev.target.value;
       delete selected.sign.tweak[key];
       scheduleFit([selected]);
+      scheduleSave();
     });
   });
   $('#shuffleFace').addEventListener('click', function () {
     if (!selected) return;
-    dressType(selected.sign); scheduleFit([selected]); syncDrawer();
+    checkpoint();
+    dressType(selected.sign); scheduleFit([selected]); syncDrawer(); scheduleSave();
   });
   $('#resetFace').addEventListener('click', function () {
     if (!selected) return;
+    checkpoint();
     var recipe = recipeFor(selected.sign.key);
     selected.sign.faces = Object.assign({}, recipe.faces);
     selected.sign.tweak = JSON.parse(JSON.stringify(recipe.tweak || {}));
-    scheduleFit([selected]); syncDrawer();
+    scheduleFit([selected]); syncDrawer(); scheduleSave();
     say('Đã về đúng công thức chữ của loại tiệm.');
   });
 
@@ -1379,9 +1626,18 @@ function wireChrome() {
 
   document.addEventListener('keydown', function (ev) {
     var el = document.activeElement;
-    if (el && (el.isContentEditable || el.tagName === 'SELECT' || el.tagName === 'INPUT')) return;
-    if (ev.metaKey || ev.ctrlKey || ev.altKey) return;
+    var editing = el && (el.isContentEditable || el.tagName === 'SELECT' || el.tagName === 'INPUT');
     var key = ev.key.toLowerCase();
+    if (!editing && (ev.metaKey || ev.ctrlKey) && !ev.altKey) {
+      if (key === 'z' && ev.shiftKey) redoState();
+      else if (key === 'z') undoState();
+      else if (key === 'y') redoState();
+      else return;
+      ev.preventDefault();
+      return;
+    }
+    if (editing) return;
+    if (ev.metaKey || ev.ctrlKey || ev.altKey) return;
     if (key === 'r') shuffleWall();
     else if (key === 'n') newLayout();
     else if (key === 'a') addSign();
@@ -1412,12 +1668,14 @@ function ensureBoard() {
   if (built) return true;
   if (wall.clientWidth < 140 || wall.clientHeight < 140) return false;
   built = true;
-  tree = buildLayout(targetCount());
+  if (!tree) tree = buildLayout(targetCount());
   buildDOM();
+  saveNow();
   return true;
 }
 
 function boot() {
+  restoreSaved();
   wireChrome();
   Object.keys(THEMES).forEach(function (key) {
     var system = window[THEMES[key].system];
@@ -1426,11 +1684,12 @@ function boot() {
       refreshPickers(); updateStatus(); scheduleFit();
     });
   });
-  setTheme(themeKey, true);
+  setTheme(themeKey, true, true);
   new ResizeObserver(function () {
     if (built) scheduleFit(); else ensureBoard();
   }).observe(wall);
   ensureBoard();
+  syncHistoryButtons();
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { scheduleFit(); });
 }
 

@@ -250,6 +250,7 @@ body.dragging .sign { pointer-events: none; }
 .dock button i { font-style: normal; }
 .dock button span { margin-left: 5px; }
 .dock button:hover { background: var(--yellow); }
+.dock button:disabled { cursor: not-allowed; filter: grayscale(1); opacity: .38; }
 .dock button[data-act="shuffle"] { color: #fff; background: var(--red); }
 .dock button[data-act="shuffle"]:hover { background: #e5313c; }
 .dock button[aria-pressed="true"] { color: #fff; background: var(--blue); }
@@ -476,6 +477,7 @@ body[data-theme="sg85"] .drawer-close { color: #17453b; background: var(--gold);
   opacity: 0;
   transform: translateY(130%);
   transition: .18s ease;
+  pointer-events: none;
 }
 .toast.show { opacity: 1; transform: translateY(0); }
 
@@ -483,10 +485,10 @@ body[data-theme="sg85"] .drawer-close { color: #17453b; background: var(--gold);
    icons in one row so it covers as little signage as possible. */
 @media (max-width: 620px) {
   :root { --gut: 6px; }
-  .dock { left: 8px; bottom: 8px; padding: 5px; gap: 4px; }
+  .dock { right: 8px; left: 8px; bottom: 8px; padding: 5px; gap: 4px; }
   .dock-brand { display: none; }
-  .dock-actions { gap: 4px; }
-  .dock button { min-height: 40px; padding: 0 12px; font-size: .95rem; }
+  .dock-actions { width: 100%; gap: 3px; }
+  .dock button { min-width: 0; min-height: 40px; flex: 1 1 0; padding: 0; font-size: .84rem; }
   .dock button span { display: none; }
   .peek { left: 8px; bottom: 8px; }
   .toast { left: 8px; right: 8px; bottom: 60px; max-width: none; }
