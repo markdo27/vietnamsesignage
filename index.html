@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bảng Hiệu Generator — Prototype</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;700;900&family=Yeseva+One&display=swap');
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    min-height: 100vh;
+    background: #e7e2d6;
+    background-image:
+      radial-gradient(circle at 20% 20%, rgba(0,0,0,0.03) 0, transparent 45%),
+      radial-gradient(circle at 80% 70%, rgba(0,0,0,0.03) 0, transparent 45%);
+    font-family: 'Be Vietnam Pro', sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 16px 60px;
+    color: #1a1a1a;
+  }
+
+  .masthead { text-align: center; max-width: 480px; margin-bottom: 30px; }
+  .masthead .kicker {
+    font-size: 11px; letter-spacing: 3px; font-weight: 700; color: #8a8372;
+    text-transform: uppercase; margin-bottom: 8px;
+  }
+  .masthead h1 {
+    font-weight: 900; font-size: clamp(22px, 6vw, 32px); margin: 0 0 8px;
+    text-transform: uppercase; letter-spacing: 0.5px;
+  }
+  .masthead p { font-size: 13.5px; color: #555; line-height: 1.5; margin: 0; }
+
+  .controls {
+    display: flex; gap: 10px; flex-wrap: wrap; justify-content: center;
+    margin-bottom: 22px;
+  }
+  select, button {
+    font-family: inherit; font-size: 13px; font-weight: 700;
+    padding: 10px 16px; border-radius: 3px; border: 2px solid #1a1a1a;
+    background: #fff; cursor: pointer; appearance: none;
+  }
+  select { background: #fff url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="10" height="6"><path d="M0 0l5 6 5-6z" fill="%231a1a1a"/></svg>') no-repeat right 12px center; padding-right: 30px; }
+  #randomBtn { background: #1a1a1a; color: #fff; }
+  #randomBtn:active { transform: translateY(1px) scale(0.98); }
+
+  .stage { display: flex; flex-direction: column; align-items: center; }
+
+  .board {
+    position: relative;
+    width: min(300px, 82vw);
+    background: var(--bg);
+    border: 7px solid var(--border);
+    padding: 24px 18px 0;
+    box-shadow: 0 14px 26px rgba(0,0,0,0.32);
+    transition: background .2s ease, border-color .2s ease;
+  }
+  .rivet { position: absolute; width: 7px; height: 7px; border-radius: 50%;
+    background: rgba(0,0,0,0.28); box-shadow: inset 0 1px 1px rgba(255,255,255,0.35); }
+  .rivet.tl { top: 6px; left: 6px; } .rivet.tr { top: 6px; right: 6px; }
+  .rivet.bl { bottom: 6px; left: 6px; } .rivet.br { bottom: 6px; right: 6px; }
+
+  .badge {
+    position: absolute; top: -16px; left: 50%; transform: translateX(-50%);
+    width: 30px; height: 30px; border-radius: 50%; background: #fff;
+    border: 3px solid var(--border); display: flex; align-items: center;
+    justify-content: center; font-size: 14px; box-shadow: 0 3px 6px rgba(0,0,0,0.25);
+  }
+
+  .cat { font-weight: 900; font-size: 15px; letter-spacing: 1.5px; text-align: center;
+    color: var(--cat); outline: none; padding: 2px; }
+  .name { font-weight: 900; font-size: 36px; line-height: 1.05; text-align: center;
+    color: var(--name); margin: 6px 0 4px; outline: none; padding: 2px;
+    text-transform: uppercase; word-break: break-word; }
+  .board.script .name { font-family: 'Yeseva One', cursive; text-transform: none;
+    font-weight: 400; font-size: 33px; }
+  .board.outline .name { -webkit-text-stroke: 2px var(--outline); }
+  .board.gradientName .name {
+    background: var(--nameGrad); -webkit-background-clip: text; background-clip: text;
+    color: transparent; -webkit-text-fill-color: transparent;
+  }
+  .tagline { font-weight: 800; font-size: 15px; text-align: center; letter-spacing: .3px;
+    color: var(--tagline); outline: none; padding: 2px 2px 16px; }
+  .footer { margin: 0 -18px; padding: 9px 18px; background: var(--footerBg);
+    color: var(--footerColor); font-weight: 800; font-size: 13px; text-align: center; }
+  .footer span { outline: none; }
+
+  .stand { width: 8px; height: 40px; background: linear-gradient(#bbb, #888); }
+  .foot { width: 90px; height: 8px; border-radius: 50%; background: rgba(0,0,0,0.15);
+    filter: blur(2px); margin-top: -2px; }
+
+  .hint { margin-top: 22px; font-size: 12px; color: #8a8372; text-align: center; max-width: 280px; }
+</style>
+</head>
+<body>
+
+  <div class="masthead">
+    <div class="kicker">Prototype — not final art</div>
+    <h1>Bảng Hiệu Generator</h1>
+    <p>A quick taste of the concept: pick a shop type, then hit the dice to shuffle in an authentic clashing color/type combo. Click any line to edit it.</p>
+  </div>
+
+  <div class="controls">
+    <select id="catSelect">
+      <option value="khach-san">🏨 Khách Sạn</option>
+      <option value="nha-tro">🔑 Nhà Trọ</option>
+      <option value="quan-com">🍚 Quán Cơm</option>
+      <option value="banh-mi">🥖 Bánh Mì - Xôi</option>
+      <option value="ca-phe">☕ Cà Phê - Trà Đá</option>
+      <option value="hot-toc">💈 Hớt Tóc</option>
+      <option value="nail-spa">💅 Nail - Spa</option>
+      <option value="sua-xe">🔧 Sửa Xe Máy</option>
+      <option value="sua-dt">📱 Sửa Điện Thoại</option>
+      <option value="giat-ui">👕 Giặt Ủi</option>
+      <option value="cam-do">💰 Cầm Đồ</option>
+      <option value="bia-tuoi">🍺 Bia Tươi</option>
+      <option value="thuoc-tay">✚ Nhà Thuốc Tây</option>
+      <option value="karaoke">🎤 Karaoke</option>
+    </select>
+    <button id="randomBtn">🎲 Random hoá</button>
+  </div>
+
+  <div class="stage">
+    <div class="board" id="board">
+      <div class="badge" id="badge">🏨</div>
+      <div class="rivet tl"></div><div class="rivet tr"></div>
+      <div class="rivet bl"></div><div class="rivet br"></div>
+      <div class="cat" contenteditable="true" id="cat">KHÁCH SẠN</div>
+      <div class="name" contenteditable="true" id="name">MƯỜI EM</div>
+      <div class="tagline" contenteditable="true" id="tagline">PHỤC VỤ 24/24</div>
+      <div class="footer"><span contenteditable="true" id="footerText">GIÁ BÌNH DÂN</span></div>
+    </div>
+    <div class="stand"></div>
+    <div class="foot"></div>
+  </div>
+
+  <p class="hint">This is a static proof-of-concept for the visual language — the real app would add a photo-compositor, weathering filters, and PNG export.</p>
+
+<script>
+(function(){
+  const board = document.getElementById('board');
+  const catSel = document.getElementById('catSelect');
+  const cat = document.getElementById('cat');
+  const name = document.getElementById('name');
+  const tagline = document.getElementById('tagline');
+  const footerText = document.getElementById('footerText');
+  const randomBtn = document.getElementById('randomBtn');
+
+  const categories = {
+    'khach-san': { icon:'🏨', cat:'KHÁCH SẠN', name:'MƯỜI EM', tagline:'PHỤC VỤ 24/24', footer:'GIÁ BÌNH DÂN', mood:0 },
+    'nha-tro':   { icon:'🔑', cat:'NHÀ TRỌ', name:'CÔ BA', tagline:'PHÒNG SẠCH - AN NINH', footer:'0909.222.333', mood:1 },
+    'quan-com':  { icon:'🍚', cat:'CƠM TẤM', name:'SƯỜN QUE', tagline:'GIAO HÀNG TẬN NƠI', footer:'☎ 0909.123.456', mood:1 },
+    'banh-mi':   { icon:'🥖', cat:'BÁNH MÌ - XÔI', name:'CÔ TÁM', tagline:'NÓNG GIÒN MỖI SÁNG', footer:'5K - 15K', mood:4 },
+    'ca-phe':    { icon:'☕', cat:'CÀ PHÊ - TRÀ ĐÁ', name:'CHÚ TƯ', tagline:'VỈA HÈ MÁT MẺ', footer:'GIÁ SINH VIÊN', mood:4 },
+    'hot-toc':   { icon:'💈', cat:'HỚT TÓC NAM', name:'SALON HẢI', tagline:'CẮT · GỘI · UỐN · NHUỘM', footer:'ĐẶC BIỆT: RÁY TAI', mood:3 },
+    'nail-spa':  { icon:'💅', cat:'NAIL - SPA', name:'MỸ TIÊN', tagline:'LÀM ĐẸP TRỌN GÓI', footer:'ƯU ĐÃI THÁNG NÀY', mood:5 },
+    'sua-xe':    { icon:'🔧', cat:'SỬA XE MÁY', name:'GARA ANH HAI', tagline:'ĐỒNG SƠN · MÁY · ĐIỆN', footer:'0938.456.789', mood:2 },
+    'sua-dt':    { icon:'📱', cat:'BƠM VÁ', name:'ĐIỆN THOẠI', tagline:'SỬA NHANH LẤY LIỀN', footer:'BẢO HÀNH 1 NĂM', mood:2 },
+    'giat-ui':   { icon:'👕', cat:'GIẶT ỦI', name:'SẠCH NHANH', tagline:'LẤY LIỀN TRONG NGÀY', footer:'GIAO TẬN NHÀ', mood:4 },
+    'cam-do':    { icon:'💰', cat:'CẦM ĐỒ', name:'UY TÍN', tagline:'LÃI SUẤT THẤP NHẤT', footer:'HỖ TRỢ NHANH', mood:6 },
+    'bia-tuoi':  { icon:'🍺', cat:'BIA TƯƠI', name:'BIVA', tagline:'PHỤC VỤ CÁC MÓN ĂN', footer:'BÌNH DÂN', mood:2 },
+    'thuoc-tay': { icon:'✚', cat:'NHÀ THUỐC TÂY', name:'SỐ 1', tagline:'TƯ VẤN MIỄN PHÍ', footer:'MỞ CỬA 24/24', mood:7 },
+    'karaoke':   { icon:'🎤', cat:'KARAOKE', name:'NGÔI SAO', tagline:'PHÒNG VIP - MÁY LẠNH', footer:'GIỜ VÀNG GIẢM 50%', mood:8 },
+  };
+
+  const moods = [
+    { bg:'#ffffff', border:'#d81f26', cat:'#d81f26', name:'#2b2fa3', tagline:'#d81f26', footerBg:'transparent', footerColor:'#1a7a3c', font:'script', outline:false },
+    { bg:'#f7d900', border:'#161616', cat:'#161616', name:'#d81f26', tagline:'#d81f26', footerBg:'#154ea6', footerColor:'#ffffff', font:'block', outline:false },
+    { bg:'#f7d900', border:'#154ea6', cat:'#154ea6', name:'#d81f26', tagline:'#1a7a3c', footerBg:'transparent', footerColor:'#1a7a3c', font:'block', outline:true, outlineColor:'#154ea6' },
+    { bg:'#141518', border:'#f5a300', cat:'#f5a300', name:'#ffffff', tagline:'#f5a300', footerBg:'#d81f26', footerColor:'#ffffff', font:'script', outline:false },
+    { bg:'#ffffff', border:'#1a7a3c', cat:'#154ea6', name:'#d81f26', tagline:'#1a7a3c', footerBg:'#d81f26', footerColor:'#ffffff', font:'block', outline:false },
+    { bg:'#ffffff', border:'#e6007e', cat:'#e6007e', name:'#c9a227', tagline:'#e6007e', footerBg:'#e6007e', footerColor:'#ffffff', font:'script', outline:true, outlineColor:'#e6007e' },
+    { bg:'#b91c1c', border:'#d4af37', cat:'#d4af37', name:'#ffffff', tagline:'#d4af37', footerBg:'#161616', footerColor:'#d4af37', font:'block', outline:false },
+    { bg:'#ffffff', border:'#0a7a3c', cat:'#0a7a3c', name:'#0a7a3c', tagline:'#0a7a3c', footerBg:'#0a7a3c', footerColor:'#ffffff', font:'block', outline:false },
+    { bg:'#0a0a12', border:'#00e5ff', cat:'#ff2fb0', name:null, nameGrad:'linear-gradient(90deg,#ff004c,#ffea00,#00e5ff,#a100ff)', tagline:'#00e5ff', footerBg:'#a100ff', footerColor:'#ffffff', font:'block', outline:false },
+  ];
+
+  function applyMood(m){
+    board.style.setProperty('--bg', m.bg);
+    board.style.setProperty('--border', m.border);
+    board.style.setProperty('--cat', m.cat);
+    board.style.setProperty('--tagline', m.tagline);
+    board.style.setProperty('--footerBg', m.footerBg);
+    board.style.setProperty('--footerColor', m.footerColor);
+    board.classList.toggle('script', m.font === 'script');
+    board.classList.toggle('outline', !!m.outline);
+    if (m.outline) board.style.setProperty('--outline', m.outlineColor);
+    board.classList.toggle('gradientName', !!m.nameGrad);
+    if (m.nameGrad) {
+      board.style.setProperty('--nameGrad', m.nameGrad);
+    } else {
+      board.style.setProperty('--name', m.name);
+    }
+    const rot = (Math.random() * 3 - 1.5).toFixed(2);
+    board.style.transform = 'rotate(' + rot + 'deg)';
+  }
+
+  function applyCategory(key){
+    const c = categories[key];
+    cat.textContent = c.cat;
+    name.textContent = c.name;
+    tagline.textContent = c.tagline;
+    footerText.textContent = c.footer;
+    document.getElementById('badge').textContent = c.icon;
+    applyMood(moods[c.mood]);
+  }
+
+  catSel.addEventListener('change', function(e){ applyCategory(e.target.value); });
+  randomBtn.addEventListener('click', function(){
+    applyMood(moods[Math.floor(Math.random() * moods.length)]);
+  });
+
+  applyCategory('khach-san');
+})();
+</script>
+</body>
+</html>
