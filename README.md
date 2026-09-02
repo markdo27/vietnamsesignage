@@ -190,9 +190,8 @@ dấu. Faces are assigned by measured width: the average cap advance ranges from
 0.30 em (Cửa Hàng, the address lines) to 0.85 em (Phát Tài, the shout), and
 every recipe pairs one wide face for the name with a narrow one for the detail.
 
-**The font files are not in this repo** — see `fonts/README.md`. Drop them into
-`fonts/saigon1985/` and the theme reports `10/10`; without them it falls back to
-the nearest open faces and says so in the drawer.
+The ten files live in `fonts/saigon1985/` and are committed, so a fresh clone
+letters this era with no setup and the drawer reports `10/10`.
 
 ### Phố hôm nay — the UTM system
 
@@ -204,7 +203,7 @@ models the system without shipping the files:
 - **37 signage-relevant UTM faces** are catalogued across nine groups (nén, sans đậm, hình học, chân dày, có chân, chữ khắc, viết tay, thư pháp, chữ vuông), each declaring which sign lines it suits.
 - **Genuine UTM files are used when present.** `@font-face` rules are built from `local()` only, so a machine with the real fonts installed gets the real fonts. Nothing is downloaded and nothing is redistributed.
 - **Otherwise a tuned open substitute stands in** — weight, variable width axis, tracking, slant and cap height all pushed toward the UTM face. All 24 substitutes were checked against the full 134-character Vietnamese repertoire; every stack ends in Be Vietnam Pro so per-glyph fallback can never drop a diacritic.
-- **You can load your own UTM files** by dragging them onto the font drawer, or via `fonts/manifest.json`. They stay in that browser and are never committed.
+- **The pack is in `fonts/`**, loaded through `fonts/manifest.json`, so the drawer reports 32 of 37 faces running genuine UTM. You can still drop further files onto the font drawer at runtime; those stay in that browser only.
 - **Text is sized by cap height, not font size** — measured live off whichever font actually resolved. That is how sign painters work, and it means swapping a face never moves the layout, so the ratios measured off the reference photos (1.00 / 0.93 / 0.70 / 0.58 for the Mười Em hotel sign) render literally.
 
 See **`docs/utm-font-system.md`** for the full mapping.
@@ -232,8 +231,18 @@ See **`docs/utm-font-system.md`** for the full mapping.
 
 ## License
 
-**No UTM font files are in this repo, and none should be added.** They are
-unauthorized derivatives of commercial typefaces and are not safe to
-redistribute; `fonts/` is gitignored for that reason. The app speaks the whole
-UTM vocabulary through `local()` pickup and user-supplied drop-ins instead. See
+Two font sets ship here, and they do not stand on the same footing.
+
+**Sài Gòn 1985** (`fonts/saigon1985/`) is Thái Hiếu's *10 Font Sài Gòn Xưa*,
+released free for any use including commercial, resale forbidden. Keep the
+attribution; do not sell it on.
+
+**The UTM pack** (`fonts/*.ttf`) is included at the repository owner's
+decision. Be clear about what it is: the UTM faces are unauthorized
+Vietnamese-diacritic grafts onto commercial typefaces — the filenames name the
+originals outright — and no licence accompanies them. They are not the owner's
+to relicense, and this repo makes no claim to any right in them. Anyone
+redistributing or building on them does so at their own risk; a rights holder
+may ask for their removal. The type system still runs on `local()` pickup and
+tuned open substitutes, so the app works with the pack deleted. See
 `docs/utm-font-system.md` and `docs/typography-sizing-research.md`.

@@ -1,7 +1,7 @@
 # fonts/
 
-Two font sets live here, one per theme, and they are treated differently:
-the Sài Gòn 1985 pack **is** committed, the UTM files never are.
+Two font sets live here, one per theme. Both are committed, but on very
+different footing — read the second section before you reuse anything.
 
 ## `saigon1985/` — the SÀI GÒN 1985 theme
 
@@ -26,9 +26,16 @@ real accented glyphs — verified, not assumed — so nothing loses a dấu.
 
 ## UTM files — the PHỐ HÔM NAY theme
 
-The UTM pack is a set of unauthorized Vietnamese-diacritic grafts onto
-commercial typefaces and must not be redistributed. See
-`../docs/utm-font-system.md`. Drop them straight in this folder.
+The 196 `UTM *.ttf` files in this folder are the full pack, committed at the
+repository owner's decision, and `manifest.json` lists the 33 of them the
+catalogue maps to so the app loads only what it needs.
+
+Understand what they are before reusing them: UTM faces are unauthorized
+Vietnamese-diacritic grafts onto commercial typefaces — `UTM LinotypeZapfino`,
+`UTM ClassizismAntiqua`, `UTM Duepuntozero` name their originals outright — and
+no licence came with the pack. Nobody here can grant you rights to them. See
+`../docs/utm-font-system.md`. Delete the folder's `.ttf` files and the app falls
+back to the tuned open substitutes, which is what it was built to do.
 
 ## Two ways to load them
 

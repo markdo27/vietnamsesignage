@@ -3,13 +3,15 @@ node_modules/
 .env
 *.log
 
-# UTM font files are never committed — unauthorized derivatives of commercial
-# typefaces. See docs/utm-font-system.md. The Sài Gòn 1985 pack is committed
-# on purpose: it is free for any use, and the app needs it to letter that era.
+# Both font sets are committed. The Sài Gòn 1985 pack is free for any use;
+# the UTM pack is included at the owner's decision despite being unauthorized
+# derivatives of commercial typefaces — see the licence note in README.md.
 fonts/*
 !fonts/README.md
 !fonts/manifest.json
 !fonts/saigon1985/
+!fonts/*.ttf
+!fonts/*.otf
 
 # git bundle used to move this project between machines
 *.bundle

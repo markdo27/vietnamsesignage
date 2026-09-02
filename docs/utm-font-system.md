@@ -176,7 +176,9 @@ and switches that face from substitute to genuine everywhere it is used.
   ```json
   { "files": ["UTM Bebas.ttf", "UTM HelvetIns.ttf"] }
   ```
-  `fonts/` is gitignored — the files stay local and are never committed.
+  The pack is committed in `fonts/` with a `manifest.json` covering the 33
+  catalogued faces it contains; see the licence note in the root README for what
+  that does and does not grant you.
 
 The type panel reports live how many of the 37 faces resolved to genuine UTM
 files, and shows per line whether it is running the real face or a substitute.
