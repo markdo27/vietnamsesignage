@@ -1,7 +1,7 @@
 # fonts/
 
-Two font sets live here, one per theme. **Nothing in this folder is committed** —
-`.gitignore` excludes every font file.
+Two font sets live here, one per theme, and they are treated differently:
+the Sài Gòn 1985 pack **is** committed, the UTM files never are.
 
 ## `saigon1985/` — the SÀI GÒN 1985 theme
 
@@ -15,11 +15,11 @@ SAIGON1985.ttf    SG85-CUA HANG.ttf
 ```
 
 The designer's terms: **free for any use including commercial, resale
-forbidden.** They are kept out of git out of respect for that — this repo is not
-a distribution channel for someone else's type. Drop the ten `.ttf` files into
-`fonts/saigon1985/` and the 1985 theme picks them up automatically; the font
-drawer reports `10/10 mặt chữ Sài Gòn 1985 đã nạp`. Without them the theme falls
-back to the nearest open faces and says so.
+forbidden.** On those terms the ten files are committed here, so a fresh clone
+letters the 1985 era with no setup — the font drawer reports `10/10 mặt chữ Sài
+Gòn 1985 đã nạp`. Keep the attribution above with them, and do not sell them on.
+If they are ever removed the theme falls back to the nearest open faces and says
+so in the drawer.
 
 Every one of the ten covers the full 134-character Vietnamese repertoire with
 real accented glyphs — verified, not assumed — so nothing loses a dấu.
