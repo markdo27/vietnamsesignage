@@ -644,3 +644,49 @@ body[data-theme="sg85"] .drawer-close { color: #17453b; background: var(--gold);
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { transition-duration: .001ms !important; }
 }
+
+/* ── Giới thiệu & bản quyền ─────────────────────────────────────────
+   Cùng bảng màu với drawer: nền tím, chữ trắng, nút vàng. */
+.about {
+  width: min(420px, 90vw);
+  padding: 22px;
+  border: 0;
+  color: #fff;
+  background: var(--purple);
+  box-shadow: 0 10px 0 rgba(0, 0, 0, .25);
+}
+.about::backdrop { background: rgba(0, 0, 0, .55); }
+.about .eyebrow { margin: 0 0 4px; font-size: .58rem; font-weight: 800; letter-spacing: .16em; }
+.about h2 { margin: 0 0 14px; font: 900 1.25rem/1 "Alfa Slab One", Georgia, serif; }
+.about dl { margin: 0; }
+.about dt {
+  font-size: .55rem;
+  font-weight: 900;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--yellow);
+  margin-top: 12px;
+}
+.about dt:first-child { margin-top: 0; }
+.about dd { margin: 3px 0 0; font-size: .68rem; line-height: 1.55; color: #e6d9f0; }
+.about a { color: #fff; text-decoration: underline; text-underline-offset: 2px; }
+.about-note {
+  margin: 16px 0 0;
+  padding-top: 12px;
+  border-top: 2px solid rgba(255, 255, 255, .25);
+  font-size: .56rem;
+  line-height: 1.5;
+  color: #cbb8d8;
+}
+.about-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 26px;
+  height: 26px;
+  border: 0;
+  cursor: pointer;
+  color: var(--purple);
+  background: var(--yellow);
+  font-weight: 900;
+}

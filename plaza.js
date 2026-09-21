@@ -2200,6 +2200,7 @@ function wireChrome() {
       else if (act === 'fonts') toggleDrawer(undefined, 'fonts');
       else if (act === 'adjust') toggleDrawer(undefined, 'adjust');
       else if (act === 'hide') { document.body.classList.add('chrome-off'); }
+      else if (act === 'about') { var dlg = $('#aboutDialog'); if (dlg) dlg.showModal(); }
     });
   });
   $('#peek').addEventListener('click', function () { document.body.classList.remove('chrome-off'); });
