@@ -59,6 +59,7 @@
       <div class="dock-group" role="group" aria-label="Công cụ">
         <button type="button" data-act="fonts" aria-label="Mở bảng chọn font" aria-pressed="false" aria-controls="drawer" title="Hệ font (F)"><i>🔤</i><span>FONT</span></button>
         <button type="button" data-act="adjust" aria-label="Căn chỉnh chữ" aria-pressed="false" aria-controls="drawer" title="Căn chỉnh chữ: tracking, kerning, spacing (J)"><i>🎛</i><span>CHỈNH CHỮ</span></button>
+        <button type="button" data-act="about" aria-label="Giới thiệu và bản quyền" aria-haspopup="dialog" title="Giới thiệu & bản quyền"><i>ⓘ</i><span>GIỚI THIỆU</span></button>
         <button type="button" data-act="hide" aria-label="Ẩn bảng điều khiển" title="Ẩn bảng điều khiển (H)"><i>👁</i><span>ẨN</span></button>
       </div>
     </div>
@@ -179,6 +180,25 @@
       </div>
     </div>
   </aside>
+
+  <dialog class="about" id="aboutDialog" aria-labelledby="aboutTitle">
+    <form method="dialog">
+      <button type="submit" class="about-close" aria-label="Đóng">✕</button>
+    </form>
+    <p class="eyebrow">GIỚI THIỆU &amp; BẢN QUYỀN</p>
+    <h2 id="aboutTitle">PHỐ BẢNG HIỆU</h2>
+    <dl>
+      <dt>Tác giả</dt>
+      <dd>Mark Do</dd>
+      <dt>Liên hệ</dt>
+      <dd><a href="mailto:dtcmark@gmail.com">dtcmark@gmail.com</a></dd>
+      <dt>Dùng cá nhân</dt>
+      <dd>Miễn phí. Bạn có thể dùng công cụ này, và những gì bạn làm ra từ nó, cho mục đích cá nhân, học tập và phi thương mại, không cần xin phép.</dd>
+      <dt>Dùng thương mại</dt>
+      <dd>Cần xin phép trước. Mọi công việc có trả phí, cho khách hàng, cho thương hiệu hoặc bán lại, đều cần được đồng ý bằng văn bản: <a href="mailto:dtcmark@gmail.com?subject=Xin%20giay%20phep%20thuong%20mai">xin giấy phép</a>.</dd>
+    </dl>
+    <p class="about-note">&copy; 2026 Mark Do. Công cụ được cung cấp nguyên trạng, không kèm bảo hành. Các phông chữ đi kèm giữ giấy phép riêng của chúng.</p>
+  </dialog>
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
