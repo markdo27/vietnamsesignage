@@ -39,7 +39,7 @@ button, select, input { font: inherit; color: inherit; }
 /* --- the wall ----------------------------------------------------------- */
 .wall {
   position: fixed;
-  inset: 0;
+  inset: 0 var(--inspector-space, 0px) var(--dock-space, 110px) 0;
   display: flex;
   padding: var(--gut);
   background: var(--frame);
@@ -133,6 +133,7 @@ body.dragging .sign { pointer-events: none; }
   transform-origin: center;
 }
 .line[hidden] { display: none; }
+.line:focus-visible { outline: 2px dashed currentColor; outline-offset: 4px; }
 .cat { color: var(--cat); }
 .name { color: var(--name); text-shadow: .055em .055em 0 var(--name-shadow); }
 .tagline { color: var(--tagline); }
@@ -216,12 +217,15 @@ body.dragging .sign { pointer-events: none; }
 .dock {
   position: fixed;
   z-index: 20;
-  left: 14px;
-  bottom: 14px;
-  display: flex;
-  align-items: stretch;
-  gap: 7px;
-  padding: 7px;
+  left: 50%;
+  bottom: max(10px, env(safe-area-inset-bottom));
+  transform: translateX(-50%);
+  width: min(960px, calc(100% - 24px));
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 4px 16px;
+  padding: 10px 12px;
   background: var(--frame-dark);
   box-shadow: 5px 5px 0 rgba(0, 0, 0, .3);
 }
@@ -229,27 +233,24 @@ body.dragging .sign { pointer-events: none; }
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 2px;
-  padding: 4px 12px 4px 8px;
+  gap: 4px;
   color: var(--paper);
 }
-.dock-brand b { font: 900 .82rem/1 "Alfa Slab One", Georgia, serif; letter-spacing: .02em; }
-.dock-brand span { color: #8fc6cf; font-size: .54rem; font-weight: 700; letter-spacing: .07em; }
-.dock-actions { display: flex; align-items: stretch; gap: 9px; }
-/* buttons sit in labelled groups — content, layout, history, export, tools —
-   divided by a hairline so the dock reads as sections, not one long row */
-.dock-group { display: flex; gap: 3px; padding-right: 9px; border-right: 1px solid rgba(255, 255, 255, .22); }
-.dock-group:last-child { padding-right: 0; border-right: 0; }
+.dock-brand b { font: 900 1rem/1.1 "Alfa Slab One", Georgia, serif; letter-spacing: .02em; }
+.dock-brand span { color: #8fc6cf; font-size: 10px; font-weight: 700; letter-spacing: .04em; }
+.creation-hint { grid-column: 1; margin: 0; color: #cfe0d5; font-size: 11px; line-height: 1.4; }
+.dock-actions { grid-column: 2; grid-row: 1 / span 2; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; }
 .dock button:disabled { opacity: .4; cursor: default; }
 .dock button:disabled:hover { background: var(--paper); }
 .dock button {
-  min-height: 38px;
-  padding: 0 11px;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 8px 12px;
   border: 0;
   cursor: pointer;
   color: var(--ink);
   background: var(--paper);
-  font-size: .6rem;
+  font-size: 11px;
   font-weight: 900;
   letter-spacing: .04em;
   white-space: nowrap;
@@ -262,13 +263,33 @@ body.dragging .sign { pointer-events: none; }
 .dock button[data-act="theme"] { font-variant-numeric: tabular-nums; letter-spacing: .06em; }
 .dock button[data-act="shuffle"]:hover { background: #e5313c; }
 .dock button[aria-pressed="true"] { color: #fff; background: var(--blue); }
+.dock-more {
+  position: absolute;
+  bottom: calc(100% + 10px);
+  right: 0;
+  width: min(440px, 100%);
+  max-height: min(65dvh, 560px);
+  overflow-y: auto;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  padding: 12px;
+  color: var(--paper);
+  background: var(--frame-dark);
+  border: 1px solid currentColor;
+  box-shadow: 4px 4px 0 rgba(0, 0, 0, .3);
+}
+.dock-more[hidden] { display: none; }
+.dock-more button { white-space: normal; text-align: left; line-height: 1.4; }
+.more-heading { grid-column: 1 / -1; display: flex; align-items: center; justify-content: space-between; gap: 10px; font-size: 12px; }
+.more-heading button { text-align: center; }
 
 .peek {
   position: fixed;
   z-index: 20;
   left: 14px;
   bottom: 14px;
-  min-height: 34px;
+  min-height: 44px;
   padding: 0 12px;
   border: 0;
   cursor: pointer;
@@ -279,16 +300,18 @@ body.dragging .sign { pointer-events: none; }
   box-shadow: 4px 4px 0 rgba(0, 0, 0, .3);
 }
 body.chrome-off .dock, body.chrome-off .drawer { display: none; }
+body.chrome-off .wall { inset: 0; }
 body:not(.chrome-off) .peek { display: none; }
+body.editor-open { --inspector-space: 384px; }
 
 /* --- font drawer -------------------------------------------------------- */
 .drawer {
   position: fixed;
   z-index: 21;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  width: min(340px, 88vw);
+  top: 8px;
+  right: 8px;
+  bottom: var(--dock-space, 110px);
+  width: 368px;
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -300,27 +323,27 @@ body:not(.chrome-off) .peek { display: none; }
 }
 .drawer[hidden] { display: none; }
 .drawer h2 { margin: 0; font: 900 1.25rem/1 "Alfa Slab One", Georgia, serif; }
-.drawer .eyebrow { margin: 0 0 4px; font-size: .58rem; font-weight: 800; letter-spacing: .16em; }
-.drawer p { margin: 0; color: #e6d9f0; font-size: .6rem; line-height: 1.5; }
-.drawer label { display: block; font-size: .55rem; font-weight: 900; letter-spacing: .08em; text-transform: uppercase; }
+.drawer .eyebrow { margin: 0 0 4px; font-size: 11px; font-weight: 800; letter-spacing: .12em; }
+.drawer p { margin: 0; color: #e6d9f0; font-size: 12px; line-height: 1.5; }
+.drawer label { display: block; font-size: 12px; font-weight: 900; letter-spacing: .03em; text-transform: uppercase; }
 .drawer select {
   width: 100%;
-  height: 34px;
+  height: 44px;
   margin-top: 3px;
   padding: 0 6px;
   border: 2px solid #fff;
   border-radius: 0;
   color: var(--ink);
   background: #fff;
-  font-size: .62rem;
+  font-size: 13px;
   font-weight: 700;
 }
 .drawer-close {
   position: absolute;
-  top: 12px;
-  right: 12px;
-  width: 26px;
-  height: 26px;
+  top: 4px;
+  right: 8px;
+  width: 44px;
+  height: 44px;
   border: 0;
   cursor: pointer;
   color: var(--purple);
@@ -332,16 +355,16 @@ body:not(.chrome-off) .peek { display: none; }
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 5px;
-  margin-top: 18px;
+  margin-top: 34px;
   margin-bottom: 2px;
 }
 .drawer-tab {
-  min-height: 32px;
+  min-height: 44px;
   border: 2px solid rgba(255, 255, 255, .4);
   cursor: pointer;
   color: #fff;
   background: transparent;
-  font-size: .58rem;
+  font-size: 11px;
   font-weight: 900;
   letter-spacing: .06em;
   transition: background .1s ease, color .1s ease, border-color .1s ease;
@@ -365,12 +388,12 @@ body:not(.chrome-off) .peek { display: none; }
 .face-grid { display: grid; gap: 8px; }
 .drawer-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
 .drawer-actions button, .font-drop button {
-  min-height: 36px;
+  min-height: 44px;
   border: 2px solid #fff;
   cursor: pointer;
   color: #fff;
   background: transparent;
-  font-size: .58rem;
+  font-size: 11px;
   font-weight: 900;
 }
 .drawer-actions button:first-child { color: var(--purple); background: var(--yellow); border-color: var(--yellow); }
@@ -378,7 +401,7 @@ body:not(.chrome-off) .peek { display: none; }
 .font-drop { padding: 12px; border: 2px dashed rgba(255, 255, 255, .6); }
 .font-drop.over { color: var(--purple); background: var(--yellow); border-style: solid; }
 .font-drop button { width: 100%; margin-top: 8px; }
-.drawer .hint { color: #c9b3e0; font-size: .56rem; font-style: italic; }
+.drawer .hint { color: #c9b3e0; font-size: 12px; font-style: italic; }
 
 /* --- adjustment pane controls ------------------------------------------- */
 .adj-controls {
@@ -409,7 +432,7 @@ body:not(.chrome-off) .peek { display: none; }
 }
 .adj-badge {
   display: inline-block;
-  font-size: .56rem;
+  font-size: 12px;
   font-weight: 900;
   color: var(--yellow);
   font-family: monospace, monospace;
@@ -439,19 +462,18 @@ body:not(.chrome-off) .peek { display: none; }
   -webkit-appearance: none;
   appearance: none;
   width: 100%;
-  height: 6px;
+  height: 24px;
   margin: 7px 0 3px;
-  background: rgba(255, 255, 255, .32);
-  border: 1px solid rgba(0, 0, 0, .4);
+  background: linear-gradient(transparent 9px, rgba(255, 255, 255, .32) 9px 15px, transparent 15px);
+  border: 0;
   border-radius: 0;
-  outline: none;
   cursor: pointer;
 }
 .drawer input[type="range"]::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
-  width: 14px;
-  height: 16px;
+  width: 24px;
+  height: 24px;
   background: var(--yellow);
   border: 2px solid #111;
   border-radius: 0;
@@ -612,7 +634,7 @@ body[data-theme="sg85"] .drawer-close { color: #17453b; background: var(--gold);
   position: fixed;
   z-index: 30;
   right: 16px;
-  bottom: 16px;
+  bottom: calc(var(--dock-space, 110px) + 8px);
   max-width: 320px;
   padding: 11px 15px;
   color: #fff;
@@ -627,18 +649,31 @@ body[data-theme="sg85"] .drawer-close { color: #17453b; background: var(--gold);
 }
 .toast.show { opacity: 1; transform: translateY(0); }
 
-/* On a phone the dock is a lodger on someone else's wall: icons only, and the
-   groups wrap rather than squeezing ten buttons onto one line. */
-@media (max-width: 620px) {
+/* Keep four labelled actions on phones. The selected sign becomes the live
+   preview above the inspector; the stored mosaic is not changed. */
+@media (max-width: 760px) {
   :root { --gut: 6px; }
-  .dock { right: 8px; left: 8px; bottom: 8px; padding: 5px; gap: 4px; }
-  .dock-brand { display: none; }
-  .dock-actions { width: 100%; flex-wrap: wrap; gap: 5px; }
-  .dock-group { flex: 1 1 auto; padding-right: 5px; }
-  .dock button { min-width: 0; min-height: 40px; flex: 1 1 0; padding: 0; font-size: .84rem; }
-  .dock button span { display: none; }
+  .dock { width: calc(100% - 16px); padding: 8px; gap: 6px 10px; }
+  .dock-brand span { display: none; }
+  .creation-hint { grid-column: 2; font-size: 10px; max-width: 145px; }
+  .dock-actions { grid-column: 1 / -1; grid-row: auto; }
+  .dock button { padding: 8px 4px; font-size: 10px; letter-spacing: 0; }
+  .dock-actions button { display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 3px; }
+  .dock button span { margin-left: 0; }
+  .dock-more button { padding: 8px; font-size: 12px; }
+  body.editor-open { --inspector-space: 0px; }
+  body.editor-open:not(.chrome-off) .wall { bottom: calc(var(--dock-space, 110px) + var(--drawer-space, 0px)); }
+  body.editor-open:not(.chrome-off) .sign:not(.is-selected),
+  body.editor-open:not(.chrome-off) .gutter,
+  body.editor-open:not(.chrome-off) .split:not(.has-selection) { display: none; }
+  body.editor-open:not(.chrome-off) .split.has-selection,
+  body.editor-open:not(.chrome-off) .sign.is-selected { flex: 1 1 0 !important; }
+  body.editor-open:not(.chrome-off) .sign-tools { display: none; }
+  .drawer { top: auto; right: 8px; left: 8px; width: auto; height: min(48dvh, 450px); max-height: calc(100dvh - var(--dock-space, 110px) - 160px); padding: 14px; }
+  .sign-tools button { width: 44px; height: 44px; font-size: 14px; }
+  .drawer-close { top: 2px; }
   .peek { left: 8px; bottom: 8px; }
-  .toast { left: 8px; right: 8px; bottom: 60px; max-width: none; }
+  .toast { left: 8px; right: 8px; max-width: none; }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -649,6 +684,8 @@ body[data-theme="sg85"] .drawer-close { color: #17453b; background: var(--gold);
    Cùng bảng màu với drawer: nền tím, chữ trắng, nút vàng. */
 .about {
   width: min(420px, 90vw);
+  max-height: calc(100dvh - 24px);
+  overflow-y: auto;
   padding: 22px;
   border: 0;
   color: #fff;
@@ -656,7 +693,7 @@ body[data-theme="sg85"] .drawer-close { color: #17453b; background: var(--gold);
   box-shadow: 0 10px 0 rgba(0, 0, 0, .25);
 }
 .about::backdrop { background: rgba(0, 0, 0, .55); }
-.about .eyebrow { margin: 0 0 4px; font-size: .58rem; font-weight: 800; letter-spacing: .16em; }
+.about .eyebrow { margin: 24px 0 4px; font-size: .58rem; font-weight: 800; letter-spacing: .16em; }
 .about h2 { margin: 0 0 14px; font: 900 1.25rem/1 "Alfa Slab One", Georgia, serif; }
 .about dl { margin: 0; }
 .about dt {
@@ -680,13 +717,29 @@ body[data-theme="sg85"] .drawer-close { color: #17453b; background: var(--gold);
 }
 .about-close {
   position: absolute;
-  top: 12px;
-  right: 12px;
-  width: 26px;
-  height: 26px;
+  top: 8px;
+  right: 8px;
+  width: 44px;
+  height: 44px;
   border: 0;
   cursor: pointer;
   color: var(--purple);
   background: var(--yellow);
   font-weight: 900;
 }
+
+/* A scope choice works with a mouse, keyboard, or touch. */
+.export-dialog { width: min(440px, calc(100% - 24px)); max-height: calc(100dvh - 24px); overflow-y: auto; padding: 24px; border: 2px solid var(--paper); color: var(--paper); background: var(--frame-dark); }
+.export-dialog::backdrop { background: rgba(0, 0, 0, .6); }
+.export-dialog .eyebrow { margin: 20px 0 6px; font-size: 11px; letter-spacing: .08em; }
+.export-dialog h2 { margin: 0 0 24px; font-size: 22px; }
+.dialog-close { position: absolute; right: 8px; top: 8px; width: 44px; height: 44px; border: 0; color: var(--ink); background: var(--paper); cursor: pointer; }
+.export-scope { margin: 0; padding: 0; border: 0; }
+.export-scope legend { margin-bottom: 10px; font-size: 14px; }
+.export-scope label { display: flex; align-items: center; gap: 12px; min-height: 60px; padding: 12px; margin-bottom: 8px; border: 1px solid currentColor; cursor: pointer; }
+.export-scope label:has(input:disabled) { opacity: .5; cursor: default; }
+.export-scope input { width: 20px; height: 20px; accent-color: #f4d91f; }
+.export-scope small, .export-formats small { display: block; margin-top: 4px; font-size: 12px; font-weight: 400; overflow-wrap: anywhere; }
+.export-formats { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 20px; }
+.export-formats button { min-height: 64px; padding: 12px 6px; border: 0; cursor: pointer; background: var(--paper); color: var(--ink); font-weight: 900; }
+.export-formats button:first-child { background: var(--yellow); }

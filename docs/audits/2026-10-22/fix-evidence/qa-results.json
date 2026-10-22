@@ -1,0 +1,161 @@
+{
+  "adjustments": [
+    {
+      "id": "adjTracking",
+      "before": "0",
+      "after": "1",
+      "undo": 0,
+      "redo": 1,
+      "nameRetained": true,
+      "errors": []
+    },
+    {
+      "id": "adjKerningFine",
+      "before": "0",
+      "after": "1",
+      "undo": 0,
+      "redo": 1,
+      "nameRetained": true,
+      "errors": []
+    },
+    {
+      "id": "adjWordSpacing",
+      "before": "0",
+      "after": "1",
+      "undo": 0,
+      "redo": 1,
+      "nameRetained": true,
+      "errors": []
+    },
+    {
+      "id": "adjLineHeight",
+      "before": "1",
+      "after": "1.05",
+      "undo": 1,
+      "redo": 1.05,
+      "nameRetained": true,
+      "errors": []
+    },
+    {
+      "id": "adjGap",
+      "before": "0",
+      "after": "1",
+      "undo": 0,
+      "redo": 1,
+      "nameRetained": true,
+      "errors": []
+    }
+  ],
+  "relayouts": [
+    {
+      "width": 1440,
+      "height": 1000,
+      "count": 14,
+      "fullSignDataRetained": true,
+      "selected": "Cửa Hàng Nguyễn Thị Ánh Tuyết & <Sài Gòn> Ốc"
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "count": 14,
+      "fullSignDataRetained": true,
+      "selected": "Cửa Hàng Nguyễn Thị Ánh Tuyết & <Sài Gòn> Ốc"
+    },
+    {
+      "width": 320,
+      "height": 568,
+      "count": 14,
+      "fullSignDataRetained": true,
+      "selected": "Cửa Hàng Nguyễn Thị Ánh Tuyết & <Sài Gòn> Ốc"
+    }
+  ],
+  "exports": [
+    {
+      "file": "pho-bang-hieu-sg85-ca-tuong.png",
+      "size": 668433,
+      "path": "/tmp/signage-fix-review/qa/sg85-wall.png"
+    },
+    {
+      "file": "pho-bang-hieu-sg85-ca-tuong.svg",
+      "size": 659091,
+      "path": "/tmp/signage-fix-review/qa/sg85-wall.svg"
+    },
+    {
+      "file": "pho-bang-hieu-sg85-tra-sua.png",
+      "size": 40442,
+      "path": "/tmp/signage-fix-review/qa/sg85-selected.png"
+    },
+    {
+      "file": "pho-bang-hieu-sg85-tra-sua.svg",
+      "size": 212286,
+      "path": "/tmp/signage-fix-review/qa/sg85-selected.svg"
+    },
+    {
+      "file": "pho-bang-hieu-nay-ca-tuong.png",
+      "size": 901410,
+      "path": "/tmp/signage-fix-review/qa/nay-wall.png"
+    },
+    {
+      "file": "pho-bang-hieu-nay-ca-tuong.svg",
+      "size": 1052978,
+      "path": "/tmp/signage-fix-review/qa/nay-wall.svg"
+    },
+    {
+      "file": "pho-bang-hieu-nay-tra-sua.png",
+      "size": 79174,
+      "path": "/tmp/signage-fix-review/qa/nay-selected.png"
+    },
+    {
+      "file": "pho-bang-hieu-nay-tra-sua.svg",
+      "size": 320023,
+      "path": "/tmp/signage-fix-review/qa/nay-selected.svg"
+    }
+  ],
+  "exportDefaults": [
+    {
+      "label": "sg85-wall",
+      "selectedEnabled": true,
+      "checked": "selected"
+    },
+    {
+      "label": "sg85-wall",
+      "selectedEnabled": true,
+      "checked": "selected"
+    },
+    {
+      "label": "sg85-selected",
+      "selectedEnabled": true,
+      "checked": "selected"
+    },
+    {
+      "label": "sg85-selected",
+      "selectedEnabled": true,
+      "checked": "selected"
+    },
+    {
+      "label": "nay-wall",
+      "selectedEnabled": true,
+      "checked": "selected"
+    },
+    {
+      "label": "nay-wall",
+      "selectedEnabled": true,
+      "checked": "selected"
+    },
+    {
+      "label": "nay-selected",
+      "selectedEnabled": true,
+      "checked": "selected"
+    },
+    {
+      "label": "nay-selected",
+      "selectedEnabled": true,
+      "checked": "selected"
+    }
+  ],
+  "exportWithoutSelection": {
+    "selectedDisabled": true,
+    "scope": "wall"
+  },
+  "errors": []
+}

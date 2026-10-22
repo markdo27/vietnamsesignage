@@ -2,6 +2,8 @@
 
 22 October 2026 · `markdo27/vietnamsesignage` · commit `b31d8de92029229325998ff07e49472a46c8e117`
 
+**Implementation follow-up:** the priority fixes have since been implemented and checked. See [fixes and validation](FIXES.md). The scores and findings below describe the original audited build.
+
 **The site has a memorable visual identity and a capable creation engine. It needs more dependable controls and recovery to feel professional during extended use. Preserve the Vietnamese street-sign character; concentrate the next changes on making experimentation safe and easy.**
 
 Four specialist agents reviewed visual design, creative workflow, responsive accessibility, and functional reliability. Five rounds covered independent inspection, task and variation testing, peer challenges and retests, critique of proposed improvements, and final score calibration. This is an audit of one unchanged build. Recommendations have not been implemented, and repeated review does not represent an improvement in the website itself.

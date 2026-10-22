@@ -667,9 +667,13 @@ function syncHistoryButtons() {
 }
 
 function checkpoint() {
+  finishAdjustment();
   if (!tree) return;
-  var current = captureState();
-  if (historyPast[historyPast.length - 1] !== current) historyPast.push(current);
+  rememberState(captureState());
+}
+
+function rememberState(serialized) {
+  if (historyPast[historyPast.length - 1] !== serialized) historyPast.push(serialized);
   if (historyPast.length > HISTORY_LIMIT) historyPast.shift();
   historyFuture = [];
   syncHistoryButtons();
@@ -680,18 +684,22 @@ function applyCaptured(serialized) {
   try { data = JSON.parse(serialized); } catch (err) { return false; }
   var nextTree = reviveNode(data.tree);
   if (!nextTree || !THEMES[data.theme]) return false;
+  var selectedId = selected && selected.id;
+  var editing = !$('#drawer').hidden;
   tree = null;
   setTheme(data.theme, true, true);
   tree = nextTree;
   selected = null;
   built = true;
   buildDOM();
+  select(eachLeaf(tree).filter(function (node) { return node.id === selectedId; })[0] || (editing ? eachLeaf(tree)[0] : null));
   saveNow();
   syncHistoryButtons();
   return true;
 }
 
 function undoState() {
+  finishAdjustment();
   if (!historyPast.length || !tree) return;
   historyFuture.push(captureState());
   applyCaptured(historyPast.pop());
@@ -699,6 +707,7 @@ function undoState() {
 }
 
 function redoState() {
+  finishAdjustment();
   if (!historyFuture.length || !tree) return;
   historyPast.push(captureState());
   applyCaptured(historyFuture.pop());
@@ -802,11 +811,11 @@ function splitOptions(cell) {
   return out;
 }
 
-function buildLayout(target) {
+function buildLayout(target, signs) {
   var box = wallBox();
-  var root = leafNode();
+  var root = leafNode(signs && signs[0]);
   root.size = 1;
-  for (var guard = 0; guard < 80; guard++) {
+  for (var guard = 0; guard < Math.max(80, target * 2); guard++) {
     var cells = survey(root, box.w, box.h);
     if (cells.length >= target) break;
     cells.sort(function (a, b) { return b.area - a.area; });
@@ -822,7 +831,14 @@ function buildLayout(target) {
         return Math.abs(a.ratio - 0.5) - Math.abs(b.ratio - 0.5);
       });
       var choice = pick(options.slice(0, Math.min(4, options.length)));
-      splitLeaf(cells[i].node, choice.dir, choice.ratio);
+      splitLeaf(cells[i].node, choice.dir, choice.ratio, signs && signs[cells.length]);
+      done = true;
+    }
+    if (!done && signs) {
+      /* A resized viewport may be too small for the normal generator's cell
+         limits. Relayout still keeps every existing sign. */
+      var biggest = cells[0];
+      splitLeaf(biggest.node, biggest.w > biggest.h ? 'row' : 'col', 0.5, signs[cells.length]);
       done = true;
     }
     if (!done) break;
@@ -1504,12 +1520,15 @@ function wireSign(node) {
 
   LINES.forEach(function (key) {
     var line = node.lineEls[key];
+    var editing = false;
     line.addEventListener('input', function () {
+      if (!editing) { checkpoint(); editing = true; }
       node.sign.text[key] = line.textContent;
       scheduleFit([node]);
       scheduleSave();
     });
     line.addEventListener('blur', function () {
+      editing = false;
       var faceId = node.sign.faces[key];
       if (isScriptFace(faceId) && isAllUpper(line.textContent)) {
         var fixed = toVietnameseTitleCase(line.textContent);
@@ -1523,7 +1542,7 @@ function wireSign(node) {
       if (ev.key === 'Enter') { ev.preventDefault(); line.blur(); }
       if (ev.key === 'Escape') line.blur();
     });
-    line.addEventListener('focus', function () { checkpoint(); select(node); });
+    line.addEventListener('focus', function () { select(node); });
   });
 }
 
@@ -1531,7 +1550,16 @@ function select(node) {
   if (selected && selected.el) selected.el.classList.remove('is-selected');
   selected = node;
   if (node && node.el) node.el.classList.add('is-selected');
+  wall.querySelectorAll('.has-selection').forEach(function (el) { el.classList.remove('has-selection'); });
+  var parent = node && node.el && node.el.parentElement;
+  while (parent && parent !== wall) {
+    parent.classList.add('has-selection');
+    parent = parent.parentElement;
+  }
+  $('[data-act="deselect"]').disabled = !node;
+  if (!node && !$('#drawer').hidden) toggleDrawer(false);
   syncDrawer();
+  if (!$('#drawer').hidden) scheduleFit();
 }
 
 /* ===========================================================================
@@ -1561,11 +1589,19 @@ function shuffleWall() {
 
 function newLayout() {
   checkpoint();
-  tree = buildLayout(targetCount());
+  var keep = selected && selected.sign;
+  var signs = eachLeaf(tree).map(function (node) { return node.sign; });
+  /* Mix positions, never the shops, lettering, palettes, or adjustments. */
+  for (var i = signs.length - 1; i > 0; i--) {
+    var j = Math.floor(Math.random() * (i + 1));
+    var swap = signs[i]; signs[i] = signs[j]; signs[j] = swap;
+  }
+  tree = buildLayout(signs.length, signs);
   selected = null;
   buildDOM();
+  select(eachLeaf(tree).filter(function (node) { return node.sign === keep; })[0] || null);
   scheduleSave();
-  say('Bố cục mới · ' + eachLeaf(tree).length + ' bảng.');
+  say('Đã đổi bố cục · giữ nguyên ' + signs.length + ' bảng.');
 }
 
 /* Change era. The layout, the shops and every hand edit survive: only the type
@@ -1579,7 +1615,7 @@ function setTheme(key, quiet, internal) {
   var brand = $('#brand'), note = $('#brandNote'), button = $('[data-act="theme"]');
   brand.textContent = theme().brand;
   note.textContent = theme().tagline;
-  button.querySelector('span').textContent = THEMES[theme().other].short;
+  button.querySelector('span').textContent = 'ĐỔI SANG ' + THEMES[theme().other].label.toUpperCase();
   button.title = 'Chuyển sang ' + THEMES[theme().other].label;
   $('#dropzone').hidden = key !== 'nay';
   if ($('#drawerTitle')) $('#drawerTitle').textContent = key === 'sg85' ? 'HỆ FONT SG85' : 'HỆ FONT UTM';
@@ -1652,10 +1688,12 @@ function switchDrawerTab(tab) {
   if (tabFonts) {
     tabFonts.classList.toggle('is-active', isFonts);
     tabFonts.setAttribute('aria-selected', String(isFonts));
+    tabFonts.tabIndex = isFonts ? 0 : -1;
   }
   if (tabAdjust) {
     tabAdjust.classList.toggle('is-active', !isFonts);
     tabAdjust.setAttribute('aria-selected', String(!isFonts));
+    tabAdjust.tabIndex = isFonts ? -1 : 0;
   }
   if (paneFonts) paneFonts.hidden = !isFonts;
   if (paneAdjust) paneAdjust.hidden = isFonts;
@@ -1737,8 +1775,11 @@ function syncAdjustPane() {
   }
 }
 
+var adjustmentBefore = null;
+
 function onAdjustInput() {
   if (!selected) return;
+  if (adjustmentBefore === null) adjustmentBefore = captureState();
   var sign = selected.sign;
   if (!sign.adjust) sign.adjust = defaultAdjust();
   var target = ($('#adjTarget') && $('#adjTarget').value) || 'all';
@@ -1783,9 +1824,11 @@ function onAdjustInput() {
   scheduleSave();
 }
 
-function onAdjustChange() {
-  if (!selected) return;
-  checkpoint();
+function finishAdjustment() {
+  if (adjustmentBefore === null) return;
+  var before = adjustmentBefore;
+  adjustmentBefore = null;
+  if (before !== captureState()) rememberState(before);
   scheduleSave();
 }
 
@@ -1855,15 +1898,14 @@ function ingest(files) {
    faces it actually used as base64, so the file opens correctly on a machine
    that has never heard of UTM.
 
-   Either exports the selected sign on its own, or the whole wall when nothing
-   is selected.
+   The export dialog explicitly chooses the selected sign or the whole wall.
    ========================================================================= */
 
 var probe = document.createElement('canvas').getContext('2d');
 var MAT_FACE = '#f4efe2', MAT_KEYLINE = 'rgba(18,28,26,.5)';
 
-function exportScope() {
-  if (selected && selected.el && selected.el.isConnected) {
+function exportScope(kind) {
+  if (kind !== 'wall' && selected && selected.el && selected.el.isConnected) {
     return { el: selected.el, nodes: [selected], label: SHOPS[selected.sign.key].label, whole: false };
   }
   return { el: wall, nodes: eachLeaf(tree), label: 'cả tường', whole: true };
@@ -1924,7 +1966,7 @@ function lineRun(el, ox, oy) {
   };
 }
 
-/* Read the live wall into a flat list of rectangles and text runs. */
+/* Keep the editor's overflow boundaries with its rectangles and text runs. */
 function buildScene(scope) {
   var box = scope.el.getBoundingClientRect();
   var ox = box.left, oy = box.top;
@@ -1936,7 +1978,13 @@ function buildScene(scope) {
     wallBG = getComputedStyle(document.body).getPropertyValue('--frame').trim() || '#ffffff';
   }
   var scene = { w: Math.round(box.width), h: Math.round(box.height),
-                bg: wallBG, rects: [], runs: [] };
+                bg: wallBG, rects: [], runs: [], clips: [] };
+
+  function addClip(x, y, w, h) {
+    var clip = { id: 'sign-clip-' + scene.clips.length, x: x, y: y, w: Math.max(0, w), h: Math.max(0, h) };
+    scene.clips.push(clip);
+    return clip;
+  }
 
   scope.nodes.forEach(function (node) {
     var el = node.el;
@@ -1944,6 +1992,8 @@ function buildScene(scope) {
     var r = el.getBoundingClientRect();
     var cs = getComputedStyle(el);
     var x = r.left - ox, y = r.top - oy;
+    var clip = addClip(x, y, r.width, r.height);
+    var rectStart = scene.rects.length;
     var mat = parseFloat(cs.getPropertyValue('--mat')) || 0;
 
     if (mat > 0) {                                  /* the 1985 photo mat */
@@ -1967,9 +2017,14 @@ function buildScene(scope) {
 
     var strip = el.querySelector('.footer-strip');
     var stripH = 0;
+    var footerClip = clip;
     if (strip && getComputedStyle(strip).display !== 'none') {
       var sr = strip.getBoundingClientRect();
       stripH = sr.height;
+      var left = Math.max(x, sr.left - ox), top = Math.max(y, sr.top - oy);
+      footerClip = addClip(left, top,
+        Math.min(x + r.width, sr.right - ox) - left,
+        Math.min(y + r.height, sr.bottom - oy) - top);
       scene.rects.push({ x: sr.left - ox, y: sr.top - oy, w: sr.width, h: sr.height,
                          fill: getComputedStyle(strip).backgroundColor });
     }
@@ -1981,9 +2036,13 @@ function buildScene(scope) {
                          stroke: cs.getPropertyValue('--rule').trim() || '#000', width: 2 });
     }
 
+    scene.rects.slice(rectStart).forEach(function (rect) { rect.clip = clip; });
     el.querySelectorAll('.line').forEach(function (line) {
       var run = lineRun(line, ox, oy);
-      if (run) scene.runs.push(run);
+      if (run) {
+        run.clip = line.closest('.footer-strip') ? footerClip : clip;
+        scene.runs.push(run);
+      }
     });
   });
 
@@ -2001,6 +2060,8 @@ function renderCanvas(scene, scale) {
   ctx.fillRect(0, 0, scene.w, scene.h);
 
   scene.rects.forEach(function (r) {
+    ctx.save();
+    clipCanvas(ctx, r.clip);
     if (r.stroke) {
       ctx.strokeStyle = r.stroke;
       ctx.lineWidth = r.width || 1;
@@ -2010,10 +2071,12 @@ function renderCanvas(scene, scale) {
       ctx.fillStyle = r.fill;
       ctx.fillRect(r.x, r.y, r.w, r.h);
     }
+    ctx.restore();
   });
 
   scene.runs.forEach(function (run) {
     ctx.save();
+    clipCanvas(ctx, run.clip);
     ctx.font = run.style + ' ' + run.weight + ' ' + run.size + 'px ' + run.family;
     if ('letterSpacing' in ctx) ctx.letterSpacing = run.letterSpacing + 'px';
     if ('wordSpacing' in ctx && run.wordSpacing) ctx.wordSpacing = run.wordSpacing + 'px';
@@ -2046,6 +2109,12 @@ function renderCanvas(scene, scale) {
     ctx.restore();
   });
   return canvas;
+}
+
+function clipCanvas(ctx, clip) {
+  ctx.beginPath();
+  ctx.rect(clip.x, clip.y, clip.w, clip.h);
+  ctx.clip();
 }
 
 /* --- SVG: real vectors, with the faces embedded so it travels ---------- */
@@ -2103,9 +2172,14 @@ function renderSVG(scene, fontCSS) {
   var out = ['<svg xmlns="http://www.w3.org/2000/svg" width="' + scene.w + '" height="' + scene.h +
              '" viewBox="0 0 ' + scene.w + ' ' + scene.h + '">'];
   out.push('<style>' + fontCSS + '</style>');
+  out.push('<defs>' + scene.clips.map(function (clip) {
+    return '<clipPath id="' + clip.id + '" clipPathUnits="userSpaceOnUse"><rect x="' + clip.x +
+      '" y="' + clip.y + '" width="' + clip.w + '" height="' + clip.h + '"/></clipPath>';
+  }).join('') + '</defs>');
   out.push('<rect width="' + scene.w + '" height="' + scene.h + '" fill="' + (scene.bg || '#fff') + '"/>');
 
   scene.rects.forEach(function (r) {
+    out.push('<g clip-path="url(#' + r.clip.id + ')">');
     if (r.stroke) {
       out.push('<rect x="' + r.x.toFixed(1) + '" y="' + r.y.toFixed(1) + '" width="' + Math.max(0, r.w).toFixed(1) +
         '" height="' + Math.max(0, r.h).toFixed(1) + '" fill="none" stroke="' + r.stroke +
@@ -2114,13 +2188,15 @@ function renderSVG(scene, fontCSS) {
       out.push('<rect x="' + r.x.toFixed(1) + '" y="' + r.y.toFixed(1) + '" width="' + Math.max(0, r.w).toFixed(1) +
         '" height="' + Math.max(0, r.h).toFixed(1) + '" fill="' + r.fill + '"/>');
     }
+    out.push('</g>');
   });
 
   var gradId = 0;
   scene.runs.forEach(function (run) {
+    out.push('<g clip-path="url(#' + run.clip.id + ')">');
     var attrs = 'x="' + run.cx.toFixed(1) + '" y="' + run.baseline.toFixed(1) +
       '" text-anchor="middle" font-family="' + esc(run.family.replace(/"/g, "'")) +
-      '" font-size="' + run.size.toFixed(2) + '" font-weight="' + run.weight +
+      '" font-size="' + run.size.toFixed(2) + '" font-style="' + run.style + '" font-weight="' + run.weight +
       '" letter-spacing="' + run.letterSpacing.toFixed(2) + '"' +
       (run.wordSpacing ? ' word-spacing="' + run.wordSpacing.toFixed(2) + '"' : '') +
       (run.fontKerning && run.fontKerning !== 'auto' ? ' font-kerning="' + run.fontKerning + '"' : '');
@@ -2143,6 +2219,7 @@ function renderSVG(scene, fontCSS) {
     } else {
       out.push('<text ' + attrs + ' fill="' + fill + '">' + esc(run.text) + '</text>');
     }
+    out.push('</g>');
   });
   out.push('</svg>');
   return out.join('\n');
@@ -2158,9 +2235,11 @@ function saveBlob(blob, filename) {
   setTimeout(function () { URL.revokeObjectURL(url); }, 1500);
 }
 
-function exportImage(format) {
+function exportImage(format, kind) {
   if (!tree) { say('Chưa có bảng để xuất.'); return; }
-  var scope = exportScope();
+  /* Panel dismissal restores the mosaic before its geometry is sampled. */
+  fitAll();
+  var scope = exportScope(kind);
   var rect = scope.el.getBoundingClientRect();
   if (rect.width < 2 || rect.height < 2) { say('Chưa có bảng để xuất.'); return; }
 
@@ -2185,42 +2264,104 @@ function exportImage(format) {
   }, 'image/png');
 }
 
+function updateChromeSpace() {
+  var hidden = document.body.classList.contains('chrome-off');
+  var dockSpace = hidden ? 0 : Math.ceil(window.innerHeight - $('#dock').getBoundingClientRect().top + 8);
+  var drawerSpace = !hidden && !$('#drawer').hidden ? Math.ceil($('#drawer').getBoundingClientRect().height + 8) : 0;
+  document.documentElement.style.setProperty('--dock-space', dockSpace + 'px');
+  document.documentElement.style.setProperty('--drawer-space', drawerSpace + 'px');
+}
+
+function toggleMore(open, returnFocus) {
+  var panel = $('#moreTools');
+  panel.hidden = !open;
+  $('[data-act="more"]').setAttribute('aria-expanded', String(open));
+  if (open) {
+    toggleDrawer(false);
+    panel.querySelector('button').focus();
+  } else if (returnFocus) $('[data-act="more"]').focus();
+}
+
+function toggleChrome() {
+  var hide = !document.body.classList.contains('chrome-off');
+  toggleDrawer(false);
+  toggleMore(false);
+  document.body.classList.toggle('chrome-off', hide);
+  updateChromeSpace();
+  (hide ? $('#peek') : $('[data-act="more"]')).focus();
+}
+
+function openExportDialog() {
+  toggleMore(false);
+  toggleDrawer(false);
+  var radio = $('#exportDialog input[value="selected"]');
+  radio.disabled = !selected;
+  radio.checked = !!selected;
+  $('#exportDialog input[value="wall"]').checked = !selected;
+  $('#exportSelectedName').textContent = selected ? selected.sign.text.name : 'Chọn một bảng trên tường trước';
+  $('#exportWallCount').textContent = eachLeaf(tree).length + ' bảng hiệu';
+  $('#exportDialog').showModal();
+}
+
 function wireChrome() {
   document.querySelectorAll('.dock button').forEach(function (button) {
     button.addEventListener('click', function () {
       var act = button.dataset.act;
+      if (act === 'more') { toggleMore($('#moreTools').hidden); return; }
+      if (act === 'close-more') { toggleMore(false, true); return; }
+      toggleMore(false);
       if (act === 'shuffle') shuffleWall();
       else if (act === 'add') addSign();
       else if (act === 'relayout') newLayout();
       else if (act === 'undo') undoState();
       else if (act === 'redo') redoState();
       else if (act === 'theme') setTheme(theme().other);
-      else if (act === 'export') exportImage('png');
-      else if (act === 'export-svg') exportImage('svg');
+      else if (act === 'export') openExportDialog();
       else if (act === 'fonts') toggleDrawer(undefined, 'fonts');
       else if (act === 'adjust') toggleDrawer(undefined, 'adjust');
-      else if (act === 'hide') { document.body.classList.add('chrome-off'); }
+      else if (act === 'deselect') select(null);
+      else if (act === 'hide') toggleChrome();
       else if (act === 'about') { var dlg = $('#aboutDialog'); if (dlg) dlg.showModal(); }
     });
   });
-  $('#peek').addEventListener('click', function () { document.body.classList.remove('chrome-off'); });
+  $('#peek').addEventListener('click', toggleChrome);
   $('#drawerClose').addEventListener('click', function () { toggleDrawer(false); });
+  $('#aboutDialog').addEventListener('close', function () { $('[data-act="more"]').focus(); });
+  $('#exportDialog').querySelectorAll('[data-format]').forEach(function (button) {
+    button.addEventListener('click', function () {
+      var kind = $('#exportDialog input[name="exportScope"]:checked').value;
+      $('#exportDialog').close();
+      exportImage(button.dataset.format, kind);
+    });
+  });
+  document.addEventListener('pointerdown', function (ev) {
+    if (!$('#moreTools').hidden && !ev.target.closest('#dock')) toggleMore(false);
+  });
 
   if ($('#tabFonts')) $('#tabFonts').addEventListener('click', function () { switchDrawerTab('fonts'); });
   if ($('#tabAdjust')) $('#tabAdjust').addEventListener('click', function () { switchDrawerTab('adjust'); });
+  $('.drawer-tabs').addEventListener('keydown', function (ev) {
+    if (['ArrowLeft', 'ArrowRight', 'Home', 'End'].indexOf(ev.key) === -1) return;
+    var tab = ev.key === 'Home' ? 'fonts' : ev.key === 'End' ? 'adjust' : activeDrawerTab === 'fonts' ? 'adjust' : 'fonts';
+    switchDrawerTab(tab);
+    $(tab === 'fonts' ? '#tabFonts' : '#tabAdjust').focus();
+    ev.preventDefault();
+  });
 
   if ($('#adjTarget')) $('#adjTarget').addEventListener('change', syncAdjustPane);
   ['adjTracking', 'adjKerningFine', 'adjWordSpacing', 'adjLineHeight', 'adjGap'].forEach(function (id) {
     var el = $('#' + id);
     if (el) {
       el.addEventListener('input', onAdjustInput);
-      el.addEventListener('change', onAdjustChange);
+      el.addEventListener('change', finishAdjustment);
+      el.addEventListener('blur', finishAdjustment);
+      el.addEventListener('pointercancel', finishAdjustment);
     }
   });
   if ($('#adjKerning')) {
     $('#adjKerning').addEventListener('change', function () {
       onAdjustInput();
-      onAdjustChange();
+      finishAdjustment();
     });
   }
   if ($('#resetAdjust')) {
@@ -2305,10 +2446,19 @@ function wireChrome() {
   drop.addEventListener('drop', function (ev) { ingest(ev.dataTransfer.files); });
 
   document.addEventListener('keydown', function (ev) {
+    if ($('#aboutDialog').open || $('#exportDialog').open) return;
     var el = document.activeElement;
     var editing = el && (el.isContentEditable || el.tagName === 'SELECT' || el.tagName === 'INPUT');
     var key = ev.key.toLowerCase();
-    if (!editing && (ev.metaKey || ev.ctrlKey) && !ev.altKey) {
+    if (key === 'escape') {
+      if (!$('#moreTools').hidden) toggleMore(false, true);
+      else if (!$('#drawer').hidden) toggleDrawer(false);
+      else select(null);
+      ev.preventDefault();
+      return;
+    }
+    var nativeUndo = el && (el.isContentEditable || el.tagName === 'INPUT' && el.type !== 'range');
+    if (!nativeUndo && (ev.metaKey || ev.ctrlKey) && !ev.altKey) {
       if (key === 'z' && ev.shiftKey) redoState();
       else if (key === 'z') undoState();
       else if (key === 'y') redoState();
@@ -2324,11 +2474,12 @@ function wireChrome() {
     else if (key === 't') setTheme(theme().other);
     else if (key === 'f') toggleDrawer(undefined, 'fonts');
     else if (key === 'j') toggleDrawer(undefined, 'adjust');
-    else if (key === 'h') document.body.classList.toggle('chrome-off');
-    else if (key === 'escape') select(null);
+    else if (key === 'h') toggleChrome();
   });
 
 }
+
+var drawerReturnFocus = null;
 
 function toggleDrawer(force, tab) {
   var drawer = $('#drawer');
@@ -2340,14 +2491,31 @@ function toggleDrawer(force, tab) {
     else if (activeDrawerTab === tab && force === undefined) open = false;
     switchDrawerTab(tab);
   }
+  finishAdjustment();
+  var wasOpen = !drawer.hidden;
+  if (open && !wasOpen) drawerReturnFocus = document.activeElement;
+  if (open && !selected && tree) {
+    var leaves = eachLeaf(tree);
+    leaves.sort(function (a, b) { return b.el.clientWidth * b.el.clientHeight - a.el.clientWidth * a.el.clientHeight; });
+    select(leaves[0]);
+  }
+  if (open) toggleMore(false);
   drawer.hidden = !open;
+  document.body.classList.toggle('editor-open', open);
   var isFonts = activeDrawerTab === 'fonts';
   if (fontBtn) fontBtn.setAttribute('aria-pressed', String(open && isFonts));
   if (adjBtn) adjBtn.setAttribute('aria-pressed', String(open && !isFonts));
   if (open) {
     syncDrawer();
     syncAdjustPane();
+    if (!wasOpen) $(isFonts ? '#tabFonts' : '#tabAdjust').focus();
+  } else if (wasOpen) {
+    var target = drawerReturnFocus;
+    if (!target || !target.isConnected || target.closest('[hidden]')) target = adjBtn;
+    target.focus({ preventScroll: true });
   }
+  updateChromeSpace();
+  scheduleFit();
 }
 
 /* ===========================================================================
@@ -2370,6 +2538,10 @@ function ensureBoard() {
 function boot() {
   restoreSaved();
   wireChrome();
+  new ResizeObserver(updateChromeSpace).observe($('#dock'));
+  new ResizeObserver(updateChromeSpace).observe($('#drawer'));
+  window.addEventListener('resize', updateChromeSpace);
+  updateChromeSpace();
   Object.keys(THEMES).forEach(function (key) {
     var system = window[THEMES[key].system];
     system.onchange(function () {

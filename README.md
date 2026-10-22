@@ -189,6 +189,34 @@ python -m http.server 8123
 optional `fonts/manifest.json` loader needs `fetch`, and it degrades quietly
 over `file://`.)
 
+The four main controls are **Xáo phố**, **Chỉnh**, **Xuất**, and **Công cụ**.
+Open Công cụ for the era switch, fonts, add, relayout, undo/redo, and view mode.
+Click the lettering to edit it and drag a seam to resize neighbouring signs.
+**Đổi bố cục** rearranges the existing signs while keeping their text, fonts,
+colours, and adjustments. On phones, opening the inspector shows the selected
+sign as a live preview above the controls; closing it restores the mosaic.
+
+**Xuất** lets you choose the selected sign or the whole wall, then PNG or SVG.
+Exported text, outlines, and shadows are clipped to their own signs.
+
+### Browser regression checks
+
+The application still needs no build or npm dependencies to run. Its development
+checks use Node.js 20+ and Playwright:
+
+```bash
+npm ci
+npx playwright install chromium
+npm test
+```
+
+The tests also use an existing `/usr/bin/chromium` when available. Set
+`CHROMIUM_PATH` to use a browser at another path. They start their own temporary
+static server and check responsive controls, keyboard and pointer adjustment
+history, content-preserving relayout, mobile previews, explicit export scope,
+and PNG/SVG clipping. External Google Fonts requests are blocked in these checks
+so the committed fonts are sufficient to reproduce the results.
+
 ## Typography
 
 ### Sài Gòn 1985 — real faces

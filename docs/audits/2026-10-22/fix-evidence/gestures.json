@@ -1,0 +1,15 @@
+{
+  "keyboardSeparate": [
+    "1",
+    "2",
+    "3"
+  ],
+  "firstUndo": "2",
+  "pointer": {
+    "before": "-30",
+    "after": "25",
+    "undo": "-30",
+    "redo": "25"
+  },
+  "kerningUndo": "auto"
+}

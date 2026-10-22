@@ -29,40 +29,30 @@
   <!-- the wall: every sign is drawn here by plaza.js -->
   <main class="wall" id="wall" aria-label="Tường bảng hiệu"></main>
 
-  <div class="dock" id="dock">
+  <div class="dock" id="dock" role="region" aria-label="Công cụ tạo bảng hiệu">
     <div class="dock-brand">
       <b id="brand">Sàigòn 1985</b>
       <span id="brandNote">BỘ PHÔNG CHỮ BIỂN HIỆU SÀI GÒN XƯA</span>
     </div>
+    <p class="creation-hint">Bấm vào chữ để sửa · Kéo đường viền để đổi cỡ</p>
     <div class="dock-actions">
-      <!-- what is on the wall -->
-      <div class="dock-group" role="group" aria-label="Nội dung">
-        <button type="button" data-act="shuffle" aria-label="Xáo toàn bộ phố" title="Đổi toàn bộ tiệm (R)"><i>🎲</i><span>XÁO PHỐ</span></button>
-        <button type="button" data-act="theme" aria-label="Đổi thời kỳ" title="Đổi thời kỳ (T)"><i>⏳</i><span>2010</span></button>
-      </div>
-      <!-- how it is arranged -->
-      <div class="dock-group" role="group" aria-label="Bố cục">
-        <button type="button" data-act="add" aria-label="Thêm một bảng" title="Thêm một bảng (A)"><i>＋</i><span>THÊM BẢNG</span></button>
-        <button type="button" data-act="relayout" aria-label="Tạo bố cục mới" title="Bố cục ngẫu nhiên mới (N)"><i>▦</i><span>BỐ CỤC MỚI</span></button>
-      </div>
-      <!-- undoing it -->
-      <div class="dock-group" role="group" aria-label="Lịch sử">
-        <button type="button" data-act="undo" aria-label="Hoàn tác" title="Hoàn tác (Ctrl+Z)" disabled><i>↶</i><span>HOÀN TÁC</span></button>
-        <button type="button" data-act="redo" aria-label="Làm lại" title="Làm lại (Ctrl+Y)" disabled><i>↷</i><span>LÀM LẠI</span></button>
-      </div>
-      <!-- taking it away -->
-      <div class="dock-group" role="group" aria-label="Xuất file">
-        <button type="button" data-act="export" aria-label="Xuất ảnh PNG" title="Xuất PNG — bảng đang chọn, hoặc cả tường nếu chưa chọn bảng nào"><i>🖼</i><span>XUẤT PNG</span></button>
-        <button type="button" data-act="export-svg" aria-label="Xuất file SVG" title="Xuất SVG vector — bảng đang chọn, hoặc cả tường nếu chưa chọn bảng nào"><i>✎</i><span>XUẤT SVG</span></button>
-      </div>
-      <!-- the app itself -->
-      <div class="dock-group" role="group" aria-label="Công cụ">
-        <button type="button" data-act="fonts" aria-label="Mở bảng chọn font" aria-pressed="false" aria-controls="drawer" title="Hệ font (F)"><i>🔤</i><span>FONT</span></button>
-        <button type="button" data-act="adjust" aria-label="Căn chỉnh chữ" aria-pressed="false" aria-controls="drawer" title="Căn chỉnh chữ: tracking, kerning, spacing (J)"><i>🎛</i><span>CHỈNH CHỮ</span></button>
-        <button type="button" data-act="about" aria-label="Giới thiệu và bản quyền" aria-haspopup="dialog" title="Giới thiệu & bản quyền"><i>ⓘ</i><span>GIỚI THIỆU</span></button>
-        <button type="button" data-act="hide" aria-label="Ẩn bảng điều khiển" title="Ẩn bảng điều khiển (H)"><i>👁</i><span>ẨN</span></button>
-      </div>
+      <button type="button" data-act="shuffle" aria-label="Xáo toàn bộ phố" title="Đổi toàn bộ tiệm (R)"><i aria-hidden="true">🎲</i><span>XÁO PHỐ</span></button>
+      <button type="button" data-act="adjust" aria-label="Căn chỉnh chữ" aria-pressed="false" aria-controls="drawer" title="Chỉnh bảng đang chọn (J)"><i aria-hidden="true">🎛</i><span>CHỈNH</span></button>
+      <button type="button" data-act="export" aria-label="Xuất bảng hiệu" aria-haspopup="dialog"><i aria-hidden="true">🖼</i><span>XUẤT</span></button>
+      <button type="button" data-act="more" aria-expanded="false" aria-controls="moreTools"><i aria-hidden="true">☰</i><span>CÔNG CỤ</span></button>
     </div>
+    <section class="dock-more" id="moreTools" hidden aria-label="Thêm công cụ">
+      <div class="more-heading"><strong>THỬ THÊM MỘT CHÚT</strong><button type="button" data-act="close-more" aria-label="Đóng công cụ">✕</button></div>
+      <button type="button" data-act="theme" aria-label="Đổi thời kỳ" title="Đổi thời kỳ (T)"><i aria-hidden="true">⏳</i><span>ĐỔI SANG PHỐ 2010</span></button>
+      <button type="button" data-act="fonts" aria-label="Mở bảng chọn font" aria-pressed="false" aria-controls="drawer" title="Hệ font (F)"><i aria-hidden="true">🔤</i><span>PHÔNG CHỮ</span></button>
+      <button type="button" data-act="add" title="Thêm một bảng (A)"><i aria-hidden="true">＋</i><span>THÊM BẢNG</span></button>
+      <button type="button" data-act="relayout" title="Đổi bố cục, giữ nguyên các bảng (N)"><i aria-hidden="true">▦</i><span>ĐỔI BỐ CỤC</span></button>
+      <button type="button" data-act="undo" title="Hoàn tác (Ctrl+Z)" disabled><i aria-hidden="true">↶</i><span>HOÀN TÁC</span></button>
+      <button type="button" data-act="redo" title="Làm lại (Ctrl+Y)" disabled><i aria-hidden="true">↷</i><span>LÀM LẠI</span></button>
+      <button type="button" data-act="deselect" disabled><i aria-hidden="true">□</i><span>BỎ CHỌN</span></button>
+      <button type="button" data-act="hide" title="Ẩn bảng điều khiển (H)"><i aria-hidden="true">👁</i><span>XEM CẢ PHỐ</span></button>
+      <button type="button" data-act="about" aria-label="Giới thiệu và bản quyền" aria-haspopup="dialog"><i aria-hidden="true">ⓘ</i><span>GIỚI THIỆU</span></button>
+    </section>
   </div>
   <button type="button" class="peek" id="peek">▲ HIỆN BẢNG ĐIỀU KHIỂN</button>
 
@@ -70,7 +60,7 @@
     <button type="button" class="drawer-close" id="drawerClose" aria-label="Đóng">✕</button>
     <nav class="drawer-tabs" role="tablist" aria-label="Chế độ bảng điều khiển">
       <button type="button" class="drawer-tab is-active" id="tabFonts" role="tab" aria-selected="true" aria-controls="paneFonts">🔤 PHÔNG CHỮ</button>
-      <button type="button" class="drawer-tab" id="tabAdjust" role="tab" aria-selected="false" aria-controls="paneAdjust">🎛 CĂN CHỈNH</button>
+      <button type="button" class="drawer-tab" id="tabAdjust" role="tab" aria-selected="false" aria-controls="paneAdjust" tabindex="-1">🎛 CĂN CHỈNH</button>
     </nav>
 
     <!-- Pane 1: Font Directory -->
@@ -180,6 +170,21 @@
       </div>
     </div>
   </aside>
+
+  <dialog class="export-dialog" id="exportDialog" aria-labelledby="exportTitle">
+    <form method="dialog"><button type="submit" class="dialog-close" aria-label="Đóng">✕</button></form>
+    <p class="eyebrow">MANG BẢNG HIỆU VỀ NHÀ</p>
+    <h2 id="exportTitle">XUẤT THIẾT KẾ</h2>
+    <fieldset class="export-scope">
+      <legend>Bạn muốn xuất phần nào?</legend>
+      <label><input type="radio" name="exportScope" value="selected"><span>Bảng đang chọn<small id="exportSelectedName"></small></span></label>
+      <label><input type="radio" name="exportScope" value="wall" checked><span>Cả tường<small id="exportWallCount"></small></span></label>
+    </fieldset>
+    <div class="export-formats">
+      <button type="button" data-format="png">TẢI PNG<small>Ảnh để chia sẻ</small></button>
+      <button type="button" data-format="svg">TẢI SVG<small>Vector để chỉnh tiếp</small></button>
+    </div>
+  </dialog>
 
   <dialog class="about" id="aboutDialog" aria-labelledby="aboutTitle">
     <form method="dialog">

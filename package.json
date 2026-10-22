@@ -1,0 +1,13 @@
+{
+  "name": "pho-bang-hieu",
+  "private": true,
+  "scripts": {
+    "test": "node --test tests/audit-regression.test.cjs"
+  },
+  "devDependencies": {
+    "playwright": "1.62.1"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

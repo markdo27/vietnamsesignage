@@ -1,0 +1,3908 @@
+[
+  {
+    "size": {
+      "width": 320,
+      "height": 568
+    },
+    "theme": "sg85",
+    "initial": {
+      "wall": {
+        "x": 0,
+        "y": 0,
+        "w": 320,
+        "h": 431,
+        "right": 320,
+        "bottom": 431
+      },
+      "dock": {
+        "x": 8,
+        "y": 439.1875,
+        "w": 304,
+        "h": 118.8125,
+        "right": 312,
+        "bottom": 558
+      },
+      "primary": [
+        {
+          "act": "shuffle",
+          "label": "🎲\nXÁO PHỐ",
+          "x": 16,
+          "y": 506,
+          "w": 67.5,
+          "h": 44,
+          "right": 83.5,
+          "bottom": 550
+        },
+        {
+          "act": "adjust",
+          "label": "🎛\nCHỈNH",
+          "x": 89.5,
+          "y": 506,
+          "w": 67.5,
+          "h": 44,
+          "right": 157,
+          "bottom": 550
+        },
+        {
+          "act": "export",
+          "label": "🖼\nXUẤT",
+          "x": 163,
+          "y": 506,
+          "w": 67.5,
+          "h": 44,
+          "right": 230.5,
+          "bottom": 550
+        },
+        {
+          "act": "more",
+          "label": "☰\nCÔNG CỤ",
+          "x": 236.5,
+          "y": 506,
+          "w": 67.5,
+          "h": 44,
+          "right": 304,
+          "bottom": 550
+        }
+      ],
+      "scrollWidth": 320
+    },
+    "more": {
+      "rect": {
+        "x": 8,
+        "y": 93.59375,
+        "w": 304,
+        "h": 335.59375,
+        "bottom": 429.1875
+      },
+      "active": "close-more",
+      "scrollHeight": 334,
+      "clientHeight": 334
+    },
+    "moreButtons": [
+      {
+        "act": "close-more",
+        "disabled": false,
+        "x": 255,
+        "y": 106.59375,
+        "w": 44,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "theme",
+        "disabled": false,
+        "x": 21,
+        "y": 158.59375,
+        "w": 135,
+        "h": 49.59375,
+        "hit": true
+      },
+      {
+        "act": "fonts",
+        "disabled": false,
+        "x": 164,
+        "y": 158.59375,
+        "w": 135,
+        "h": 49.59375,
+        "hit": true
+      },
+      {
+        "act": "add",
+        "disabled": false,
+        "x": 21,
+        "y": 216.1875,
+        "w": 135,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "relayout",
+        "disabled": false,
+        "x": 164,
+        "y": 216.1875,
+        "w": 135,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "undo",
+        "disabled": true,
+        "x": 21,
+        "y": 268.1875,
+        "w": 135,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "redo",
+        "disabled": true,
+        "x": 164,
+        "y": 268.1875,
+        "w": 135,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "deselect",
+        "disabled": true,
+        "x": 21,
+        "y": 320.1875,
+        "w": 135,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "hide",
+        "disabled": false,
+        "x": 164,
+        "y": 320.1875,
+        "w": 135,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "about",
+        "disabled": false,
+        "x": 21,
+        "y": 372.1875,
+        "w": 135,
+        "h": 44,
+        "hit": true
+      }
+    ],
+    "moreEscape": true,
+    "moreReturn": "more",
+    "drawer": {
+      "wall": {
+        "x": 0,
+        "y": 0,
+        "w": 320,
+        "h": 152,
+        "right": 320,
+        "bottom": 152
+      },
+      "drawer": {
+        "x": 8,
+        "y": 160,
+        "w": 304,
+        "h": 271,
+        "right": 312,
+        "bottom": 431
+      },
+      "selected": {
+        "x": 11,
+        "y": 11,
+        "w": 298,
+        "h": 130,
+        "right": 309,
+        "bottom": 141
+      },
+      "visibleSigns": 1,
+      "active": "tabAdjust",
+      "labelSize": "12px"
+    },
+    "tabAfterArrow": {
+      "active": "tabFonts",
+      "selected": "tabFonts"
+    },
+    "drawerEscape": true,
+    "drawerReturn": "adjust",
+    "export": {
+      "open": true,
+      "active": "<button type=\"submit\" class=\"dialog-close\" aria-label=\"Đóng\">✕</button>",
+      "scrollHeight": 396,
+      "clientHeight": 396
+    },
+    "exportReturn": "export",
+    "errors": []
+  },
+  {
+    "size": {
+      "width": 320,
+      "height": 568
+    },
+    "theme": "nay",
+    "initial": {
+      "wall": {
+        "x": 0,
+        "y": 0,
+        "w": 320,
+        "h": 456,
+        "right": 320,
+        "bottom": 456
+      },
+      "dock": {
+        "x": 8,
+        "y": 464,
+        "w": 304,
+        "h": 94,
+        "right": 312,
+        "bottom": 558
+      },
+      "primary": [
+        {
+          "act": "shuffle",
+          "label": "🎲\nXÁO PHỐ",
+          "x": 16,
+          "y": 506,
+          "w": 67.5,
+          "h": 44,
+          "right": 83.5,
+          "bottom": 550
+        },
+        {
+          "act": "adjust",
+          "label": "🎛\nCHỈNH",
+          "x": 89.5,
+          "y": 506,
+          "w": 67.5,
+          "h": 44,
+          "right": 157,
+          "bottom": 550
+        },
+        {
+          "act": "export",
+          "label": "🖼\nXUẤT",
+          "x": 163,
+          "y": 506,
+          "w": 67.5,
+          "h": 44,
+          "right": 230.5,
+          "bottom": 550
+        },
+        {
+          "act": "more",
+          "label": "☰\nCÔNG CỤ",
+          "x": 236.5,
+          "y": 506,
+          "w": 67.5,
+          "h": 44,
+          "right": 304,
+          "bottom": 550
+        }
+      ],
+      "scrollWidth": 320
+    },
+    "more": {
+      "rect": {
+        "x": 8,
+        "y": 118.40625,
+        "w": 304,
+        "h": 335.59375,
+        "bottom": 454
+      },
+      "active": "close-more",
+      "scrollHeight": 334,
+      "clientHeight": 334
+    },
+    "moreButtons": [
+      {
+        "act": "close-more",
+        "disabled": false,
+        "x": 255,
+        "y": 131.40625,
+        "w": 44,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "theme",
+        "disabled": false,
+        "x": 21,
+        "y": 183.40625,
+        "w": 135,
+        "h": 49.59375,
+        "hit": true
+      },
+      {
+        "act": "fonts",
+        "disabled": false,
+        "x": 164,
+        "y": 183.40625,
+        "w": 135,
+        "h": 49.59375,
+        "hit": true
+      },
+      {
+        "act": "add",
+        "disabled": false,
+        "x": 21,
+        "y": 241,
+        "w": 135,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "relayout",
+        "disabled": false,
+        "x": 164,
+        "y": 241,
+        "w": 135,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "undo",
+        "disabled": false,
+        "x": 21,
+        "y": 293,
+        "w": 135,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "redo",
+        "disabled": true,
+        "x": 164,
+        "y": 293,
+        "w": 135,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "deselect",
+        "disabled": true,
+        "x": 21,
+        "y": 345,
+        "w": 135,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "hide",
+        "disabled": false,
+        "x": 164,
+        "y": 345,
+        "w": 135,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "about",
+        "disabled": false,
+        "x": 21,
+        "y": 397,
+        "w": 135,
+        "h": 44,
+        "hit": true
+      }
+    ],
+    "moreEscape": true,
+    "moreReturn": "more",
+    "drawer": {
+      "wall": {
+        "x": 0,
+        "y": 0,
+        "w": 320,
+        "h": 175,
+        "right": 320,
+        "bottom": 175
+      },
+      "drawer": {
+        "x": 8,
+        "y": 183.375,
+        "w": 304,
+        "h": 272.625,
+        "right": 312,
+        "bottom": 456
+      },
+      "selected": {
+        "x": 7,
+        "y": 7,
+        "w": 306,
+        "h": 161,
+        "right": 313,
+        "bottom": 168
+      },
+      "visibleSigns": 1,
+      "active": "tabAdjust",
+      "labelSize": "12px"
+    },
+    "tabAfterArrow": {
+      "active": "tabFonts",
+      "selected": "tabFonts"
+    },
+    "drawerEscape": true,
+    "drawerReturn": "adjust",
+    "export": {
+      "open": true,
+      "active": "<button type=\"submit\" class=\"dialog-close\" aria-label=\"Đóng\">✕</button>",
+      "scrollHeight": 396,
+      "clientHeight": 396
+    },
+    "exportReturn": "export",
+    "errors": []
+  },
+  {
+    "size": {
+      "width": 390,
+      "height": 844
+    },
+    "theme": "sg85",
+    "initial": {
+      "wall": {
+        "x": 0,
+        "y": 0,
+        "w": 390,
+        "h": 732,
+        "right": 390,
+        "bottom": 732
+      },
+      "dock": {
+        "x": 8,
+        "y": 740,
+        "w": 374,
+        "h": 94,
+        "right": 382,
+        "bottom": 834
+      },
+      "primary": [
+        {
+          "act": "shuffle",
+          "label": "🎲\nXÁO PHỐ",
+          "x": 16,
+          "y": 782,
+          "w": 85,
+          "h": 44,
+          "right": 101,
+          "bottom": 826
+        },
+        {
+          "act": "adjust",
+          "label": "🎛\nCHỈNH",
+          "x": 107,
+          "y": 782,
+          "w": 85,
+          "h": 44,
+          "right": 192,
+          "bottom": 826
+        },
+        {
+          "act": "export",
+          "label": "🖼\nXUẤT",
+          "x": 198,
+          "y": 782,
+          "w": 85,
+          "h": 44,
+          "right": 283,
+          "bottom": 826
+        },
+        {
+          "act": "more",
+          "label": "☰\nCÔNG CỤ",
+          "x": 289,
+          "y": 782,
+          "w": 85,
+          "h": 44,
+          "right": 374,
+          "bottom": 826
+        }
+      ],
+      "scrollWidth": 390
+    },
+    "more": {
+      "rect": {
+        "x": 8,
+        "y": 400,
+        "w": 374,
+        "h": 330,
+        "bottom": 730
+      },
+      "active": "close-more",
+      "scrollHeight": 328,
+      "clientHeight": 328
+    },
+    "moreButtons": [
+      {
+        "act": "close-more",
+        "disabled": false,
+        "x": 325,
+        "y": 413,
+        "w": 44,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "theme",
+        "disabled": false,
+        "x": 21,
+        "y": 465,
+        "w": 170,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "fonts",
+        "disabled": false,
+        "x": 199,
+        "y": 465,
+        "w": 170,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "add",
+        "disabled": false,
+        "x": 21,
+        "y": 517,
+        "w": 170,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "relayout",
+        "disabled": false,
+        "x": 199,
+        "y": 517,
+        "w": 170,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "undo",
+        "disabled": true,
+        "x": 21,
+        "y": 569,
+        "w": 170,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "redo",
+        "disabled": true,
+        "x": 199,
+        "y": 569,
+        "w": 170,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "deselect",
+        "disabled": true,
+        "x": 21,
+        "y": 621,
+        "w": 170,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "hide",
+        "disabled": false,
+        "x": 199,
+        "y": 621,
+        "w": 170,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "about",
+        "disabled": false,
+        "x": 21,
+        "y": 673,
+        "w": 170,
+        "h": 44,
+        "hit": true
+      }
+    ],
+    "moreEscape": true,
+    "moreReturn": "more",
+    "drawer": {
+      "wall": {
+        "x": 0,
+        "y": 0,
+        "w": 390,
+        "h": 318,
+        "right": 390,
+        "bottom": 318
+      },
+      "drawer": {
+        "x": 8,
+        "y": 326.890625,
+        "w": 374,
+        "h": 405.109375,
+        "right": 382,
+        "bottom": 732
+      },
+      "selected": {
+        "x": 11,
+        "y": 11,
+        "w": 368,
+        "h": 296,
+        "right": 379,
+        "bottom": 307
+      },
+      "visibleSigns": 1,
+      "active": "tabAdjust",
+      "labelSize": "12px"
+    },
+    "tabAfterArrow": {
+      "active": "tabFonts",
+      "selected": "tabFonts"
+    },
+    "drawerEscape": true,
+    "drawerReturn": "adjust",
+    "export": {
+      "open": true,
+      "active": "<button type=\"submit\" class=\"dialog-close\" aria-label=\"Đóng\">✕</button>",
+      "scrollHeight": 386,
+      "clientHeight": 386
+    },
+    "exportReturn": "export",
+    "errors": []
+  },
+  {
+    "size": {
+      "width": 390,
+      "height": 844
+    },
+    "theme": "nay",
+    "initial": {
+      "wall": {
+        "x": 0,
+        "y": 0,
+        "w": 390,
+        "h": 732,
+        "right": 390,
+        "bottom": 732
+      },
+      "dock": {
+        "x": 8,
+        "y": 740,
+        "w": 374,
+        "h": 94,
+        "right": 382,
+        "bottom": 834
+      },
+      "primary": [
+        {
+          "act": "shuffle",
+          "label": "🎲\nXÁO PHỐ",
+          "x": 16,
+          "y": 782,
+          "w": 85,
+          "h": 44,
+          "right": 101,
+          "bottom": 826
+        },
+        {
+          "act": "adjust",
+          "label": "🎛\nCHỈNH",
+          "x": 107,
+          "y": 782,
+          "w": 85,
+          "h": 44,
+          "right": 192,
+          "bottom": 826
+        },
+        {
+          "act": "export",
+          "label": "🖼\nXUẤT",
+          "x": 198,
+          "y": 782,
+          "w": 85,
+          "h": 44,
+          "right": 283,
+          "bottom": 826
+        },
+        {
+          "act": "more",
+          "label": "☰\nCÔNG CỤ",
+          "x": 289,
+          "y": 782,
+          "w": 85,
+          "h": 44,
+          "right": 374,
+          "bottom": 826
+        }
+      ],
+      "scrollWidth": 390
+    },
+    "more": {
+      "rect": {
+        "x": 8,
+        "y": 394.40625,
+        "w": 374,
+        "h": 335.59375,
+        "bottom": 730
+      },
+      "active": "close-more",
+      "scrollHeight": 334,
+      "clientHeight": 334
+    },
+    "moreButtons": [
+      {
+        "act": "close-more",
+        "disabled": false,
+        "x": 325,
+        "y": 407.40625,
+        "w": 44,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "theme",
+        "disabled": false,
+        "x": 21,
+        "y": 459.40625,
+        "w": 170,
+        "h": 49.59375,
+        "hit": true
+      },
+      {
+        "act": "fonts",
+        "disabled": false,
+        "x": 199,
+        "y": 459.40625,
+        "w": 170,
+        "h": 49.59375,
+        "hit": true
+      },
+      {
+        "act": "add",
+        "disabled": false,
+        "x": 21,
+        "y": 517,
+        "w": 170,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "relayout",
+        "disabled": false,
+        "x": 199,
+        "y": 517,
+        "w": 170,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "undo",
+        "disabled": false,
+        "x": 21,
+        "y": 569,
+        "w": 170,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "redo",
+        "disabled": true,
+        "x": 199,
+        "y": 569,
+        "w": 170,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "deselect",
+        "disabled": true,
+        "x": 21,
+        "y": 621,
+        "w": 170,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "hide",
+        "disabled": false,
+        "x": 199,
+        "y": 621,
+        "w": 170,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "about",
+        "disabled": false,
+        "x": 21,
+        "y": 673,
+        "w": 170,
+        "h": 44,
+        "hit": true
+      }
+    ],
+    "moreEscape": true,
+    "moreReturn": "more",
+    "drawer": {
+      "wall": {
+        "x": 0,
+        "y": 0,
+        "w": 390,
+        "h": 318,
+        "right": 390,
+        "bottom": 318
+      },
+      "drawer": {
+        "x": 8,
+        "y": 326.890625,
+        "w": 374,
+        "h": 405.109375,
+        "right": 382,
+        "bottom": 732
+      },
+      "selected": {
+        "x": 7,
+        "y": 7,
+        "w": 376,
+        "h": 304,
+        "right": 383,
+        "bottom": 311
+      },
+      "visibleSigns": 1,
+      "active": "tabAdjust",
+      "labelSize": "12px"
+    },
+    "tabAfterArrow": {
+      "active": "tabFonts",
+      "selected": "tabFonts"
+    },
+    "drawerEscape": true,
+    "drawerReturn": "adjust",
+    "export": {
+      "open": true,
+      "active": "<button type=\"submit\" class=\"dialog-close\" aria-label=\"Đóng\">✕</button>",
+      "scrollHeight": 386,
+      "clientHeight": 386
+    },
+    "exportReturn": "export",
+    "errors": []
+  },
+  {
+    "size": {
+      "width": 620,
+      "height": 900
+    },
+    "theme": "sg85",
+    "initial": {
+      "wall": {
+        "x": 0,
+        "y": 0,
+        "w": 620,
+        "h": 788,
+        "right": 620,
+        "bottom": 788
+      },
+      "dock": {
+        "x": 8,
+        "y": 796,
+        "w": 604,
+        "h": 94,
+        "right": 612,
+        "bottom": 890
+      },
+      "primary": [
+        {
+          "act": "shuffle",
+          "label": "🎲\nXÁO PHỐ",
+          "x": 16,
+          "y": 838,
+          "w": 142.5,
+          "h": 44,
+          "right": 158.5,
+          "bottom": 882
+        },
+        {
+          "act": "adjust",
+          "label": "🎛\nCHỈNH",
+          "x": 164.5,
+          "y": 838,
+          "w": 142.5,
+          "h": 44,
+          "right": 307,
+          "bottom": 882
+        },
+        {
+          "act": "export",
+          "label": "🖼\nXUẤT",
+          "x": 313,
+          "y": 838,
+          "w": 142.5,
+          "h": 44,
+          "right": 455.5,
+          "bottom": 882
+        },
+        {
+          "act": "more",
+          "label": "☰\nCÔNG CỤ",
+          "x": 461.5,
+          "y": 838,
+          "w": 142.5,
+          "h": 44,
+          "right": 604,
+          "bottom": 882
+        }
+      ],
+      "scrollWidth": 620
+    },
+    "more": {
+      "rect": {
+        "x": 172,
+        "y": 456,
+        "w": 440,
+        "h": 330,
+        "bottom": 786
+      },
+      "active": "close-more",
+      "scrollHeight": 328,
+      "clientHeight": 328
+    },
+    "moreButtons": [
+      {
+        "act": "close-more",
+        "disabled": false,
+        "x": 555,
+        "y": 469,
+        "w": 44,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "theme",
+        "disabled": false,
+        "x": 185,
+        "y": 521,
+        "w": 203,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "fonts",
+        "disabled": false,
+        "x": 396,
+        "y": 521,
+        "w": 203,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "add",
+        "disabled": false,
+        "x": 185,
+        "y": 573,
+        "w": 203,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "relayout",
+        "disabled": false,
+        "x": 396,
+        "y": 573,
+        "w": 203,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "undo",
+        "disabled": true,
+        "x": 185,
+        "y": 625,
+        "w": 203,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "redo",
+        "disabled": true,
+        "x": 396,
+        "y": 625,
+        "w": 203,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "deselect",
+        "disabled": true,
+        "x": 185,
+        "y": 677,
+        "w": 203,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "hide",
+        "disabled": false,
+        "x": 396,
+        "y": 677,
+        "w": 203,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "about",
+        "disabled": false,
+        "x": 185,
+        "y": 729,
+        "w": 203,
+        "h": 44,
+        "hit": true
+      }
+    ],
+    "moreEscape": true,
+    "moreReturn": "more",
+    "drawer": {
+      "wall": {
+        "x": 0,
+        "y": 0,
+        "w": 620,
+        "h": 348,
+        "right": 620,
+        "bottom": 348
+      },
+      "drawer": {
+        "x": 8,
+        "y": 356,
+        "w": 604,
+        "h": 432,
+        "right": 612,
+        "bottom": 788
+      },
+      "selected": {
+        "x": 11,
+        "y": 11,
+        "w": 598,
+        "h": 326,
+        "right": 609,
+        "bottom": 337
+      },
+      "visibleSigns": 1,
+      "active": "tabAdjust",
+      "labelSize": "12px"
+    },
+    "tabAfterArrow": {
+      "active": "tabFonts",
+      "selected": "tabFonts"
+    },
+    "drawerEscape": true,
+    "drawerReturn": "adjust",
+    "export": {
+      "open": true,
+      "active": "<button type=\"submit\" class=\"dialog-close\" aria-label=\"Đóng\">✕</button>",
+      "scrollHeight": 386,
+      "clientHeight": 386
+    },
+    "exportReturn": "export",
+    "errors": []
+  },
+  {
+    "size": {
+      "width": 620,
+      "height": 900
+    },
+    "theme": "nay",
+    "initial": {
+      "wall": {
+        "x": 0,
+        "y": 0,
+        "w": 620,
+        "h": 788,
+        "right": 620,
+        "bottom": 788
+      },
+      "dock": {
+        "x": 8,
+        "y": 796,
+        "w": 604,
+        "h": 94,
+        "right": 612,
+        "bottom": 890
+      },
+      "primary": [
+        {
+          "act": "shuffle",
+          "label": "🎲\nXÁO PHỐ",
+          "x": 16,
+          "y": 838,
+          "w": 142.5,
+          "h": 44,
+          "right": 158.5,
+          "bottom": 882
+        },
+        {
+          "act": "adjust",
+          "label": "🎛\nCHỈNH",
+          "x": 164.5,
+          "y": 838,
+          "w": 142.5,
+          "h": 44,
+          "right": 307,
+          "bottom": 882
+        },
+        {
+          "act": "export",
+          "label": "🖼\nXUẤT",
+          "x": 313,
+          "y": 838,
+          "w": 142.5,
+          "h": 44,
+          "right": 455.5,
+          "bottom": 882
+        },
+        {
+          "act": "more",
+          "label": "☰\nCÔNG CỤ",
+          "x": 461.5,
+          "y": 838,
+          "w": 142.5,
+          "h": 44,
+          "right": 604,
+          "bottom": 882
+        }
+      ],
+      "scrollWidth": 620
+    },
+    "more": {
+      "rect": {
+        "x": 172,
+        "y": 456,
+        "w": 440,
+        "h": 330,
+        "bottom": 786
+      },
+      "active": "close-more",
+      "scrollHeight": 328,
+      "clientHeight": 328
+    },
+    "moreButtons": [
+      {
+        "act": "close-more",
+        "disabled": false,
+        "x": 555,
+        "y": 469,
+        "w": 44,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "theme",
+        "disabled": false,
+        "x": 185,
+        "y": 521,
+        "w": 203,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "fonts",
+        "disabled": false,
+        "x": 396,
+        "y": 521,
+        "w": 203,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "add",
+        "disabled": false,
+        "x": 185,
+        "y": 573,
+        "w": 203,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "relayout",
+        "disabled": false,
+        "x": 396,
+        "y": 573,
+        "w": 203,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "undo",
+        "disabled": false,
+        "x": 185,
+        "y": 625,
+        "w": 203,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "redo",
+        "disabled": true,
+        "x": 396,
+        "y": 625,
+        "w": 203,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "deselect",
+        "disabled": true,
+        "x": 185,
+        "y": 677,
+        "w": 203,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "hide",
+        "disabled": false,
+        "x": 396,
+        "y": 677,
+        "w": 203,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "about",
+        "disabled": false,
+        "x": 185,
+        "y": 729,
+        "w": 203,
+        "h": 44,
+        "hit": true
+      }
+    ],
+    "moreEscape": true,
+    "moreReturn": "more",
+    "drawer": {
+      "wall": {
+        "x": 0,
+        "y": 0,
+        "w": 620,
+        "h": 348,
+        "right": 620,
+        "bottom": 348
+      },
+      "drawer": {
+        "x": 8,
+        "y": 356,
+        "w": 604,
+        "h": 432,
+        "right": 612,
+        "bottom": 788
+      },
+      "selected": {
+        "x": 7,
+        "y": 7,
+        "w": 606,
+        "h": 334,
+        "right": 613,
+        "bottom": 341
+      },
+      "visibleSigns": 1,
+      "active": "tabAdjust",
+      "labelSize": "12px"
+    },
+    "tabAfterArrow": {
+      "active": "tabFonts",
+      "selected": "tabFonts"
+    },
+    "drawerEscape": true,
+    "drawerReturn": "adjust",
+    "export": {
+      "open": true,
+      "active": "<button type=\"submit\" class=\"dialog-close\" aria-label=\"Đóng\">✕</button>",
+      "scrollHeight": 386,
+      "clientHeight": 386
+    },
+    "exportReturn": "export",
+    "errors": []
+  },
+  {
+    "size": {
+      "width": 621,
+      "height": 900
+    },
+    "theme": "sg85",
+    "initial": {
+      "wall": {
+        "x": 0,
+        "y": 0,
+        "w": 621,
+        "h": 788,
+        "right": 621,
+        "bottom": 788
+      },
+      "dock": {
+        "x": 8,
+        "y": 796,
+        "w": 605,
+        "h": 94,
+        "right": 613,
+        "bottom": 890
+      },
+      "primary": [
+        {
+          "act": "shuffle",
+          "label": "🎲\nXÁO PHỐ",
+          "x": 16,
+          "y": 838,
+          "w": 142.75,
+          "h": 44,
+          "right": 158.75,
+          "bottom": 882
+        },
+        {
+          "act": "adjust",
+          "label": "🎛\nCHỈNH",
+          "x": 164.75,
+          "y": 838,
+          "w": 142.75,
+          "h": 44,
+          "right": 307.5,
+          "bottom": 882
+        },
+        {
+          "act": "export",
+          "label": "🖼\nXUẤT",
+          "x": 313.5,
+          "y": 838,
+          "w": 142.75,
+          "h": 44,
+          "right": 456.25,
+          "bottom": 882
+        },
+        {
+          "act": "more",
+          "label": "☰\nCÔNG CỤ",
+          "x": 462.25,
+          "y": 838,
+          "w": 142.75,
+          "h": 44,
+          "right": 605,
+          "bottom": 882
+        }
+      ],
+      "scrollWidth": 621
+    },
+    "more": {
+      "rect": {
+        "x": 173,
+        "y": 456,
+        "w": 440,
+        "h": 330,
+        "bottom": 786
+      },
+      "active": "close-more",
+      "scrollHeight": 328,
+      "clientHeight": 328
+    },
+    "moreButtons": [
+      {
+        "act": "close-more",
+        "disabled": false,
+        "x": 556,
+        "y": 469,
+        "w": 44,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "theme",
+        "disabled": false,
+        "x": 186,
+        "y": 521,
+        "w": 203,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "fonts",
+        "disabled": false,
+        "x": 397,
+        "y": 521,
+        "w": 203,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "add",
+        "disabled": false,
+        "x": 186,
+        "y": 573,
+        "w": 203,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "relayout",
+        "disabled": false,
+        "x": 397,
+        "y": 573,
+        "w": 203,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "undo",
+        "disabled": true,
+        "x": 186,
+        "y": 625,
+        "w": 203,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "redo",
+        "disabled": true,
+        "x": 397,
+        "y": 625,
+        "w": 203,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "deselect",
+        "disabled": true,
+        "x": 186,
+        "y": 677,
+        "w": 203,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "hide",
+        "disabled": false,
+        "x": 397,
+        "y": 677,
+        "w": 203,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "about",
+        "disabled": false,
+        "x": 186,
+        "y": 729,
+        "w": 203,
+        "h": 44,
+        "hit": true
+      }
+    ],
+    "moreEscape": true,
+    "moreReturn": "more",
+    "drawer": {
+      "wall": {
+        "x": 0,
+        "y": 0,
+        "w": 621,
+        "h": 348,
+        "right": 621,
+        "bottom": 348
+      },
+      "drawer": {
+        "x": 8,
+        "y": 356,
+        "w": 605,
+        "h": 432,
+        "right": 613,
+        "bottom": 788
+      },
+      "selected": {
+        "x": 11,
+        "y": 11,
+        "w": 599,
+        "h": 326,
+        "right": 610,
+        "bottom": 337
+      },
+      "visibleSigns": 1,
+      "active": "tabAdjust",
+      "labelSize": "12px"
+    },
+    "tabAfterArrow": {
+      "active": "tabFonts",
+      "selected": "tabFonts"
+    },
+    "drawerEscape": true,
+    "drawerReturn": "adjust",
+    "export": {
+      "open": true,
+      "active": "<button type=\"submit\" class=\"dialog-close\" aria-label=\"Đóng\">✕</button>",
+      "scrollHeight": 386,
+      "clientHeight": 386
+    },
+    "exportReturn": "export",
+    "errors": []
+  },
+  {
+    "size": {
+      "width": 621,
+      "height": 900
+    },
+    "theme": "nay",
+    "initial": {
+      "wall": {
+        "x": 0,
+        "y": 0,
+        "w": 621,
+        "h": 788,
+        "right": 621,
+        "bottom": 788
+      },
+      "dock": {
+        "x": 8,
+        "y": 796,
+        "w": 605,
+        "h": 94,
+        "right": 613,
+        "bottom": 890
+      },
+      "primary": [
+        {
+          "act": "shuffle",
+          "label": "🎲\nXÁO PHỐ",
+          "x": 16,
+          "y": 838,
+          "w": 142.75,
+          "h": 44,
+          "right": 158.75,
+          "bottom": 882
+        },
+        {
+          "act": "adjust",
+          "label": "🎛\nCHỈNH",
+          "x": 164.75,
+          "y": 838,
+          "w": 142.75,
+          "h": 44,
+          "right": 307.5,
+          "bottom": 882
+        },
+        {
+          "act": "export",
+          "label": "🖼\nXUẤT",
+          "x": 313.5,
+          "y": 838,
+          "w": 142.75,
+          "h": 44,
+          "right": 456.25,
+          "bottom": 882
+        },
+        {
+          "act": "more",
+          "label": "☰\nCÔNG CỤ",
+          "x": 462.25,
+          "y": 838,
+          "w": 142.75,
+          "h": 44,
+          "right": 605,
+          "bottom": 882
+        }
+      ],
+      "scrollWidth": 621
+    },
+    "more": {
+      "rect": {
+        "x": 173,
+        "y": 456,
+        "w": 440,
+        "h": 330,
+        "bottom": 786
+      },
+      "active": "close-more",
+      "scrollHeight": 328,
+      "clientHeight": 328
+    },
+    "moreButtons": [
+      {
+        "act": "close-more",
+        "disabled": false,
+        "x": 556,
+        "y": 469,
+        "w": 44,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "theme",
+        "disabled": false,
+        "x": 186,
+        "y": 521,
+        "w": 203,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "fonts",
+        "disabled": false,
+        "x": 397,
+        "y": 521,
+        "w": 203,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "add",
+        "disabled": false,
+        "x": 186,
+        "y": 573,
+        "w": 203,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "relayout",
+        "disabled": false,
+        "x": 397,
+        "y": 573,
+        "w": 203,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "undo",
+        "disabled": false,
+        "x": 186,
+        "y": 625,
+        "w": 203,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "redo",
+        "disabled": true,
+        "x": 397,
+        "y": 625,
+        "w": 203,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "deselect",
+        "disabled": true,
+        "x": 186,
+        "y": 677,
+        "w": 203,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "hide",
+        "disabled": false,
+        "x": 397,
+        "y": 677,
+        "w": 203,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "about",
+        "disabled": false,
+        "x": 186,
+        "y": 729,
+        "w": 203,
+        "h": 44,
+        "hit": true
+      }
+    ],
+    "moreEscape": true,
+    "moreReturn": "more",
+    "drawer": {
+      "wall": {
+        "x": 0,
+        "y": 0,
+        "w": 621,
+        "h": 348,
+        "right": 621,
+        "bottom": 348
+      },
+      "drawer": {
+        "x": 8,
+        "y": 356,
+        "w": 605,
+        "h": 432,
+        "right": 613,
+        "bottom": 788
+      },
+      "selected": {
+        "x": 7,
+        "y": 7,
+        "w": 607,
+        "h": 334,
+        "right": 614,
+        "bottom": 341
+      },
+      "visibleSigns": 1,
+      "active": "tabAdjust",
+      "labelSize": "12px"
+    },
+    "tabAfterArrow": {
+      "active": "tabFonts",
+      "selected": "tabFonts"
+    },
+    "drawerEscape": true,
+    "drawerReturn": "adjust",
+    "export": {
+      "open": true,
+      "active": "<button type=\"submit\" class=\"dialog-close\" aria-label=\"Đóng\">✕</button>",
+      "scrollHeight": 386,
+      "clientHeight": 386
+    },
+    "exportReturn": "export",
+    "errors": []
+  },
+  {
+    "size": {
+      "width": 768,
+      "height": 1024
+    },
+    "theme": "sg85",
+    "initial": {
+      "wall": {
+        "x": 0,
+        "y": 0,
+        "w": 768,
+        "h": 925,
+        "right": 768,
+        "bottom": 925
+      },
+      "dock": {
+        "x": 12,
+        "y": 933.203125,
+        "w": 744,
+        "h": 80.796875,
+        "right": 756,
+        "bottom": 1014
+      },
+      "primary": [
+        {
+          "act": "shuffle",
+          "label": "🎲XÁO PHỐ",
+          "x": 338.0625,
+          "y": 951.59375,
+          "w": 96.984375,
+          "h": 44,
+          "right": 435.046875,
+          "bottom": 995.59375
+        },
+        {
+          "act": "adjust",
+          "label": "🎛CHỈNH",
+          "x": 441.046875,
+          "y": 951.59375,
+          "w": 96.984375,
+          "h": 44,
+          "right": 538.03125,
+          "bottom": 995.59375
+        },
+        {
+          "act": "export",
+          "label": "🖼XUẤT",
+          "x": 544.03125,
+          "y": 951.59375,
+          "w": 96.984375,
+          "h": 44,
+          "right": 641.015625,
+          "bottom": 995.59375
+        },
+        {
+          "act": "more",
+          "label": "☰CÔNG CỤ",
+          "x": 647.015625,
+          "y": 951.59375,
+          "w": 96.984375,
+          "h": 44,
+          "right": 744,
+          "bottom": 995.59375
+        }
+      ],
+      "scrollWidth": 768
+    },
+    "more": {
+      "rect": {
+        "x": 316,
+        "y": 593.203125,
+        "w": 440,
+        "h": 330,
+        "bottom": 923.203125
+      },
+      "active": "close-more",
+      "scrollHeight": 328,
+      "clientHeight": 328
+    },
+    "moreButtons": [
+      {
+        "act": "close-more",
+        "disabled": false,
+        "x": 699,
+        "y": 606.203125,
+        "w": 44,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "theme",
+        "disabled": false,
+        "x": 329,
+        "y": 658.203125,
+        "w": 203,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "fonts",
+        "disabled": false,
+        "x": 540,
+        "y": 658.203125,
+        "w": 203,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "add",
+        "disabled": false,
+        "x": 329,
+        "y": 710.203125,
+        "w": 203,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "relayout",
+        "disabled": false,
+        "x": 540,
+        "y": 710.203125,
+        "w": 203,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "undo",
+        "disabled": true,
+        "x": 329,
+        "y": 762.203125,
+        "w": 203,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "redo",
+        "disabled": true,
+        "x": 540,
+        "y": 762.203125,
+        "w": 203,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "deselect",
+        "disabled": true,
+        "x": 329,
+        "y": 814.203125,
+        "w": 203,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "hide",
+        "disabled": false,
+        "x": 540,
+        "y": 814.203125,
+        "w": 203,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "about",
+        "disabled": false,
+        "x": 329,
+        "y": 866.203125,
+        "w": 203,
+        "h": 44,
+        "hit": true
+      }
+    ],
+    "moreEscape": true,
+    "moreReturn": "more",
+    "drawer": {
+      "wall": {
+        "x": 0,
+        "y": 0,
+        "w": 384,
+        "h": 925,
+        "right": 384,
+        "bottom": 925
+      },
+      "drawer": {
+        "x": 392,
+        "y": 8,
+        "w": 368,
+        "h": 917,
+        "right": 760,
+        "bottom": 925
+      },
+      "selected": {
+        "x": 225.578125,
+        "y": 11,
+        "w": 147.40625,
+        "h": 446,
+        "right": 372.984375,
+        "bottom": 457
+      },
+      "visibleSigns": 7,
+      "active": "tabAdjust",
+      "labelSize": "12px"
+    },
+    "tabAfterArrow": {
+      "active": "tabFonts",
+      "selected": "tabFonts"
+    },
+    "drawerEscape": true,
+    "drawerReturn": "adjust",
+    "export": {
+      "open": true,
+      "active": "<button type=\"submit\" class=\"dialog-close\" aria-label=\"Đóng\">✕</button>",
+      "scrollHeight": 386,
+      "clientHeight": 386
+    },
+    "exportReturn": "export",
+    "errors": []
+  },
+  {
+    "size": {
+      "width": 768,
+      "height": 1024
+    },
+    "theme": "nay",
+    "initial": {
+      "wall": {
+        "x": 0,
+        "y": 0,
+        "w": 768,
+        "h": 934,
+        "right": 768,
+        "bottom": 934
+      },
+      "dock": {
+        "x": 12,
+        "y": 942.015625,
+        "w": 744,
+        "h": 71.984375,
+        "right": 756,
+        "bottom": 1014
+      },
+      "primary": [
+        {
+          "act": "shuffle",
+          "label": "🎲XÁO PHỐ",
+          "x": 338.0625,
+          "y": 956,
+          "w": 96.984375,
+          "h": 44,
+          "right": 435.046875,
+          "bottom": 1000
+        },
+        {
+          "act": "adjust",
+          "label": "🎛CHỈNH",
+          "x": 441.046875,
+          "y": 956,
+          "w": 96.984375,
+          "h": 44,
+          "right": 538.03125,
+          "bottom": 1000
+        },
+        {
+          "act": "export",
+          "label": "🖼XUẤT",
+          "x": 544.03125,
+          "y": 956,
+          "w": 96.984375,
+          "h": 44,
+          "right": 641.015625,
+          "bottom": 1000
+        },
+        {
+          "act": "more",
+          "label": "☰CÔNG CỤ",
+          "x": 647.015625,
+          "y": 956,
+          "w": 96.984375,
+          "h": 44,
+          "right": 744,
+          "bottom": 1000
+        }
+      ],
+      "scrollWidth": 768
+    },
+    "more": {
+      "rect": {
+        "x": 316,
+        "y": 602.015625,
+        "w": 440,
+        "h": 330,
+        "bottom": 932.015625
+      },
+      "active": "close-more",
+      "scrollHeight": 328,
+      "clientHeight": 328
+    },
+    "moreButtons": [
+      {
+        "act": "close-more",
+        "disabled": false,
+        "x": 699,
+        "y": 615.015625,
+        "w": 44,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "theme",
+        "disabled": false,
+        "x": 329,
+        "y": 667.015625,
+        "w": 203,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "fonts",
+        "disabled": false,
+        "x": 540,
+        "y": 667.015625,
+        "w": 203,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "add",
+        "disabled": false,
+        "x": 329,
+        "y": 719.015625,
+        "w": 203,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "relayout",
+        "disabled": false,
+        "x": 540,
+        "y": 719.015625,
+        "w": 203,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "undo",
+        "disabled": false,
+        "x": 329,
+        "y": 771.015625,
+        "w": 203,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "redo",
+        "disabled": true,
+        "x": 540,
+        "y": 771.015625,
+        "w": 203,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "deselect",
+        "disabled": true,
+        "x": 329,
+        "y": 823.015625,
+        "w": 203,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "hide",
+        "disabled": false,
+        "x": 540,
+        "y": 823.015625,
+        "w": 203,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "about",
+        "disabled": false,
+        "x": 329,
+        "y": 875.015625,
+        "w": 203,
+        "h": 44,
+        "hit": true
+      }
+    ],
+    "moreEscape": true,
+    "moreReturn": "more",
+    "drawer": {
+      "wall": {
+        "x": 0,
+        "y": 0,
+        "w": 384,
+        "h": 934,
+        "right": 384,
+        "bottom": 934
+      },
+      "drawer": {
+        "x": 392,
+        "y": 8,
+        "w": 368,
+        "h": 926,
+        "right": 760,
+        "bottom": 934
+      },
+      "selected": {
+        "x": 210.015625,
+        "y": 7,
+        "w": 166.984375,
+        "h": 419.984375,
+        "right": 377,
+        "bottom": 426.984375
+      },
+      "visibleSigns": 7,
+      "active": "tabAdjust",
+      "labelSize": "12px"
+    },
+    "tabAfterArrow": {
+      "active": "tabFonts",
+      "selected": "tabFonts"
+    },
+    "drawerEscape": true,
+    "drawerReturn": "adjust",
+    "export": {
+      "open": true,
+      "active": "<button type=\"submit\" class=\"dialog-close\" aria-label=\"Đóng\">✕</button>",
+      "scrollHeight": 386,
+      "clientHeight": 386
+    },
+    "exportReturn": "export",
+    "errors": []
+  },
+  {
+    "size": {
+      "width": 844,
+      "height": 390
+    },
+    "theme": "sg85",
+    "initial": {
+      "wall": {
+        "x": 0,
+        "y": 0,
+        "w": 844,
+        "h": 291,
+        "right": 844,
+        "bottom": 291
+      },
+      "dock": {
+        "x": 12,
+        "y": 299.203125,
+        "w": 820,
+        "h": 80.796875,
+        "right": 832,
+        "bottom": 380
+      },
+      "primary": [
+        {
+          "act": "shuffle",
+          "label": "🎲XÁO PHỐ",
+          "x": 414.0625,
+          "y": 317.59375,
+          "w": 96.984375,
+          "h": 44,
+          "right": 511.046875,
+          "bottom": 361.59375
+        },
+        {
+          "act": "adjust",
+          "label": "🎛CHỈNH",
+          "x": 517.046875,
+          "y": 317.59375,
+          "w": 96.984375,
+          "h": 44,
+          "right": 614.03125,
+          "bottom": 361.59375
+        },
+        {
+          "act": "export",
+          "label": "🖼XUẤT",
+          "x": 620.03125,
+          "y": 317.59375,
+          "w": 96.984375,
+          "h": 44,
+          "right": 717.015625,
+          "bottom": 361.59375
+        },
+        {
+          "act": "more",
+          "label": "☰CÔNG CỤ",
+          "x": 723.015625,
+          "y": 317.59375,
+          "w": 96.984375,
+          "h": 44,
+          "right": 820,
+          "bottom": 361.59375
+        }
+      ],
+      "scrollWidth": 844
+    },
+    "more": {
+      "rect": {
+        "x": 392,
+        "y": 35.703125,
+        "w": 440,
+        "h": 253.5,
+        "bottom": 289.203125
+      },
+      "active": "close-more",
+      "scrollHeight": 328,
+      "clientHeight": 252
+    },
+    "moreButtons": [
+      {
+        "act": "close-more",
+        "disabled": false,
+        "x": 775,
+        "y": 48.703125,
+        "w": 44,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "theme",
+        "disabled": false,
+        "x": 405,
+        "y": 100.703125,
+        "w": 203,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "fonts",
+        "disabled": false,
+        "x": 616,
+        "y": 100.703125,
+        "w": 203,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "add",
+        "disabled": false,
+        "x": 405,
+        "y": 152.703125,
+        "w": 203,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "relayout",
+        "disabled": false,
+        "x": 616,
+        "y": 152.703125,
+        "w": 203,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "undo",
+        "disabled": true,
+        "x": 405,
+        "y": 204.703125,
+        "w": 203,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "redo",
+        "disabled": true,
+        "x": 616,
+        "y": 204.703125,
+        "w": 203,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "deselect",
+        "disabled": true,
+        "x": 405,
+        "y": 243.703125,
+        "w": 203,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "hide",
+        "disabled": false,
+        "x": 616,
+        "y": 243.703125,
+        "w": 203,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "about",
+        "disabled": false,
+        "x": 405,
+        "y": 232.703125,
+        "w": 203,
+        "h": 44,
+        "hit": true
+      }
+    ],
+    "moreEscape": true,
+    "moreReturn": "more",
+    "drawer": {
+      "wall": {
+        "x": 0,
+        "y": 0,
+        "w": 460,
+        "h": 291,
+        "right": 460,
+        "bottom": 291
+      },
+      "drawer": {
+        "x": 468,
+        "y": 8,
+        "w": 368,
+        "h": 283,
+        "right": 836,
+        "bottom": 291
+      },
+      "selected": {
+        "x": 218.421875,
+        "y": 11,
+        "w": 101,
+        "h": 269,
+        "right": 319.421875,
+        "bottom": 280
+      },
+      "visibleSigns": 5,
+      "active": "tabAdjust",
+      "labelSize": "12px"
+    },
+    "tabAfterArrow": {
+      "active": "tabFonts",
+      "selected": "tabFonts"
+    },
+    "drawerEscape": true,
+    "drawerReturn": "adjust",
+    "export": {
+      "open": true,
+      "active": "<button type=\"submit\" class=\"dialog-close\" aria-label=\"Đóng\">✕</button>",
+      "scrollHeight": 386,
+      "clientHeight": 362
+    },
+    "exportReturn": "export",
+    "errors": []
+  },
+  {
+    "size": {
+      "width": 844,
+      "height": 390
+    },
+    "theme": "nay",
+    "initial": {
+      "wall": {
+        "x": 0,
+        "y": 0,
+        "w": 844,
+        "h": 300,
+        "right": 844,
+        "bottom": 300
+      },
+      "dock": {
+        "x": 12,
+        "y": 308.015625,
+        "w": 820,
+        "h": 71.984375,
+        "right": 832,
+        "bottom": 380
+      },
+      "primary": [
+        {
+          "act": "shuffle",
+          "label": "🎲XÁO PHỐ",
+          "x": 414.0625,
+          "y": 322,
+          "w": 96.984375,
+          "h": 44,
+          "right": 511.046875,
+          "bottom": 366
+        },
+        {
+          "act": "adjust",
+          "label": "🎛CHỈNH",
+          "x": 517.046875,
+          "y": 322,
+          "w": 96.984375,
+          "h": 44,
+          "right": 614.03125,
+          "bottom": 366
+        },
+        {
+          "act": "export",
+          "label": "🖼XUẤT",
+          "x": 620.03125,
+          "y": 322,
+          "w": 96.984375,
+          "h": 44,
+          "right": 717.015625,
+          "bottom": 366
+        },
+        {
+          "act": "more",
+          "label": "☰CÔNG CỤ",
+          "x": 723.015625,
+          "y": 322,
+          "w": 96.984375,
+          "h": 44,
+          "right": 820,
+          "bottom": 366
+        }
+      ],
+      "scrollWidth": 844
+    },
+    "more": {
+      "rect": {
+        "x": 392,
+        "y": 44.515625,
+        "w": 440,
+        "h": 253.5,
+        "bottom": 298.015625
+      },
+      "active": "close-more",
+      "scrollHeight": 328,
+      "clientHeight": 252
+    },
+    "moreButtons": [
+      {
+        "act": "close-more",
+        "disabled": false,
+        "x": 775,
+        "y": 57.515625,
+        "w": 44,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "theme",
+        "disabled": false,
+        "x": 405,
+        "y": 109.515625,
+        "w": 203,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "fonts",
+        "disabled": false,
+        "x": 616,
+        "y": 109.515625,
+        "w": 203,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "add",
+        "disabled": false,
+        "x": 405,
+        "y": 161.515625,
+        "w": 203,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "relayout",
+        "disabled": false,
+        "x": 616,
+        "y": 161.515625,
+        "w": 203,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "undo",
+        "disabled": false,
+        "x": 405,
+        "y": 213.515625,
+        "w": 203,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "redo",
+        "disabled": true,
+        "x": 616,
+        "y": 213.515625,
+        "w": 203,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "deselect",
+        "disabled": true,
+        "x": 405,
+        "y": 252.515625,
+        "w": 203,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "hide",
+        "disabled": false,
+        "x": 616,
+        "y": 252.515625,
+        "w": 203,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "about",
+        "disabled": false,
+        "x": 405,
+        "y": 241.515625,
+        "w": 203,
+        "h": 44,
+        "hit": true
+      }
+    ],
+    "moreEscape": true,
+    "moreReturn": "more",
+    "drawer": {
+      "wall": {
+        "x": 0,
+        "y": 0,
+        "w": 460,
+        "h": 300,
+        "right": 460,
+        "bottom": 300
+      },
+      "drawer": {
+        "x": 468,
+        "y": 8,
+        "w": 368,
+        "h": 292,
+        "right": 836,
+        "bottom": 300
+      },
+      "selected": {
+        "x": 103.671875,
+        "y": 7,
+        "w": 105.265625,
+        "h": 286,
+        "right": 208.9375,
+        "bottom": 293
+      },
+      "visibleSigns": 5,
+      "active": "tabAdjust",
+      "labelSize": "12px"
+    },
+    "tabAfterArrow": {
+      "active": "tabFonts",
+      "selected": "tabFonts"
+    },
+    "drawerEscape": true,
+    "drawerReturn": "adjust",
+    "export": {
+      "open": true,
+      "active": "<button type=\"submit\" class=\"dialog-close\" aria-label=\"Đóng\">✕</button>",
+      "scrollHeight": 386,
+      "clientHeight": 362
+    },
+    "exportReturn": "export",
+    "errors": []
+  },
+  {
+    "size": {
+      "width": 1024,
+      "height": 768
+    },
+    "theme": "sg85",
+    "initial": {
+      "wall": {
+        "x": 0,
+        "y": 0,
+        "w": 1024,
+        "h": 669,
+        "right": 1024,
+        "bottom": 669
+      },
+      "dock": {
+        "x": 32,
+        "y": 677.203125,
+        "w": 960,
+        "h": 80.796875,
+        "right": 992,
+        "bottom": 758
+      },
+      "primary": [
+        {
+          "act": "shuffle",
+          "label": "🎲XÁO PHỐ",
+          "x": 574.0625,
+          "y": 695.59375,
+          "w": 96.984375,
+          "h": 44,
+          "right": 671.046875,
+          "bottom": 739.59375
+        },
+        {
+          "act": "adjust",
+          "label": "🎛CHỈNH",
+          "x": 677.046875,
+          "y": 695.59375,
+          "w": 96.984375,
+          "h": 44,
+          "right": 774.03125,
+          "bottom": 739.59375
+        },
+        {
+          "act": "export",
+          "label": "🖼XUẤT",
+          "x": 780.03125,
+          "y": 695.59375,
+          "w": 96.984375,
+          "h": 44,
+          "right": 877.015625,
+          "bottom": 739.59375
+        },
+        {
+          "act": "more",
+          "label": "☰CÔNG CỤ",
+          "x": 883.015625,
+          "y": 695.59375,
+          "w": 96.984375,
+          "h": 44,
+          "right": 980,
+          "bottom": 739.59375
+        }
+      ],
+      "scrollWidth": 1024
+    },
+    "more": {
+      "rect": {
+        "x": 552,
+        "y": 337.203125,
+        "w": 440,
+        "h": 330,
+        "bottom": 667.203125
+      },
+      "active": "close-more",
+      "scrollHeight": 328,
+      "clientHeight": 328
+    },
+    "moreButtons": [
+      {
+        "act": "close-more",
+        "disabled": false,
+        "x": 935,
+        "y": 350.203125,
+        "w": 44,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "theme",
+        "disabled": false,
+        "x": 565,
+        "y": 402.203125,
+        "w": 203,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "fonts",
+        "disabled": false,
+        "x": 776,
+        "y": 402.203125,
+        "w": 203,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "add",
+        "disabled": false,
+        "x": 565,
+        "y": 454.203125,
+        "w": 203,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "relayout",
+        "disabled": false,
+        "x": 776,
+        "y": 454.203125,
+        "w": 203,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "undo",
+        "disabled": true,
+        "x": 565,
+        "y": 506.203125,
+        "w": 203,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "redo",
+        "disabled": true,
+        "x": 776,
+        "y": 506.203125,
+        "w": 203,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "deselect",
+        "disabled": true,
+        "x": 565,
+        "y": 558.203125,
+        "w": 203,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "hide",
+        "disabled": false,
+        "x": 776,
+        "y": 558.203125,
+        "w": 203,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "about",
+        "disabled": false,
+        "x": 565,
+        "y": 610.203125,
+        "w": 203,
+        "h": 44,
+        "hit": true
+      }
+    ],
+    "moreEscape": true,
+    "moreReturn": "more",
+    "drawer": {
+      "wall": {
+        "x": 0,
+        "y": 0,
+        "w": 640,
+        "h": 669,
+        "right": 640,
+        "bottom": 669
+      },
+      "drawer": {
+        "x": 648,
+        "y": 8,
+        "w": 368,
+        "h": 661,
+        "right": 1016,
+        "bottom": 669
+      },
+      "selected": {
+        "x": 11,
+        "y": 365.4375,
+        "w": 303.5,
+        "h": 292.5625,
+        "right": 314.5,
+        "bottom": 658
+      },
+      "visibleSigns": 7,
+      "active": "tabAdjust",
+      "labelSize": "12px"
+    },
+    "tabAfterArrow": {
+      "active": "tabFonts",
+      "selected": "tabFonts"
+    },
+    "drawerEscape": true,
+    "drawerReturn": "adjust",
+    "export": {
+      "open": true,
+      "active": "<button type=\"submit\" class=\"dialog-close\" aria-label=\"Đóng\">✕</button>",
+      "scrollHeight": 386,
+      "clientHeight": 386
+    },
+    "exportReturn": "export",
+    "errors": []
+  },
+  {
+    "size": {
+      "width": 1024,
+      "height": 768
+    },
+    "theme": "nay",
+    "initial": {
+      "wall": {
+        "x": 0,
+        "y": 0,
+        "w": 1024,
+        "h": 678,
+        "right": 1024,
+        "bottom": 678
+      },
+      "dock": {
+        "x": 32,
+        "y": 686.015625,
+        "w": 960,
+        "h": 71.984375,
+        "right": 992,
+        "bottom": 758
+      },
+      "primary": [
+        {
+          "act": "shuffle",
+          "label": "🎲XÁO PHỐ",
+          "x": 574.0625,
+          "y": 700,
+          "w": 96.984375,
+          "h": 44,
+          "right": 671.046875,
+          "bottom": 744
+        },
+        {
+          "act": "adjust",
+          "label": "🎛CHỈNH",
+          "x": 677.046875,
+          "y": 700,
+          "w": 96.984375,
+          "h": 44,
+          "right": 774.03125,
+          "bottom": 744
+        },
+        {
+          "act": "export",
+          "label": "🖼XUẤT",
+          "x": 780.03125,
+          "y": 700,
+          "w": 96.984375,
+          "h": 44,
+          "right": 877.015625,
+          "bottom": 744
+        },
+        {
+          "act": "more",
+          "label": "☰CÔNG CỤ",
+          "x": 883.015625,
+          "y": 700,
+          "w": 96.984375,
+          "h": 44,
+          "right": 980,
+          "bottom": 744
+        }
+      ],
+      "scrollWidth": 1024
+    },
+    "more": {
+      "rect": {
+        "x": 552,
+        "y": 346.015625,
+        "w": 440,
+        "h": 330,
+        "bottom": 676.015625
+      },
+      "active": "close-more",
+      "scrollHeight": 328,
+      "clientHeight": 328
+    },
+    "moreButtons": [
+      {
+        "act": "close-more",
+        "disabled": false,
+        "x": 935,
+        "y": 359.015625,
+        "w": 44,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "theme",
+        "disabled": false,
+        "x": 565,
+        "y": 411.015625,
+        "w": 203,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "fonts",
+        "disabled": false,
+        "x": 776,
+        "y": 411.015625,
+        "w": 203,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "add",
+        "disabled": false,
+        "x": 565,
+        "y": 463.015625,
+        "w": 203,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "relayout",
+        "disabled": false,
+        "x": 776,
+        "y": 463.015625,
+        "w": 203,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "undo",
+        "disabled": false,
+        "x": 565,
+        "y": 515.015625,
+        "w": 203,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "redo",
+        "disabled": true,
+        "x": 776,
+        "y": 515.015625,
+        "w": 203,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "deselect",
+        "disabled": true,
+        "x": 565,
+        "y": 567.015625,
+        "w": 203,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "hide",
+        "disabled": false,
+        "x": 776,
+        "y": 567.015625,
+        "w": 203,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "about",
+        "disabled": false,
+        "x": 565,
+        "y": 619.015625,
+        "w": 203,
+        "h": 44,
+        "hit": true
+      }
+    ],
+    "moreEscape": true,
+    "moreReturn": "more",
+    "drawer": {
+      "wall": {
+        "x": 0,
+        "y": 0,
+        "w": 640,
+        "h": 678,
+        "right": 640,
+        "bottom": 678
+      },
+      "drawer": {
+        "x": 648,
+        "y": 8,
+        "w": 368,
+        "h": 670,
+        "right": 1016,
+        "bottom": 678
+      },
+      "selected": {
+        "x": 373.015625,
+        "y": 7,
+        "w": 259.96875,
+        "h": 328.5,
+        "right": 632.984375,
+        "bottom": 335.5
+      },
+      "visibleSigns": 7,
+      "active": "tabAdjust",
+      "labelSize": "12px"
+    },
+    "tabAfterArrow": {
+      "active": "tabFonts",
+      "selected": "tabFonts"
+    },
+    "drawerEscape": true,
+    "drawerReturn": "adjust",
+    "export": {
+      "open": true,
+      "active": "<button type=\"submit\" class=\"dialog-close\" aria-label=\"Đóng\">✕</button>",
+      "scrollHeight": 386,
+      "clientHeight": 386
+    },
+    "exportReturn": "export",
+    "errors": []
+  },
+  {
+    "size": {
+      "width": 1280,
+      "height": 800
+    },
+    "theme": "sg85",
+    "initial": {
+      "wall": {
+        "x": 0,
+        "y": 0,
+        "w": 1280,
+        "h": 701,
+        "right": 1280,
+        "bottom": 701
+      },
+      "dock": {
+        "x": 160,
+        "y": 709.203125,
+        "w": 960,
+        "h": 80.796875,
+        "right": 1120,
+        "bottom": 790
+      },
+      "primary": [
+        {
+          "act": "shuffle",
+          "label": "🎲XÁO PHỐ",
+          "x": 702.0625,
+          "y": 727.59375,
+          "w": 96.984375,
+          "h": 44,
+          "right": 799.046875,
+          "bottom": 771.59375
+        },
+        {
+          "act": "adjust",
+          "label": "🎛CHỈNH",
+          "x": 805.046875,
+          "y": 727.59375,
+          "w": 96.984375,
+          "h": 44,
+          "right": 902.03125,
+          "bottom": 771.59375
+        },
+        {
+          "act": "export",
+          "label": "🖼XUẤT",
+          "x": 908.03125,
+          "y": 727.59375,
+          "w": 96.984375,
+          "h": 44,
+          "right": 1005.015625,
+          "bottom": 771.59375
+        },
+        {
+          "act": "more",
+          "label": "☰CÔNG CỤ",
+          "x": 1011.015625,
+          "y": 727.59375,
+          "w": 96.984375,
+          "h": 44,
+          "right": 1108,
+          "bottom": 771.59375
+        }
+      ],
+      "scrollWidth": 1280
+    },
+    "more": {
+      "rect": {
+        "x": 680,
+        "y": 369.203125,
+        "w": 440,
+        "h": 330,
+        "bottom": 699.203125
+      },
+      "active": "close-more",
+      "scrollHeight": 328,
+      "clientHeight": 328
+    },
+    "moreButtons": [
+      {
+        "act": "close-more",
+        "disabled": false,
+        "x": 1063,
+        "y": 382.203125,
+        "w": 44,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "theme",
+        "disabled": false,
+        "x": 693,
+        "y": 434.203125,
+        "w": 203,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "fonts",
+        "disabled": false,
+        "x": 904,
+        "y": 434.203125,
+        "w": 203,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "add",
+        "disabled": false,
+        "x": 693,
+        "y": 486.203125,
+        "w": 203,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "relayout",
+        "disabled": false,
+        "x": 904,
+        "y": 486.203125,
+        "w": 203,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "undo",
+        "disabled": true,
+        "x": 693,
+        "y": 538.203125,
+        "w": 203,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "redo",
+        "disabled": true,
+        "x": 904,
+        "y": 538.203125,
+        "w": 203,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "deselect",
+        "disabled": true,
+        "x": 693,
+        "y": 590.203125,
+        "w": 203,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "hide",
+        "disabled": false,
+        "x": 904,
+        "y": 590.203125,
+        "w": 203,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "about",
+        "disabled": false,
+        "x": 693,
+        "y": 642.203125,
+        "w": 203,
+        "h": 44,
+        "hit": true
+      }
+    ],
+    "moreEscape": true,
+    "moreReturn": "more",
+    "drawer": {
+      "wall": {
+        "x": 0,
+        "y": 0,
+        "w": 896,
+        "h": 701,
+        "right": 896,
+        "bottom": 701
+      },
+      "drawer": {
+        "x": 904,
+        "y": 8,
+        "w": 368,
+        "h": 693,
+        "right": 1272,
+        "bottom": 701
+      },
+      "selected": {
+        "x": 11,
+        "y": 11,
+        "w": 225.1875,
+        "h": 387.4375,
+        "right": 236.1875,
+        "bottom": 398.4375
+      },
+      "visibleSigns": 9,
+      "active": "tabAdjust",
+      "labelSize": "12px"
+    },
+    "tabAfterArrow": {
+      "active": "tabFonts",
+      "selected": "tabFonts"
+    },
+    "drawerEscape": true,
+    "drawerReturn": "adjust",
+    "export": {
+      "open": true,
+      "active": "<button type=\"submit\" class=\"dialog-close\" aria-label=\"Đóng\">✕</button>",
+      "scrollHeight": 386,
+      "clientHeight": 386
+    },
+    "exportReturn": "export",
+    "errors": []
+  },
+  {
+    "size": {
+      "width": 1280,
+      "height": 800
+    },
+    "theme": "nay",
+    "initial": {
+      "wall": {
+        "x": 0,
+        "y": 0,
+        "w": 1280,
+        "h": 710,
+        "right": 1280,
+        "bottom": 710
+      },
+      "dock": {
+        "x": 160,
+        "y": 718.015625,
+        "w": 960,
+        "h": 71.984375,
+        "right": 1120,
+        "bottom": 790
+      },
+      "primary": [
+        {
+          "act": "shuffle",
+          "label": "🎲XÁO PHỐ",
+          "x": 702.0625,
+          "y": 732,
+          "w": 96.984375,
+          "h": 44,
+          "right": 799.046875,
+          "bottom": 776
+        },
+        {
+          "act": "adjust",
+          "label": "🎛CHỈNH",
+          "x": 805.046875,
+          "y": 732,
+          "w": 96.984375,
+          "h": 44,
+          "right": 902.03125,
+          "bottom": 776
+        },
+        {
+          "act": "export",
+          "label": "🖼XUẤT",
+          "x": 908.03125,
+          "y": 732,
+          "w": 96.984375,
+          "h": 44,
+          "right": 1005.015625,
+          "bottom": 776
+        },
+        {
+          "act": "more",
+          "label": "☰CÔNG CỤ",
+          "x": 1011.015625,
+          "y": 732,
+          "w": 96.984375,
+          "h": 44,
+          "right": 1108,
+          "bottom": 776
+        }
+      ],
+      "scrollWidth": 1280
+    },
+    "more": {
+      "rect": {
+        "x": 680,
+        "y": 378.015625,
+        "w": 440,
+        "h": 330,
+        "bottom": 708.015625
+      },
+      "active": "close-more",
+      "scrollHeight": 328,
+      "clientHeight": 328
+    },
+    "moreButtons": [
+      {
+        "act": "close-more",
+        "disabled": false,
+        "x": 1063,
+        "y": 391.015625,
+        "w": 44,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "theme",
+        "disabled": false,
+        "x": 693,
+        "y": 443.015625,
+        "w": 203,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "fonts",
+        "disabled": false,
+        "x": 904,
+        "y": 443.015625,
+        "w": 203,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "add",
+        "disabled": false,
+        "x": 693,
+        "y": 495.015625,
+        "w": 203,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "relayout",
+        "disabled": false,
+        "x": 904,
+        "y": 495.015625,
+        "w": 203,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "undo",
+        "disabled": false,
+        "x": 693,
+        "y": 547.015625,
+        "w": 203,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "redo",
+        "disabled": true,
+        "x": 904,
+        "y": 547.015625,
+        "w": 203,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "deselect",
+        "disabled": true,
+        "x": 693,
+        "y": 599.015625,
+        "w": 203,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "hide",
+        "disabled": false,
+        "x": 904,
+        "y": 599.015625,
+        "w": 203,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "about",
+        "disabled": false,
+        "x": 693,
+        "y": 651.015625,
+        "w": 203,
+        "h": 44,
+        "hit": true
+      }
+    ],
+    "moreEscape": true,
+    "moreReturn": "more",
+    "drawer": {
+      "wall": {
+        "x": 0,
+        "y": 0,
+        "w": 896,
+        "h": 710,
+        "right": 896,
+        "bottom": 710
+      },
+      "drawer": {
+        "x": 904,
+        "y": 8,
+        "w": 368,
+        "h": 702,
+        "right": 1272,
+        "bottom": 710
+      },
+      "selected": {
+        "x": 416.5,
+        "y": 7,
+        "w": 214.125,
+        "h": 372.0625,
+        "right": 630.625,
+        "bottom": 379.0625
+      },
+      "visibleSigns": 9,
+      "active": "tabAdjust",
+      "labelSize": "12px"
+    },
+    "tabAfterArrow": {
+      "active": "tabFonts",
+      "selected": "tabFonts"
+    },
+    "drawerEscape": true,
+    "drawerReturn": "adjust",
+    "export": {
+      "open": true,
+      "active": "<button type=\"submit\" class=\"dialog-close\" aria-label=\"Đóng\">✕</button>",
+      "scrollHeight": 386,
+      "clientHeight": 386
+    },
+    "exportReturn": "export",
+    "errors": []
+  },
+  {
+    "size": {
+      "width": 1440,
+      "height": 900
+    },
+    "theme": "sg85",
+    "initial": {
+      "wall": {
+        "x": 0,
+        "y": 0,
+        "w": 1440,
+        "h": 801,
+        "right": 1440,
+        "bottom": 801
+      },
+      "dock": {
+        "x": 240,
+        "y": 809.203125,
+        "w": 960,
+        "h": 80.796875,
+        "right": 1200,
+        "bottom": 890
+      },
+      "primary": [
+        {
+          "act": "shuffle",
+          "label": "🎲XÁO PHỐ",
+          "x": 782.0625,
+          "y": 827.59375,
+          "w": 96.984375,
+          "h": 44,
+          "right": 879.046875,
+          "bottom": 871.59375
+        },
+        {
+          "act": "adjust",
+          "label": "🎛CHỈNH",
+          "x": 885.046875,
+          "y": 827.59375,
+          "w": 96.984375,
+          "h": 44,
+          "right": 982.03125,
+          "bottom": 871.59375
+        },
+        {
+          "act": "export",
+          "label": "🖼XUẤT",
+          "x": 988.03125,
+          "y": 827.59375,
+          "w": 96.984375,
+          "h": 44,
+          "right": 1085.015625,
+          "bottom": 871.59375
+        },
+        {
+          "act": "more",
+          "label": "☰CÔNG CỤ",
+          "x": 1091.015625,
+          "y": 827.59375,
+          "w": 96.984375,
+          "h": 44,
+          "right": 1188,
+          "bottom": 871.59375
+        }
+      ],
+      "scrollWidth": 1440
+    },
+    "more": {
+      "rect": {
+        "x": 760,
+        "y": 469.203125,
+        "w": 440,
+        "h": 330,
+        "bottom": 799.203125
+      },
+      "active": "close-more",
+      "scrollHeight": 328,
+      "clientHeight": 328
+    },
+    "moreButtons": [
+      {
+        "act": "close-more",
+        "disabled": false,
+        "x": 1143,
+        "y": 482.203125,
+        "w": 44,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "theme",
+        "disabled": false,
+        "x": 773,
+        "y": 534.203125,
+        "w": 203,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "fonts",
+        "disabled": false,
+        "x": 984,
+        "y": 534.203125,
+        "w": 203,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "add",
+        "disabled": false,
+        "x": 773,
+        "y": 586.203125,
+        "w": 203,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "relayout",
+        "disabled": false,
+        "x": 984,
+        "y": 586.203125,
+        "w": 203,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "undo",
+        "disabled": true,
+        "x": 773,
+        "y": 638.203125,
+        "w": 203,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "redo",
+        "disabled": true,
+        "x": 984,
+        "y": 638.203125,
+        "w": 203,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "deselect",
+        "disabled": true,
+        "x": 773,
+        "y": 690.203125,
+        "w": 203,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "hide",
+        "disabled": false,
+        "x": 984,
+        "y": 690.203125,
+        "w": 203,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "about",
+        "disabled": false,
+        "x": 773,
+        "y": 742.203125,
+        "w": 203,
+        "h": 44,
+        "hit": true
+      }
+    ],
+    "moreEscape": true,
+    "moreReturn": "more",
+    "drawer": {
+      "wall": {
+        "x": 0,
+        "y": 0,
+        "w": 1056,
+        "h": 801,
+        "right": 1056,
+        "bottom": 801
+      },
+      "drawer": {
+        "x": 1064,
+        "y": 8,
+        "w": 368,
+        "h": 793,
+        "right": 1432,
+        "bottom": 801
+      },
+      "selected": {
+        "x": 252.234375,
+        "y": 467.4375,
+        "w": 270.265625,
+        "h": 322.546875,
+        "right": 522.5,
+        "bottom": 789.984375
+      },
+      "visibleSigns": 12,
+      "active": "tabAdjust",
+      "labelSize": "12px"
+    },
+    "tabAfterArrow": {
+      "active": "tabFonts",
+      "selected": "tabFonts"
+    },
+    "drawerEscape": true,
+    "drawerReturn": "adjust",
+    "export": {
+      "open": true,
+      "active": "<button type=\"submit\" class=\"dialog-close\" aria-label=\"Đóng\">✕</button>",
+      "scrollHeight": 386,
+      "clientHeight": 386
+    },
+    "exportReturn": "export",
+    "errors": []
+  },
+  {
+    "size": {
+      "width": 1440,
+      "height": 900
+    },
+    "theme": "nay",
+    "initial": {
+      "wall": {
+        "x": 0,
+        "y": 0,
+        "w": 1440,
+        "h": 810,
+        "right": 1440,
+        "bottom": 810
+      },
+      "dock": {
+        "x": 240,
+        "y": 818.015625,
+        "w": 960,
+        "h": 71.984375,
+        "right": 1200,
+        "bottom": 890
+      },
+      "primary": [
+        {
+          "act": "shuffle",
+          "label": "🎲XÁO PHỐ",
+          "x": 782.0625,
+          "y": 832,
+          "w": 96.984375,
+          "h": 44,
+          "right": 879.046875,
+          "bottom": 876
+        },
+        {
+          "act": "adjust",
+          "label": "🎛CHỈNH",
+          "x": 885.046875,
+          "y": 832,
+          "w": 96.984375,
+          "h": 44,
+          "right": 982.03125,
+          "bottom": 876
+        },
+        {
+          "act": "export",
+          "label": "🖼XUẤT",
+          "x": 988.03125,
+          "y": 832,
+          "w": 96.984375,
+          "h": 44,
+          "right": 1085.015625,
+          "bottom": 876
+        },
+        {
+          "act": "more",
+          "label": "☰CÔNG CỤ",
+          "x": 1091.015625,
+          "y": 832,
+          "w": 96.984375,
+          "h": 44,
+          "right": 1188,
+          "bottom": 876
+        }
+      ],
+      "scrollWidth": 1440
+    },
+    "more": {
+      "rect": {
+        "x": 760,
+        "y": 478.015625,
+        "w": 440,
+        "h": 330,
+        "bottom": 808.015625
+      },
+      "active": "close-more",
+      "scrollHeight": 328,
+      "clientHeight": 328
+    },
+    "moreButtons": [
+      {
+        "act": "close-more",
+        "disabled": false,
+        "x": 1143,
+        "y": 491.015625,
+        "w": 44,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "theme",
+        "disabled": false,
+        "x": 773,
+        "y": 543.015625,
+        "w": 203,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "fonts",
+        "disabled": false,
+        "x": 984,
+        "y": 543.015625,
+        "w": 203,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "add",
+        "disabled": false,
+        "x": 773,
+        "y": 595.015625,
+        "w": 203,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "relayout",
+        "disabled": false,
+        "x": 984,
+        "y": 595.015625,
+        "w": 203,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "undo",
+        "disabled": false,
+        "x": 773,
+        "y": 647.015625,
+        "w": 203,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "redo",
+        "disabled": true,
+        "x": 984,
+        "y": 647.015625,
+        "w": 203,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "deselect",
+        "disabled": true,
+        "x": 773,
+        "y": 699.015625,
+        "w": 203,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "hide",
+        "disabled": false,
+        "x": 984,
+        "y": 699.015625,
+        "w": 203,
+        "h": 44,
+        "hit": true
+      },
+      {
+        "act": "about",
+        "disabled": false,
+        "x": 773,
+        "y": 751.015625,
+        "w": 203,
+        "h": 44,
+        "hit": true
+      }
+    ],
+    "moreEscape": true,
+    "moreReturn": "more",
+    "drawer": {
+      "wall": {
+        "x": 0,
+        "y": 0,
+        "w": 1056,
+        "h": 810,
+        "right": 1056,
+        "bottom": 810
+      },
+      "drawer": {
+        "x": 1064,
+        "y": 8,
+        "w": 368,
+        "h": 802,
+        "right": 1432,
+        "bottom": 810
+      },
+      "selected": {
+        "x": 572.90625,
+        "y": 7,
+        "w": 253.3125,
+        "h": 362.9375,
+        "right": 826.21875,
+        "bottom": 369.9375
+      },
+      "visibleSigns": 12,
+      "active": "tabAdjust",
+      "labelSize": "12px"
+    },
+    "tabAfterArrow": {
+      "active": "tabFonts",
+      "selected": "tabFonts"
+    },
+    "drawerEscape": true,
+    "drawerReturn": "adjust",
+    "export": {
+      "open": true,
+      "active": "<button type=\"submit\" class=\"dialog-close\" aria-label=\"Đóng\">✕</button>",
+      "scrollHeight": 386,
+      "clientHeight": 386
+    },
+    "exportReturn": "export",
+    "errors": []
+  }
+]
