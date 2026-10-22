@@ -1,0 +1,168 @@
+{
+  "start": {
+    "theme": "sg85",
+    "count": 15,
+    "status": "10/10 mặt chữ Sài Gòn 1985 đã nạp. Bộ font Sài Gòn Xưa — Thái Hiếu (fontzin.com). Miễn phí cho cả mục đích thương mại, cấm bán lại.",
+    "fonts": {
+      "total": 10,
+      "genuine": 10,
+      "missing": []
+    },
+    "wall": {
+      "width": 1440,
+      "height": 1000
+    },
+    "lines": [
+      {
+        "text": "CẦM ĐỒ",
+        "font": "\"SG85 Hiền Khánh 2\", Oswald, \"Be Vietnam Pro\", sans-serif",
+        "size": "49.68px",
+        "display": "block"
+      },
+      {
+        "text": "UY TÍN",
+        "font": "\"SG85 Phát Tài\", \"Alfa Slab One\", \"Be Vietnam Pro\", serif",
+        "size": "64.34px",
+        "display": "block"
+      },
+      {
+        "text": "LÃI SUẤT THẤP NHẤT",
+        "font": "\"SG85 Hiền Khánh 3\", Archivo, \"Be Vietnam Pro\", sans-serif",
+        "size": "33.28px",
+        "display": "block"
+      },
+      {
+        "text": "0911 555 777",
+        "font": "\"SG85 Cửa Hàng\", \"Saira Condensed\", \"Be Vietnam Pro\", sans-serif",
+        "size": "29.88px",
+        "display": "block"
+      },
+      {
+        "text": "HỦ TÍU GÕ · MÌ GÕ",
+        "font": "\"SG85 Chỉ Sơn 1\", Anton, \"Be Vietnam Pro\", sans-serif",
+        "size": "34.42px",
+        "display": "block"
+      },
+      {
+        "text": "CÔ TÁM BÉO",
+        "font": "\"SG85 Phát Tài\", \"Alfa Slab One\", \"Be Vietnam Pro\", serif",
+        "size": "47.22px",
+        "display": "block"
+      },
+      {
+        "text": "HOÀNH THÁNH CHIÊN · NƯỚC SÚP NGỌT",
+        "font": "\"SG85 Hồng Ký 2\", \"Saira Condensed\", \"Be Vietnam Pro\", sans-serif",
+        "size": "26.65px",
+        "display": "block"
+      },
+      {
+        "text": "MỞ TỪ 16H30 — 3H SÁNG",
+        "font": "\"SG85 Cửa Hàng\", \"Saira Condensed\", \"Be Vietnam Pro\", sans-serif",
+        "size": "21.63px",
+        "display": "block"
+      }
+    ]
+  },
+  "edit": "Bảng Hiệu Thử Nghiệm",
+  "persist": "Bảng Hiệu Thử Nghiệm",
+  "modern": {
+    "theme": "nay",
+    "status": "32/37 mặt chữ UTM thật có sẵn trên máy này. Thiếu font thật thì hệ thống dùng bản thay thế mở, đủ dấu tiếng Việt.",
+    "fonts": {
+      "total": 37,
+      "genuine": 32,
+      "genuineIds": [
+        "bebas",
+        "impact",
+        "helvetins",
+        "swiss721",
+        "ericsson",
+        "americansans",
+        "facebook",
+        "dax",
+        "avo",
+        "centur",
+        "caviar",
+        "kabel",
+        "colossalis",
+        "cooper",
+        "alexander",
+        "banque",
+        "nyala",
+        "times",
+        "trajan",
+        "charlemagne",
+        "copperplate",
+        "penumbra",
+        "edwardian",
+        "wedding",
+        "silkscript",
+        "aurora",
+        "flamenco",
+        "sharnay",
+        "cabaret",
+        "thuphap-thienan",
+        "neosans",
+        "bitsumishi"
+      ]
+    },
+    "editedText": "Bảng Hiệu Thử Nghiệm"
+  },
+  "add": {
+    "before": 15,
+    "after": 16
+  },
+  "undoAdd": 15,
+  "redoAdd": 16,
+  "remove": 15,
+  "undoRemove": 16,
+  "svgModern": {
+    "suggested": "pho-bang-hieu-nay-ca-tuong.svg",
+    "size": 955720,
+    "path": "/tmp/signage-audit/qa/modern-wall.svg"
+  },
+  "pngModern": {
+    "suggested": "pho-bang-hieu-nay-ca-tuong.png",
+    "size": 1022322,
+    "path": "/tmp/signage-audit/qa/modern-wall.png"
+  },
+  "svgVintage": {
+    "suggested": "pho-bang-hieu-sg85-ca-tuong.svg",
+    "size": 655228,
+    "path": "/tmp/signage-audit/qa/vintage-wall.svg"
+  },
+  "pngVintage": {
+    "suggested": "pho-bang-hieu-sg85-ca-tuong.png",
+    "size": 717667,
+    "path": "/tmp/signage-audit/qa/vintage-wall.png"
+  },
+  "svgSingle": {
+    "suggested": "pho-bang-hieu-sg85-cam-do.svg",
+    "size": 211366,
+    "path": "/tmp/signage-audit/qa/single.svg"
+  },
+  "pngSingle": {
+    "suggested": "pho-bang-hieu-sg85-cam-do.png",
+    "size": 81736,
+    "path": "/tmp/signage-audit/qa/single.png"
+  },
+  "shuffle": true,
+  "undoShuffle": true,
+  "newLayoutCount": 15,
+  "errors": [],
+  "failedRequests": [
+    {
+      "url": "https://fonts.googleapis.com/css2?family=Alex+Brush&family=Alfa+Slab+One&family=Allura&family=Anton&family=Archivo:wdth,wght@62..125,400..900&family=Be+Vietnam+Pro:wght@400;600;700;800;900&family=Bevan&family=Bitter:wght@600;700&family=Charmonman:wght@700&family=Chivo:wght@700;900&family=Dancing+Script:wght@700&family=EB+Garamond:wght@500;600;700&family=Ephesis&family=Great+Vibes&family=Italianno&family=Kanit:wght@600&family=Lobster&family=Mea+Culpa&family=Oswald:wght@600&family=Pinyon+Script&family=Playfair+Display:wght@900&family=Saira+Condensed:wght@700&family=Tektur:wght@600;700&family=Yeseva+One&display=swap",
+      "error": {
+        "errorText": "net::ERR_TUNNEL_CONNECTION_FAILED"
+      }
+    },
+    {
+      "url": "https://fonts.googleapis.com/css2?family=Alex+Brush&family=Alfa+Slab+One&family=Allura&family=Anton&family=Archivo:wdth,wght@62..125,400..900&family=Be+Vietnam+Pro:wght@400;600;700;800;900&family=Bevan&family=Bitter:wght@600;700&family=Charmonman:wght@700&family=Chivo:wght@700;900&family=Dancing+Script:wght@700&family=EB+Garamond:wght@500;600;700&family=Ephesis&family=Great+Vibes&family=Italianno&family=Kanit:wght@600&family=Lobster&family=Mea+Culpa&family=Oswald:wght@600&family=Pinyon+Script&family=Playfair+Display:wght@900&family=Saira+Condensed:wght@700&family=Tektur:wght@600;700&family=Yeseva+One&display=swap",
+      "error": {
+        "errorText": "net::ERR_TUNNEL_CONNECTION_FAILED"
+      }
+    }
+  ],
+  "badResponses": []
+}

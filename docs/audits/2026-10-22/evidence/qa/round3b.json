@@ -1,0 +1,917 @@
+[
+  {
+    "id": "adjTracking",
+    "field": "tracking",
+    "before": "0",
+    "after": "1",
+    "original": "BIVA",
+    "stateAfter": {
+      "id": "n16",
+      "size": 0.58,
+      "sign": {
+        "key": "bia-tuoi",
+        "badge": "BT",
+        "text": {
+          "cat": "BIA TƯƠI",
+          "name": "NGUYỄN THỊ ÁNH",
+          "tagline": "PHỤC VỤ CÁC MÓN ĂN",
+          "footer": "BÌNH DÂN"
+        },
+        "adjust": {
+          "tracking": 1,
+          "kerning": "auto",
+          "kerningFine": 0,
+          "wordSpacing": 0,
+          "lineSpacing": 1,
+          "gap": 0,
+          "lines": {}
+        },
+        "hero": "name",
+        "faces": {
+          "cat": "chison2",
+          "name": "hongky1",
+          "tagline": "hienkhanh2",
+          "footer": "cuahang"
+        },
+        "scale": {
+          "cat": 0.44,
+          "name": 1,
+          "tagline": 0.42,
+          "footer": 0.36
+        },
+        "tweak": {},
+        "order": {
+          "cat": 1,
+          "name": 2,
+          "tagline": 3
+        },
+        "fam": "blue",
+        "seed": 0.08638308974749842
+      }
+    },
+    "undo1": {
+      "id": "n16",
+      "size": 0.58,
+      "sign": {
+        "key": "bia-tuoi",
+        "badge": "BT",
+        "text": {
+          "cat": "BIA TƯƠI",
+          "name": "NGUYỄN THỊ ÁNH",
+          "tagline": "PHỤC VỤ CÁC MÓN ĂN",
+          "footer": "BÌNH DÂN"
+        },
+        "adjust": {
+          "tracking": 1,
+          "kerning": "auto",
+          "kerningFine": 0,
+          "wordSpacing": 0,
+          "lineSpacing": 1,
+          "gap": 0,
+          "lines": {}
+        },
+        "hero": "name",
+        "faces": {
+          "cat": "chison2",
+          "name": "hongky1",
+          "tagline": "hienkhanh2",
+          "footer": "cuahang"
+        },
+        "scale": {
+          "cat": 0.44,
+          "name": 1,
+          "tagline": 0.42,
+          "footer": 0.36
+        },
+        "tweak": {},
+        "order": {
+          "cat": 1,
+          "name": 2,
+          "tagline": 3
+        },
+        "fam": "blue",
+        "seed": 0.08638308974749842
+      }
+    },
+    "undo2": {
+      "id": "n16",
+      "size": 0.58,
+      "sign": {
+        "key": "bia-tuoi",
+        "badge": "BT",
+        "text": {
+          "cat": "BIA TƯƠI",
+          "name": "BIVA",
+          "tagline": "PHỤC VỤ CÁC MÓN ĂN",
+          "footer": "BÌNH DÂN"
+        },
+        "adjust": {
+          "tracking": 0,
+          "kerning": "auto",
+          "kerningFine": 0,
+          "wordSpacing": 0,
+          "lineSpacing": 1,
+          "gap": 0,
+          "lines": {}
+        },
+        "hero": "name",
+        "faces": {
+          "cat": "chison2",
+          "name": "hongky1",
+          "tagline": "hienkhanh2",
+          "footer": "cuahang"
+        },
+        "scale": {
+          "cat": 0.44,
+          "name": 1,
+          "tagline": 0.42,
+          "footer": 0.36
+        },
+        "tweak": {},
+        "order": {
+          "cat": 1,
+          "name": 2,
+          "tagline": 3
+        },
+        "fam": "blue",
+        "seed": 0.08638308974749842
+      }
+    },
+    "redo1": {
+      "id": "n16",
+      "size": 0.58,
+      "sign": {
+        "key": "bia-tuoi",
+        "badge": "BT",
+        "text": {
+          "cat": "BIA TƯƠI",
+          "name": "NGUYỄN THỊ ÁNH",
+          "tagline": "PHỤC VỤ CÁC MÓN ĂN",
+          "footer": "BÌNH DÂN"
+        },
+        "adjust": {
+          "tracking": 1,
+          "kerning": "auto",
+          "kerningFine": 0,
+          "wordSpacing": 0,
+          "lineSpacing": 1,
+          "gap": 0,
+          "lines": {}
+        },
+        "hero": "name",
+        "faces": {
+          "cat": "chison2",
+          "name": "hongky1",
+          "tagline": "hienkhanh2",
+          "footer": "cuahang"
+        },
+        "scale": {
+          "cat": 0.44,
+          "name": 1,
+          "tagline": 0.42,
+          "footer": 0.36
+        },
+        "tweak": {},
+        "order": {
+          "cat": 1,
+          "name": 2,
+          "tagline": 3
+        },
+        "fam": "blue",
+        "seed": 0.08638308974749842
+      }
+    }
+  },
+  {
+    "id": "adjKerningFine",
+    "field": "kerningFine",
+    "before": "0",
+    "after": "1",
+    "original": "Salon Hải",
+    "stateAfter": {
+      "id": "n20",
+      "size": 0.5399999999999999,
+      "sign": {
+        "key": "hot-toc",
+        "badge": "HT",
+        "text": {
+          "cat": "HỚT TÓC NAM",
+          "name": "Nguyễn Thị Ánh",
+          "tagline": "CẠO MẶT · LẤY RÁY TAI",
+          "footer": "50K / LƯỢT"
+        },
+        "adjust": {
+          "tracking": 0,
+          "kerning": "auto",
+          "kerningFine": 1,
+          "wordSpacing": 0,
+          "lineSpacing": 1,
+          "gap": 0,
+          "lines": {}
+        },
+        "hero": "cat",
+        "faces": {
+          "cat": "chison1",
+          "name": "hienkhanh1",
+          "tagline": "hienkhanh2",
+          "footer": "cuahang"
+        },
+        "scale": {
+          "cat": 1,
+          "name": 0.48,
+          "tagline": 0.42,
+          "footer": 0.38
+        },
+        "tweak": {},
+        "order": {
+          "cat": 2,
+          "name": 1,
+          "tagline": 3
+        },
+        "fam": "blue",
+        "seed": 0.4978522571510401
+      }
+    },
+    "undo1": {
+      "id": "n20",
+      "size": 0.5399999999999999,
+      "sign": {
+        "key": "hot-toc",
+        "badge": "HT",
+        "text": {
+          "cat": "HỚT TÓC NAM",
+          "name": "Nguyễn Thị Ánh",
+          "tagline": "CẠO MẶT · LẤY RÁY TAI",
+          "footer": "50K / LƯỢT"
+        },
+        "adjust": {
+          "tracking": 0,
+          "kerning": "auto",
+          "kerningFine": 1,
+          "wordSpacing": 0,
+          "lineSpacing": 1,
+          "gap": 0,
+          "lines": {}
+        },
+        "hero": "cat",
+        "faces": {
+          "cat": "chison1",
+          "name": "hienkhanh1",
+          "tagline": "hienkhanh2",
+          "footer": "cuahang"
+        },
+        "scale": {
+          "cat": 1,
+          "name": 0.48,
+          "tagline": 0.42,
+          "footer": 0.38
+        },
+        "tweak": {},
+        "order": {
+          "cat": 2,
+          "name": 1,
+          "tagline": 3
+        },
+        "fam": "blue",
+        "seed": 0.4978522571510401
+      }
+    },
+    "undo2": {
+      "id": "n20",
+      "size": 0.5399999999999999,
+      "sign": {
+        "key": "hot-toc",
+        "badge": "HT",
+        "text": {
+          "cat": "HỚT TÓC NAM",
+          "name": "Salon Hải",
+          "tagline": "CẠO MẶT · LẤY RÁY TAI",
+          "footer": "50K / LƯỢT"
+        },
+        "adjust": {
+          "tracking": 0,
+          "kerning": "auto",
+          "kerningFine": 0,
+          "wordSpacing": 0,
+          "lineSpacing": 1,
+          "gap": 0,
+          "lines": {}
+        },
+        "hero": "cat",
+        "faces": {
+          "cat": "chison1",
+          "name": "hienkhanh1",
+          "tagline": "hienkhanh2",
+          "footer": "cuahang"
+        },
+        "scale": {
+          "cat": 1,
+          "name": 0.48,
+          "tagline": 0.42,
+          "footer": 0.38
+        },
+        "tweak": {},
+        "order": {
+          "cat": 2,
+          "name": 1,
+          "tagline": 3
+        },
+        "fam": "blue",
+        "seed": 0.4978522571510401
+      }
+    },
+    "redo1": {
+      "id": "n20",
+      "size": 0.5399999999999999,
+      "sign": {
+        "key": "hot-toc",
+        "badge": "HT",
+        "text": {
+          "cat": "HỚT TÓC NAM",
+          "name": "Nguyễn Thị Ánh",
+          "tagline": "CẠO MẶT · LẤY RÁY TAI",
+          "footer": "50K / LƯỢT"
+        },
+        "adjust": {
+          "tracking": 0,
+          "kerning": "auto",
+          "kerningFine": 1,
+          "wordSpacing": 0,
+          "lineSpacing": 1,
+          "gap": 0,
+          "lines": {}
+        },
+        "hero": "cat",
+        "faces": {
+          "cat": "chison1",
+          "name": "hienkhanh1",
+          "tagline": "hienkhanh2",
+          "footer": "cuahang"
+        },
+        "scale": {
+          "cat": 1,
+          "name": 0.48,
+          "tagline": 0.42,
+          "footer": 0.38
+        },
+        "tweak": {},
+        "order": {
+          "cat": 2,
+          "name": 1,
+          "tagline": 3
+        },
+        "fam": "blue",
+        "seed": 0.4978522571510401
+      }
+    }
+  },
+  {
+    "id": "adjWordSpacing",
+    "field": "wordSpacing",
+    "before": "0",
+    "after": "1",
+    "original": "Chú Tư",
+    "stateAfter": {
+      "id": "n22",
+      "size": 0.49999999999999994,
+      "sign": {
+        "key": "ca-phe",
+        "badge": "☕",
+        "text": {
+          "cat": "CÀ PHÊ · TRÀ ĐÁ",
+          "name": "Nguyễn Thị Ánh",
+          "tagline": "VỈA HÈ MÁT MẺ",
+          "footer": "MỞ 5H – 22H"
+        },
+        "adjust": {
+          "tracking": 0,
+          "kerning": "auto",
+          "kerningFine": 0,
+          "wordSpacing": 1,
+          "lineSpacing": 1,
+          "gap": 0,
+          "lines": {}
+        },
+        "hero": "name",
+        "faces": {
+          "cat": "hienkhanh2",
+          "name": "saigon1985",
+          "tagline": "hienkhanh3",
+          "footer": "cuahang"
+        },
+        "scale": {
+          "cat": 0.44,
+          "name": 1,
+          "tagline": 0.44,
+          "footer": 0.4
+        },
+        "tweak": {},
+        "order": {
+          "cat": 1,
+          "name": 2,
+          "tagline": 3
+        },
+        "fam": "light",
+        "seed": 0.4099213934535876
+      }
+    },
+    "undo1": {
+      "id": "n22",
+      "size": 0.49999999999999994,
+      "sign": {
+        "key": "ca-phe",
+        "badge": "☕",
+        "text": {
+          "cat": "CÀ PHÊ · TRÀ ĐÁ",
+          "name": "Nguyễn Thị Ánh",
+          "tagline": "VỈA HÈ MÁT MẺ",
+          "footer": "MỞ 5H – 22H"
+        },
+        "adjust": {
+          "tracking": 0,
+          "kerning": "auto",
+          "kerningFine": 0,
+          "wordSpacing": 1,
+          "lineSpacing": 1,
+          "gap": 0,
+          "lines": {}
+        },
+        "hero": "name",
+        "faces": {
+          "cat": "hienkhanh2",
+          "name": "saigon1985",
+          "tagline": "hienkhanh3",
+          "footer": "cuahang"
+        },
+        "scale": {
+          "cat": 0.44,
+          "name": 1,
+          "tagline": 0.44,
+          "footer": 0.4
+        },
+        "tweak": {},
+        "order": {
+          "cat": 1,
+          "name": 2,
+          "tagline": 3
+        },
+        "fam": "light",
+        "seed": 0.4099213934535876
+      }
+    },
+    "undo2": {
+      "id": "n22",
+      "size": 0.49999999999999994,
+      "sign": {
+        "key": "ca-phe",
+        "badge": "☕",
+        "text": {
+          "cat": "CÀ PHÊ · TRÀ ĐÁ",
+          "name": "Chú Tư",
+          "tagline": "VỈA HÈ MÁT MẺ",
+          "footer": "MỞ 5H – 22H"
+        },
+        "adjust": {
+          "tracking": 0,
+          "kerning": "auto",
+          "kerningFine": 0,
+          "wordSpacing": 0,
+          "lineSpacing": 1,
+          "gap": 0,
+          "lines": {}
+        },
+        "hero": "name",
+        "faces": {
+          "cat": "hienkhanh2",
+          "name": "saigon1985",
+          "tagline": "hienkhanh3",
+          "footer": "cuahang"
+        },
+        "scale": {
+          "cat": 0.44,
+          "name": 1,
+          "tagline": 0.44,
+          "footer": 0.4
+        },
+        "tweak": {},
+        "order": {
+          "cat": 1,
+          "name": 2,
+          "tagline": 3
+        },
+        "fam": "light",
+        "seed": 0.4099213934535876
+      }
+    },
+    "redo1": {
+      "id": "n22",
+      "size": 0.49999999999999994,
+      "sign": {
+        "key": "ca-phe",
+        "badge": "☕",
+        "text": {
+          "cat": "CÀ PHÊ · TRÀ ĐÁ",
+          "name": "Nguyễn Thị Ánh",
+          "tagline": "VỈA HÈ MÁT MẺ",
+          "footer": "MỞ 5H – 22H"
+        },
+        "adjust": {
+          "tracking": 0,
+          "kerning": "auto",
+          "kerningFine": 0,
+          "wordSpacing": 1,
+          "lineSpacing": 1,
+          "gap": 0,
+          "lines": {}
+        },
+        "hero": "name",
+        "faces": {
+          "cat": "hienkhanh2",
+          "name": "saigon1985",
+          "tagline": "hienkhanh3",
+          "footer": "cuahang"
+        },
+        "scale": {
+          "cat": 0.44,
+          "name": 1,
+          "tagline": 0.44,
+          "footer": 0.4
+        },
+        "tweak": {},
+        "order": {
+          "cat": 1,
+          "name": 2,
+          "tagline": 3
+        },
+        "fam": "light",
+        "seed": 0.4099213934535876
+      }
+    }
+  },
+  {
+    "id": "adjLineHeight",
+    "field": "lineSpacing",
+    "before": "1",
+    "after": "1.05",
+    "original": "Thời Trang Hạnh",
+    "stateAfter": {
+      "id": "n22",
+      "size": 0.45999999999999996,
+      "sign": {
+        "key": "may-do",
+        "badge": "MĐ",
+        "text": {
+          "cat": "MAY ĐO · SỬA QUẦN ÁO",
+          "name": "Nguyễn Thị Ánh",
+          "tagline": "NHẬN HÀNG GẤP",
+          "footer": "LẤY TRONG NGÀY"
+        },
+        "adjust": {
+          "tracking": 0,
+          "kerning": "auto",
+          "kerningFine": 0,
+          "wordSpacing": 0,
+          "lineSpacing": 1.05,
+          "gap": 0,
+          "lines": {}
+        },
+        "hero": "name",
+        "faces": {
+          "cat": "hienkhanh2",
+          "name": "saigon1985",
+          "tagline": "cuahang",
+          "footer": "hienkhanh2"
+        },
+        "scale": {
+          "cat": 0.42,
+          "name": 1,
+          "tagline": 0.42,
+          "footer": 0.38
+        },
+        "tweak": {},
+        "order": {
+          "cat": 1,
+          "name": 2,
+          "tagline": 3
+        },
+        "fam": "yellow",
+        "seed": 0.659401542623917
+      }
+    },
+    "undo1": {
+      "id": "n22",
+      "size": 0.45999999999999996,
+      "sign": {
+        "key": "may-do",
+        "badge": "MĐ",
+        "text": {
+          "cat": "MAY ĐO · SỬA QUẦN ÁO",
+          "name": "Nguyễn Thị Ánh",
+          "tagline": "NHẬN HÀNG GẤP",
+          "footer": "LẤY TRONG NGÀY"
+        },
+        "adjust": {
+          "tracking": 0,
+          "kerning": "auto",
+          "kerningFine": 0,
+          "wordSpacing": 0,
+          "lineSpacing": 1.05,
+          "gap": 0,
+          "lines": {}
+        },
+        "hero": "name",
+        "faces": {
+          "cat": "hienkhanh2",
+          "name": "saigon1985",
+          "tagline": "cuahang",
+          "footer": "hienkhanh2"
+        },
+        "scale": {
+          "cat": 0.42,
+          "name": 1,
+          "tagline": 0.42,
+          "footer": 0.38
+        },
+        "tweak": {},
+        "order": {
+          "cat": 1,
+          "name": 2,
+          "tagline": 3
+        },
+        "fam": "yellow",
+        "seed": 0.659401542623917
+      }
+    },
+    "undo2": {
+      "id": "n22",
+      "size": 0.45999999999999996,
+      "sign": {
+        "key": "may-do",
+        "badge": "MĐ",
+        "text": {
+          "cat": "MAY ĐO · SỬA QUẦN ÁO",
+          "name": "Thời Trang Hạnh",
+          "tagline": "NHẬN HÀNG GẤP",
+          "footer": "LẤY TRONG NGÀY"
+        },
+        "adjust": {
+          "tracking": 0,
+          "kerning": "auto",
+          "kerningFine": 0,
+          "wordSpacing": 0,
+          "lineSpacing": 1,
+          "gap": 0,
+          "lines": {}
+        },
+        "hero": "name",
+        "faces": {
+          "cat": "hienkhanh2",
+          "name": "saigon1985",
+          "tagline": "cuahang",
+          "footer": "hienkhanh2"
+        },
+        "scale": {
+          "cat": 0.42,
+          "name": 1,
+          "tagline": 0.42,
+          "footer": 0.38
+        },
+        "tweak": {},
+        "order": {
+          "cat": 1,
+          "name": 2,
+          "tagline": 3
+        },
+        "fam": "yellow",
+        "seed": 0.659401542623917
+      }
+    },
+    "redo1": {
+      "id": "n22",
+      "size": 0.45999999999999996,
+      "sign": {
+        "key": "may-do",
+        "badge": "MĐ",
+        "text": {
+          "cat": "MAY ĐO · SỬA QUẦN ÁO",
+          "name": "Nguyễn Thị Ánh",
+          "tagline": "NHẬN HÀNG GẤP",
+          "footer": "LẤY TRONG NGÀY"
+        },
+        "adjust": {
+          "tracking": 0,
+          "kerning": "auto",
+          "kerningFine": 0,
+          "wordSpacing": 0,
+          "lineSpacing": 1.05,
+          "gap": 0,
+          "lines": {}
+        },
+        "hero": "name",
+        "faces": {
+          "cat": "hienkhanh2",
+          "name": "saigon1985",
+          "tagline": "cuahang",
+          "footer": "hienkhanh2"
+        },
+        "scale": {
+          "cat": 0.42,
+          "name": 1,
+          "tagline": 0.42,
+          "footer": 0.38
+        },
+        "tweak": {},
+        "order": {
+          "cat": 1,
+          "name": 2,
+          "tagline": 3
+        },
+        "fam": "yellow",
+        "seed": 0.659401542623917
+      }
+    }
+  },
+  {
+    "id": "adjGap",
+    "field": "gap",
+    "before": "0",
+    "after": "1",
+    "original": "Ánh Dương",
+    "stateAfter": {
+      "id": "n22",
+      "size": 0.45999999999999996,
+      "sign": {
+        "key": "massage",
+        "badge": "MS",
+        "text": {
+          "cat": "MASSAGE KHIẾM THỊ",
+          "name": "Nguyễn Thị Ánh",
+          "tagline": "XÔNG HƠI · BẤM HUYỆT · DAY ẤN",
+          "footer": "CÓ PHÒNG NAM · NỮ RIÊNG"
+        },
+        "adjust": {
+          "tracking": 0,
+          "kerning": "auto",
+          "kerningFine": 0,
+          "wordSpacing": 0,
+          "lineSpacing": 1,
+          "gap": 1,
+          "lines": {}
+        },
+        "hero": "name",
+        "faces": {
+          "cat": "hienkhanh2",
+          "name": "saigon1985",
+          "tagline": "cuahang",
+          "footer": "hienkhanh2"
+        },
+        "scale": {
+          "cat": 0.42,
+          "name": 1,
+          "tagline": 0.42,
+          "footer": 0.38
+        },
+        "tweak": {},
+        "order": {
+          "cat": 1,
+          "name": 2,
+          "tagline": 3
+        },
+        "fam": "purple",
+        "seed": 0.4469049920046021
+      }
+    },
+    "undo1": {
+      "id": "n22",
+      "size": 0.45999999999999996,
+      "sign": {
+        "key": "massage",
+        "badge": "MS",
+        "text": {
+          "cat": "MASSAGE KHIẾM THỊ",
+          "name": "Nguyễn Thị Ánh",
+          "tagline": "XÔNG HƠI · BẤM HUYỆT · DAY ẤN",
+          "footer": "CÓ PHÒNG NAM · NỮ RIÊNG"
+        },
+        "adjust": {
+          "tracking": 0,
+          "kerning": "auto",
+          "kerningFine": 0,
+          "wordSpacing": 0,
+          "lineSpacing": 1,
+          "gap": 1,
+          "lines": {}
+        },
+        "hero": "name",
+        "faces": {
+          "cat": "hienkhanh2",
+          "name": "saigon1985",
+          "tagline": "cuahang",
+          "footer": "hienkhanh2"
+        },
+        "scale": {
+          "cat": 0.42,
+          "name": 1,
+          "tagline": 0.42,
+          "footer": 0.38
+        },
+        "tweak": {},
+        "order": {
+          "cat": 1,
+          "name": 2,
+          "tagline": 3
+        },
+        "fam": "purple",
+        "seed": 0.4469049920046021
+      }
+    },
+    "undo2": {
+      "id": "n22",
+      "size": 0.45999999999999996,
+      "sign": {
+        "key": "massage",
+        "badge": "MS",
+        "text": {
+          "cat": "MASSAGE KHIẾM THỊ",
+          "name": "Ánh Dương",
+          "tagline": "XÔNG HƠI · BẤM HUYỆT · DAY ẤN",
+          "footer": "CÓ PHÒNG NAM · NỮ RIÊNG"
+        },
+        "adjust": {
+          "tracking": 0,
+          "kerning": "auto",
+          "kerningFine": 0,
+          "wordSpacing": 0,
+          "lineSpacing": 1,
+          "gap": 0,
+          "lines": {}
+        },
+        "hero": "name",
+        "faces": {
+          "cat": "hienkhanh2",
+          "name": "saigon1985",
+          "tagline": "cuahang",
+          "footer": "hienkhanh2"
+        },
+        "scale": {
+          "cat": 0.42,
+          "name": 1,
+          "tagline": 0.42,
+          "footer": 0.38
+        },
+        "tweak": {},
+        "order": {
+          "cat": 1,
+          "name": 2,
+          "tagline": 3
+        },
+        "fam": "purple",
+        "seed": 0.4469049920046021
+      }
+    },
+    "redo1": {
+      "id": "n22",
+      "size": 0.45999999999999996,
+      "sign": {
+        "key": "massage",
+        "badge": "MS",
+        "text": {
+          "cat": "MASSAGE KHIẾM THỊ",
+          "name": "Nguyễn Thị Ánh",
+          "tagline": "XÔNG HƠI · BẤM HUYỆT · DAY ẤN",
+          "footer": "CÓ PHÒNG NAM · NỮ RIÊNG"
+        },
+        "adjust": {
+          "tracking": 0,
+          "kerning": "auto",
+          "kerningFine": 0,
+          "wordSpacing": 0,
+          "lineSpacing": 1,
+          "gap": 1,
+          "lines": {}
+        },
+        "hero": "name",
+        "faces": {
+          "cat": "hienkhanh2",
+          "name": "saigon1985",
+          "tagline": "cuahang",
+          "footer": "hienkhanh2"
+        },
+        "scale": {
+          "cat": 0.42,
+          "name": 1,
+          "tagline": 0.42,
+          "footer": 0.38
+        },
+        "tweak": {},
+        "order": {
+          "cat": 1,
+          "name": 2,
+          "tagline": 3
+        },
+        "fam": "purple",
+        "seed": 0.4469049920046021
+      }
+    }
+  }
+]

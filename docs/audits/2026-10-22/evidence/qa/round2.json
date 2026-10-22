@@ -1,0 +1,31 @@
+{
+  "longText": "Cửa Hàng Nguyễn Thị Ánh Tuyết & <Sài Gòn> Ốc",
+  "metrics": {
+    "sign": {
+      "x": 11,
+      "y": 11,
+      "width": 346.25,
+      "height": 199.546875,
+      "top": 11,
+      "right": 357.25,
+      "bottom": 210.546875,
+      "left": 11
+    },
+    "line": {
+      "x": -388.9375,
+      "y": 90.9296875,
+      "width": 1166.125,
+      "height": 9.3125,
+      "top": 90.9296875,
+      "right": 777.1875,
+      "bottom": 100.2421875,
+      "left": -388.9375
+    },
+    "tracking": "20px",
+    "font": "\"SG85 Phát Tài\", \"Alfa Slab One\", \"Be Vietnam Pro\", serif"
+  },
+  "persistAfterAdjust": "Cửa Hàng Nguyễn Thị Ánh Tuyết & <Sài Gòn> Ốc",
+  "savedTracking": "20",
+  "newLayoutRetainsEditedText": false,
+  "undoRelayoutRestoresEditedText": true
+}

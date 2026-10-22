@@ -1,0 +1,40 @@
+{
+  "firstTab": {
+    "class": "line cat",
+    "role": "textbox",
+    "label": "Loại hình của Chè Thái",
+    "outline": "rgb(27, 58, 107) none 0px"
+  },
+  "gutterBefore": "58",
+  "gutterAfter": "63",
+  "drawerOpenActive": {
+    "id": "",
+    "act": "fonts"
+  },
+  "tabsAfterDrawerOpen": [
+    {
+      "id": "",
+      "act": "adjust"
+    },
+    {
+      "id": "",
+      "act": "about"
+    },
+    {
+      "id": "",
+      "act": "hide"
+    },
+    {
+      "id": "drawerClose"
+    },
+    {
+      "id": "tabFonts"
+    }
+  ],
+  "arrowTab": {
+    "id": "tabFonts",
+    "activeTab": "tabFonts"
+  },
+  "labels": "Loại hình của Chè Thái",
+  "reducedMotion": false
+}

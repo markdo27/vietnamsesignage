@@ -1,0 +1,166 @@
+{
+  "viewports": [
+    {
+      "width": 620,
+      "dockRight": 612,
+      "dockWidth": 604,
+      "offscreen": []
+    },
+    {
+      "width": 621,
+      "dockRight": 1239.375,
+      "dockWidth": 1225.375,
+      "offscreen": [
+        {
+          "act": "redo",
+          "left": 613.765625,
+          "right": 690.796875
+        },
+        {
+          "act": "export",
+          "left": 709.796875,
+          "right": 801.828125
+        },
+        {
+          "act": "export-svg",
+          "left": 804.828125,
+          "right": 892.390625
+        },
+        {
+          "act": "fonts",
+          "left": 911.390625,
+          "right": 978.421875
+        },
+        {
+          "act": "adjust",
+          "left": 981.421875,
+          "right": 1079.125
+        },
+        {
+          "act": "about",
+          "left": 1082.125,
+          "right": 1175.375
+        },
+        {
+          "act": "hide",
+          "left": 1178.375,
+          "right": 1232.375
+        }
+      ]
+    },
+    {
+      "width": 768,
+      "dockRight": 1239.375,
+      "dockWidth": 1225.375,
+      "offscreen": [
+        {
+          "act": "export",
+          "left": 709.796875,
+          "right": 801.828125
+        },
+        {
+          "act": "export-svg",
+          "left": 804.828125,
+          "right": 892.390625
+        },
+        {
+          "act": "fonts",
+          "left": 911.390625,
+          "right": 978.421875
+        },
+        {
+          "act": "adjust",
+          "left": 981.421875,
+          "right": 1079.125
+        },
+        {
+          "act": "about",
+          "left": 1082.125,
+          "right": 1175.375
+        },
+        {
+          "act": "hide",
+          "left": 1178.375,
+          "right": 1232.375
+        }
+      ],
+      "hideClick": "failed: locator.click: Timeout 800ms exceeded."
+    },
+    {
+      "width": 844,
+      "dockRight": 1239.375,
+      "dockWidth": 1225.375,
+      "offscreen": [
+        {
+          "act": "export-svg",
+          "left": 804.828125,
+          "right": 892.390625
+        },
+        {
+          "act": "fonts",
+          "left": 911.390625,
+          "right": 978.421875
+        },
+        {
+          "act": "adjust",
+          "left": 981.421875,
+          "right": 1079.125
+        },
+        {
+          "act": "about",
+          "left": 1082.125,
+          "right": 1175.375
+        },
+        {
+          "act": "hide",
+          "left": 1178.375,
+          "right": 1232.375
+        }
+      ]
+    },
+    {
+      "width": 1024,
+      "dockRight": 1239.375,
+      "dockWidth": 1225.375,
+      "offscreen": [
+        {
+          "act": "adjust",
+          "left": 981.421875,
+          "right": 1079.125
+        },
+        {
+          "act": "about",
+          "left": 1082.125,
+          "right": 1175.375
+        },
+        {
+          "act": "hide",
+          "left": 1178.375,
+          "right": 1232.375
+        }
+      ],
+      "hideClick": "failed: locator.click: Timeout 800ms exceeded."
+    },
+    {
+      "width": 1280,
+      "dockRight": 1280,
+      "dockWidth": 1266,
+      "offscreen": [],
+      "hideClick": "passed"
+    },
+    {
+      "width": 1366,
+      "dockRight": 1353.359375,
+      "dockWidth": 1339.359375,
+      "offscreen": []
+    }
+  ],
+  "dialog": {
+    "open": true,
+    "active": "<button type=\"submit\" class=\"about-close\" aria-label=\"Đóng\">✕</button>",
+    "name": "aboutTitle",
+    "content": "✕\n\nGIỚI THIỆU & BẢN QUYỀN\n\nPHỐ BẢNG HIỆU\nTÁC GIẢ\nMark Do\nLIÊN HỆ\ndtcmark@gmail.com\nDÙNG CÁ NHÂN\nMiễn phí. Bạn có thể dùng công cụ này, và những gì bạn làm ra từ nó, cho mục đích cá nhân, học tập và phi thương mại, không cần xin phép.\nDÙNG THƯƠNG MẠI\nCần xin phép trước. Mọi công việc có trả phí, cho khách hàng, cho thương hiệu hoặc bán lại, đều cần được đồng ý bằng văn bản: xin giấy phép.\n\n© 2026 Mark Do. Công cụ được cung cấp nguyên trạng, không kèm bảo hành. Các phông chữ đi kèm giữ giấy phép riêng của chúng.",
+    "escapeCloses": true,
+    "focusReturn": "about"
+  }
+}
