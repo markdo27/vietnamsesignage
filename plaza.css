@@ -220,7 +220,7 @@ body.dragging .sign { pointer-events: none; }
   left: 50%;
   bottom: max(10px, env(safe-area-inset-bottom));
   transform: translateX(-50%);
-  width: min(960px, calc(100% - 24px));
+  width: min(1120px, calc(100% - 24px));
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
   align-items: center;
@@ -238,8 +238,8 @@ body.dragging .sign { pointer-events: none; }
 }
 .dock-brand b { font: 900 1rem/1.1 "Alfa Slab One", Georgia, serif; letter-spacing: .02em; }
 .dock-brand span { color: #8fc6cf; font-size: 10px; font-weight: 700; letter-spacing: .04em; }
-.creation-hint { grid-column: 1; margin: 0; color: #cfe0d5; font-size: 11px; line-height: 1.4; }
-.dock-actions { grid-column: 2; grid-row: 1 / span 2; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; }
+.creation-hint { grid-column: 2; margin: 0; color: #cfe0d5; font-size: 11px; line-height: 1.4; }
+.dock-actions { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(9, minmax(0, 1fr)); gap: 6px; }
 .dock button:disabled { opacity: .4; cursor: default; }
 .dock button:disabled:hover { background: var(--paper); }
 .dock button {
@@ -256,6 +256,7 @@ body.dragging .sign { pointer-events: none; }
   white-space: nowrap;
 }
 .dock button i { font-style: normal; }
+.dock-actions button { white-space: normal; padding: 8px; }
 .dock button span { margin-left: 5px; }
 .dock button:hover { background: var(--yellow); }
 .dock button:disabled { cursor: not-allowed; filter: grayscale(1); opacity: .38; }
@@ -268,7 +269,7 @@ body.dragging .sign { pointer-events: none; }
   bottom: calc(100% + 10px);
   right: 0;
   width: min(440px, 100%);
-  max-height: min(65dvh, 560px);
+  max-height: min(65dvh, calc(100dvh - var(--dock-space, 110px) - 16px), 560px);
   overflow-y: auto;
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -649,14 +650,20 @@ body[data-theme="sg85"] .drawer-close { color: #17453b; background: var(--gold);
 }
 .toast.show { opacity: 1; transform: translateY(0); }
 
-/* Keep four labelled actions on phones. The selected sign becomes the live
+/* Core creation and history actions stay visible at every width. */
+@media (min-width: 761px) and (max-width: 1100px) {
+  .dock-actions { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+  .dock-actions > button:nth-child(n+7) { grid-column: span 2; }
+}
+
+/* Keep labelled actions on phones. The selected sign becomes the live
    preview above the inspector; the stored mosaic is not changed. */
 @media (max-width: 760px) {
   :root { --gut: 6px; }
   .dock { width: calc(100% - 16px); padding: 8px; gap: 6px 10px; }
   .dock-brand span { display: none; }
   .creation-hint { grid-column: 2; font-size: 10px; max-width: 145px; }
-  .dock-actions { grid-column: 1 / -1; grid-row: auto; }
+  .dock-actions { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .dock button { padding: 8px 4px; font-size: 10px; letter-spacing: 0; }
   .dock-actions button { display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 3px; }
   .dock button span { margin-left: 0; }
@@ -674,6 +681,16 @@ body[data-theme="sg85"] .drawer-close { color: #17453b; background: var(--gold);
   .drawer-close { top: 2px; }
   .peek { left: 8px; bottom: 8px; }
   .toast { left: 8px; right: 8px; max-width: none; }
+}
+
+/* A short landscape viewport uses a side inspector so the larger toolbar
+   still leaves room for both its controls and the selected sign. */
+@media (min-width: 500px) and (max-width: 760px) and (max-height: 500px) {
+  .dock-actions { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+  .dock-actions > button:nth-child(n+7) { grid-column: span 2; }
+  body.editor-open { --inspector-space: calc(46vw + 16px); }
+  body.editor-open:not(.chrome-off) .wall { bottom: var(--dock-space, 110px); }
+  .drawer { top: 8px; left: auto; right: 8px; bottom: var(--dock-space, 110px); width: 46vw; height: auto; max-height: none; }
 }
 
 @media (prefers-reduced-motion: reduce) {

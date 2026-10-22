@@ -4,7 +4,7 @@ The five priority issues from [the original report](REPORT.md) have been address
 
 | Issue | Result |
 | --- | --- |
-| Unreachable and crowded controls | Four labeled primary actions with targets of at least 44px; secondary actions are in a scrollable tools panel. Canvas space is reserved above the dock. |
+| Unreachable and crowded controls | Creation, era, layout, history, editing, and export actions stay directly on the toolbar with targets of at least 44px. Rows wrap on smaller screens. Fonts and other secondary actions are in a scrollable tools panel. Canvas space is reserved above the dock. |
 | Adjustment Undo | A range gesture captures its prior state before mutation. One Undo restores the adjustment without removing the previous text edit; Redo restores it. No-op range input preserves history. Merely focusing a text line no longer creates an Undo entry. |
 | PNG/SVG text bleed | Export scenes retain per-sign boundaries and footer-strip boundaries. Both renderers clip text, outlines, and shadows. |
 | Relayout replaces content | Relayout rearranges the existing sign records, retaining every sign's text, fonts, colors, settings, and count, including after narrowing the viewport. |
@@ -25,6 +25,8 @@ The suite covers:
 - Actual PNG/SVG downloads, explicit scope, valid SVG clip paths, and a pixel comparison that confirms long adjusted text changes no pixels outside its own sign in either format or era.
 
 Independent reviewers also checked the updated app in Chromium. Their responsive matrix passed **18 viewport/era scenarios**, plus emulated touch workflows at 320 and 390px. Functional review verified multiple keyboard steps, pointer history, kerning, preserved selection, selected/wall output, and standalone SVG rendering with embedded fonts. The About focus issue found in review was fixed and narrowly retested at both phone widths.
+
+Following toolbar feedback, the era switch, Add, Relayout, Undo, and Redo were brought back outside Công cụ. The automated viewport matrix now covers **20 era/viewport combinations**, including a narrow landscape viewport. Earlier screenshots below show the initial four-action toolbar.
 
 Screenshots: [phone editor](fix-evidence/390-sg85-drawer.png), [phone controls](fix-evidence/390-sg85-wall.png), [tablet controls](fix-evidence/768-sg85-wall.png), [desktop editor](fix-evidence/1440-sg85-drawer.png). Machine-readable review evidence: [viewport matrix](fix-evidence/responsive-results.json), [About recheck](fix-evidence/about-recheck.json), [function results](fix-evidence/qa-results.json), [pointer/keyboard gestures](fix-evidence/gestures.json).
 

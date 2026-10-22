@@ -189,8 +189,10 @@ python -m http.server 8123
 optional `fonts/manifest.json` loader needs `fetch`, and it degrades quietly
 over `file://`.)
 
-The four main controls are **Xáo phố**, **Chỉnh**, **Xuất**, and **Công cụ**.
-Open Công cụ for the era switch, fonts, add, relayout, undo/redo, and view mode.
+The main toolbar includes **Xáo phố**, the **era switch**, **Thêm bảng**,
+**Đổi bố cục**, **Hoàn tác / Làm lại**, **Chỉnh**, **Xuất**, and **Công cụ**.
+These creation and history actions stay visible, with wrapping rows on smaller
+screens. Open Công cụ for fonts, deselection, view mode, and About.
 Click the lettering to edit it and drag a seam to resize neighbouring signs.
 **Đổi bố cục** rearranges the existing signs while keeping their text, fonts,
 colours, and adjustments. On phones, opening the inspector shows the selected

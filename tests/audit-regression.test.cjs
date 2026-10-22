@@ -58,8 +58,9 @@ async function withPage(run, viewport = { width: 1440, height: 1000 }) {
 }
 
 async function tool(page, action) {
-  await page.locator('[data-act="more"]').click();
-  await page.locator(`[data-act="${action}"]`).click();
+  const button = page.locator(`[data-act="${action}"]`);
+  if (!await button.isVisible()) await page.locator('[data-act="more"]').click();
+  await button.click();
   await settle(page);
 }
 
@@ -80,7 +81,7 @@ test('all tools remain reachable across phone, tablet, landscape, and desktop in
   await withPage(async page => {
     for (const era of ['sg85', 'nay']) {
       if (era === 'nay') await tool(page, 'theme');
-      for (const [width, height] of [[320,568], [390,844], [620,900], [621,900], [768,1024], [844,390], [1024,900], [1280,900], [1440,1000]]) {
+      for (const [width, height] of [[320,568], [390,844], [620,900], [621,900], [667,375], [768,1024], [844,390], [1024,900], [1280,900], [1440,1000]]) {
         await page.setViewportSize({ width, height });
         await settle(page);
         const geometry = await page.evaluate(() => ({
@@ -93,6 +94,9 @@ test('all tools remain reachable across phone, tablet, landscape, and desktop in
           }))
         }));
         assert.ok(geometry.scrollWidth <= width, `${era}/${width}: no page overflow`);
+        for (const action of ['shuffle', 'theme', 'add', 'relayout', 'undo', 'redo', 'adjust', 'export', 'more']) {
+          assert.ok(geometry.buttons.some(button => button.act === action), `${action} is directly on the toolbar`);
+        }
         assert.ok(geometry.wallBottom <= geometry.dockTop - 6, `${era}/${width}: dock does not cover signs`);
         for (const button of geometry.buttons) {
           assert.ok(button.width >= 44 && button.height >= 44, `${era}/${width}/${button.act}: comfortable target`);

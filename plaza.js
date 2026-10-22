@@ -1615,7 +1615,7 @@ function setTheme(key, quiet, internal) {
   var brand = $('#brand'), note = $('#brandNote'), button = $('[data-act="theme"]');
   brand.textContent = theme().brand;
   note.textContent = theme().tagline;
-  button.querySelector('span').textContent = 'ĐỔI SANG ' + THEMES[theme().other].label.toUpperCase();
+  button.querySelector('span').textContent = THEMES[theme().other].label;
   button.title = 'Chuyển sang ' + THEMES[theme().other].label;
   $('#dropzone').hidden = key !== 'nay';
   if ($('#drawerTitle')) $('#drawerTitle').textContent = key === 'sg85' ? 'HỆ FONT SG85' : 'HỆ FONT UTM';
